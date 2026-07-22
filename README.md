@@ -2,24 +2,26 @@
   <img src="App/imgs/mag2ena_logo.png" alt="MAG2ENA logo" width="300"/>
 </p>
 
-# NFDI MAG2ENA
+# MAG2ENA
 
 Automated validation and submission pipeline for **Metagenome-Assembled Genomes (MAGs)** to the **European Nucleotide Archive (ENA)**, implementing the [GSC MIMAGS / ERC000047](https://www.ebi.ac.uk/ena/browser/view/ERC000047) checklist.
+
+Developed within [NFDI4Microbiota](https://nfdi4microbiota.de/), a German National Research Data Infrastructure (NFDI) consortium that serves as the central hub for the microbiology community, providing access to data, analysis services, metadata standards, and training — with a mission to make microbial research data FAIR (Findable, Accessible, Interoperable, and Reusable).
 
 The tool provides two interfaces for the same submission workflow:
 
 | Interface | Best for |
 |-----------|----------|
 | **Web App** (`App/`) | Interactive submissions, metadata assistance, job tracking |
-| **CLI** (`nfdi-mag2ena.py`) | Automated pipelines, high-throughput batch processing |
+| **CLI** (`mag2ena.py`) | Automated pipelines, high-throughput batch processing |
 
 ---
 
 # 🚀 Quick Start
 
 ```bash
-git clone https://github.com/NFDI4Microbiota/ena_wizard_tool.git
-cd ena_wizard_tool
+git clone https://codebase.helmholtz.cloud/ufz/tb3-cite/cbc/mag2ena.git
+cd mag2ena
 ```
 
 ---
@@ -28,23 +30,19 @@ cd ena_wizard_tool
 
 ## Option 1 — Docker (recommended)
 
-Runs the web app with Redis and Java pre-configured.
-
-```bash
-docker build -t ena-wizard-tool .
-docker run -p 8501:8501 ena-wizard-tool
-```
-
-Open `http://localhost:8501`.
-
-To persist job history across container restarts:
+Runs the web app with Redis and Java pre-configured, while persisting job history across container restarts:
 
 ```bash
 docker run -p 8501:8501 \
+  -e API_KEY="your-mailgun-api-key" \
   -v "$(pwd)/App/jobs:/app/App/jobs" \
-  -v "$(pwd)/App/task_results.db:/app/App/task_results.db" \
-  ena-wizard-tool
+  -v "$(pwd)/App/task-results:/app/App/task-results" \
+  mag2ena
 ```
+
+Please provide your mailgun key for the email notification to work.
+
+Open `http://localhost:8501`.
 
 ## Option 2 — uv (local)
 
@@ -178,13 +176,13 @@ Look up any job by its ID to see:
 
 # ⚙️ CLI Tool
 
-`nfdi-mag2ena.py` runs the same submission pipeline non-interactively. Large datasets are split into batches of 1,000 samples automatically.
+`mag2ena.py` runs the same submission pipeline non-interactively. Large datasets are split into batches of 1,000 samples automatically.
 
 ## Usage
 
 ```bash
 # Submit with a new study
-python nfdi-mag2ena.py \
+python mag2ena.py \
   --metadata examples/metadata.tsv \
   --fasta-dir examples/fasta \
   --ena-user Webin-XXXXX \
@@ -194,7 +192,7 @@ python nfdi-mag2ena.py \
   --study-description 'Study description longer than 20 characters'
 
 # Submit to an existing study
-python nfdi-mag2ena.py \
+python mag2ena.py \
   --metadata examples/metadata.tsv \
   --fasta-dir examples/fasta \
   --ena-user Webin-XXXXX \
@@ -202,7 +200,7 @@ python nfdi-mag2ena.py \
   --study-accession PRJEBXXXX
 
 # Submit to production (default is test)
-python nfdi-mag2ena.py ... --portal prod
+python mag2ena.py ... --portal prod
 ```
 
 **Always validate using `--portal test` (the default) before submitting to production.**
@@ -288,20 +286,14 @@ A template TSV is available for download from the Submit page or at `template.ts
 
 ENA credentials are entered interactively in the web app or passed as CLI arguments.
 
-For the Mailgun email notification feature, create `App/.streamlit/secrets.toml`:
+For the Mailgun email notification feature, use need an environment variable `API_KEY` with the API key.
 
-```toml
-api_key = "your-mailgun-api-key"
-```
-
-If this file is absent, email notifications are silently skipped and all other functionality works normally.
-
-When using Docker, mount the file at runtime to avoid baking credentials into the image:
+When using Docker, pass the environment variable at runtime to avoid baking credentials into the image:
 
 ```bash
 docker run -p 8501:8501 \
-  -v "$(pwd)/App/.streamlit/secrets.toml:/app/App/.streamlit/secrets.toml:ro" \
-  ena-wizard-tool
+  -e API_KEY="your-mailgun-api-key"
+  mag2ena
 ```
 
 ---
