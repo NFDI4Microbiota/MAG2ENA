@@ -3,8 +3,12 @@ base="light"
 primaryColor="#4287de"
 
 [server]
+headless = true
+baseUrlPath = "mag2ena"
+enableCORS = true
+enableXsrfProtection = false
 runOnSave = true
-maxUploadSize = 128
+maxUploadSize = 20
 
 [browser]
 gatherUsageStats = false

@@ -1,0 +1,68 @@
+replicaCount: 1
+
+image:
+  repository: registry.hzdr.de/ufz/tb3-cite/cbc/mag2ena
+  pullPolicy: IfNotPresent
+  tag: "1.0.6"
+
+environmentVariables:
+  - name: API_KEY
+    valueFrom:
+      secretKeyRef:
+        name: custom-compbc-mag2ena.secrets
+        key: API_KEY
+
+imagePullSecrets:
+  - name: "wombat-docker-registry-codebase"
+
+securityContext:
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop:
+      - ALL
+  runAsNonRoot: true
+  runAsUser: 1001
+  seccompProfile:
+    type: RuntimeDefault
+
+podSecurityContext:
+  fsGroup: 1001
+
+persistence:
+  enabled: true
+  size: 10Gi
+
+ingress:
+  enabled: true
+  className: "haproxy"
+#  annotations:
+#    cert-manager.io/cluster-issuer: "cert-manager-acme"
+#    cert-manager.io/private-key-algorithm: "ECDSA"
+#    cert-manager.io/private-key-size: "384"
+#    cert-manager.io/private-key-rotation-policy: "Always"
+  hosts:
+    - host: "web.app.ufz.de"
+      paths:
+        - path: /mag2ena
+          pathType: Prefix
+#  tls:
+#    - secretName: web-app-ufz-de
+#      hosts:
+#        - "web.app.ufz.de"
+
+resources:
+   limits:
+     cpu: 1
+     memory: 512Mi
+   requests:
+     cpu: 500m
+     memory: 256Mi
+
+livenessProbe:
+  httpGet:
+    path: /mag2ena
+    port: http
+readinessProbe:
+  httpGet:
+    path: /mag2ena
+    port: http

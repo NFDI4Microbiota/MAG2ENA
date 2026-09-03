@@ -1,14 +1,17 @@
 [project]
-name = "ena-wizard-tool"
-version = "0.1.0"
-description = "Add your description here"
+name = "mag2ena"
+version = "1.0.7"
+description = "Curate, validate, and submit metagenome-assembled genomes to ENA."
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
+    "cryptography>=46.0.3",
     "ipykernel>=7.1.0",
     "pandas>=2.3.2",
     "polars>=1.33.1",
+    "pydeck>=0.9.1",
     "redis>=7.4.0",
+    "requests>=2.32.5",
     "rq>=2.9.0",
     "streamlit>=1.49.1",
     "streamlit-option-menu>=0.4.0",

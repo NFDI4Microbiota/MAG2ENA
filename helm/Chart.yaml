@@ -1,0 +1,6 @@
+apiVersion: v2
+name: mag2ena
+description: A Helm chart for MAG2ENA
+type: application
+version: 1.0.7
+appVersion: "1.0.7"

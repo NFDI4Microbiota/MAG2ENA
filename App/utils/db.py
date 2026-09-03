@@ -1,4 +1,6 @@
 import json
+import os
+import sys
 import sqlite3
 import pandas as pd
 from enum import Enum
@@ -12,6 +14,43 @@ class TaskStatus(Enum):
     PENDING = "pending"
     RUNNING = "running"
 
+def _print_db_permission_diagnostics(path_to_db, exc):
+    """
+    sqlite3 collapses every open failure (missing dir, read-only fs,
+    permission denied) into the same "unable to open database file"
+    message, so print what it doesn't: who we're running as and what
+    this process can actually see on the target path.
+    """
+    path = Path(path_to_db).resolve()
+    parent = path.parent
+    uid, gid = os.getuid(), os.getgid()
+    try:
+        groups = os.getgroups()
+    except Exception:
+        groups = "<unavailable>"
+    try:
+        st = parent.stat()
+        owner_info = f"uid={st.st_uid}, gid={st.st_gid}, mode={oct(st.st_mode)[-4:]}"
+    except OSError as stat_exc:
+        owner_info = f"<could not stat parent dir: {stat_exc}>"
+    writable = os.access(parent, os.W_OK) if parent.exists() else False
+
+    print(f"""
+{'=' * 78}
+DATABASE INIT FAILED: {exc}
+
+Path:               {path}
+Parent dir:         {parent} (exists={parent.exists()})
+Parent owner/perms: {owner_info}
+This process:       uid={uid}, gid={gid}, groups={groups}
+Parent writable by this process: {writable}
+
+If you're not using this repo's Helm chart, just make sure whatever
+mounts a volume at "{parent}" grants write access to uid={uid}
+(or one of groups {groups}).
+{'=' * 78}
+""", file=sys.stderr, flush=True)
+
 class TaskResultManager:
     def __init__(self, path_to_db):
         self._path_to_db = path_to_db
@@ -21,7 +60,11 @@ class TaskResultManager:
     @property
     def connection(self):
         if not hasattr(self._local, "connection"):
-            self._local.connection = sqlite3.connect(self._path_to_db)
+            try:
+                self._local.connection = sqlite3.connect(self._path_to_db)
+            except sqlite3.OperationalError as exc:
+                _print_db_permission_diagnostics(self._path_to_db, exc)
+                raise
         return self._local.connection
 
     def __del__(self):

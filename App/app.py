@@ -1,19 +1,19 @@
-# app.py — trechos relevantes
-
-import streamlit as st
-from streamlit_option_menu import option_menu
-import utils, modules
-import subprocess, os
-from utils.tasks import manager
 from datetime import datetime
 
-def clear_cache():
-    keys = list(st.session_state.keys())
-    for key in keys:
-        if key != "cookie":
-            st.session_state.pop(key)
+import modules
+import streamlit as st
+import utils
+from streamlit_option_menu import option_menu
 
-@st.dialog("ℹ️ Use notice", width="large")
+
+def clear_job_state():
+    """Clear the active Jobs lookup without affecting submission progress."""
+    modules.jobs.clear_decrypted_job()
+    st.session_state.pop("job_id", None)
+    st.session_state.pop("job_input", None)
+
+
+@st.dialog("ℹ️ Use notice", width="medium")
 def cookie_dialog():
     st.markdown(
         """
@@ -27,34 +27,45 @@ def cookie_dialog():
 
     st.session_state["cookie"] = True
 
+    if st.button("Got it", width="stretch", type="primary"):
+        st.rerun()
+
+
 def runUI():
-    st.set_page_config(page_title = "NFDI MAG2ENA", page_icon = "imgs/mag2ena_logo.png", initial_sidebar_state = "expanded", layout="wide")
+    st.set_page_config(page_title = "MAG2ENA", page_icon = "imgs/mag2ena_logo.png", initial_sidebar_state = "expanded", layout="wide")
 
     utils.inject_css()
 
+    manual_idx = st.session_state.pop("_nav_index", None)
     page = option_menu(
         None,
-        ["Home", "Submit", "Jobs", "About & Help"],
-        icons=["house", "file-earmark-check", "gear-wide", "info-circle"],
+        ["Home", "Jobs", "Update", "Help & Tutorials", "About"],
+        icons=["house", "gear-wide", "pencil-square", "question-circle", "info-circle"],
         menu_icon="cast",
         default_index=0,
-        orientation="horizontal"
+        orientation="horizontal",
+        manual_select=manual_idx,
     )
+
+    if page != "Jobs":
+        clear_job_state()
+    if page != "Update":
+        modules.modify.clear_session_state()
 
     if page == "Home":
         modules.home.runUI()
-        clear_cache()
 
-    elif page == "Submit":
-        modules.submit.runUI()
-        # clear_cache()
+    elif page == "Update":
+        modules.modify.runUI()
 
     elif page == "Jobs":
         modules.jobs.runUI()
 
-    elif page == "About & Help":
+    elif page == "About":
         modules.about.runUI()
-        clear_cache()
+
+    elif page == "Help & Tutorials":
+        modules.help.runUI()
 
     # Show dialog once per session
     if "cookie" not in st.session_state:
@@ -64,7 +75,7 @@ def runUI():
         f"""
         <hr>
         <div style="text-align:center; font-size: 0.9em;">
-        © {datetime.now().year} NFDI MAG2ENA — Released under the 
+        © {datetime.now().year} MAG2ENA — Released under the 
         <a href="https://opensource.org/licenses/MIT" target="_blank">MIT License</a>. Free for academic and commercial use.
         </div>
         <br>

@@ -1,0 +1,22 @@
+SAMPLE : MAG2ENA_EX_20260831T015234Z_R903_024_MarMAG_000114
+INFO : Your application version is 9.0.3
+INFO : Submission has not been validated previously.
+INFO : Creating report file: /tmp/./webin-cli.report
+INFO : Submission(s) validated successfully.
+INFO : Connecting to FTP server : webin2.ebi.ac.uk
+INFO : Uploading file: /tmp/tmpwy95xo8c.fasta.gz
+INFO : Files have been uploaded to webin2.ebi.ac.uk. 
+INFO : The submission has been completed successfully. The following analysis accession was assigned to the submission: ERZ29886573
+INFO : This was a TEST submission(s).
+
+SAMPLE : MAG2ENA_EX_20260831T015234Z_R903_100_HUMAGS_000050
+INFO : Your application version is 9.0.3
+INFO : Submission has not been validated previously.
+INFO : Creating report file: /tmp/./webin-cli.report
+INFO : Submission(s) validated successfully.
+INFO : Connecting to FTP server : webin2.ebi.ac.uk
+INFO : Uploading file: /tmp/tmpkzcp1v_k.fasta.gz
+INFO : Files have been uploaded to webin2.ebi.ac.uk. 
+INFO : The submission has been completed successfully. The following analysis accession was assigned to the submission: ERZ29886574
+INFO : This was a TEST submission(s).
+

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="receipt.xsl"?>
+<RECEIPT receiptDate="2026-08-31T02:52:43.592+01:00" submissionFile="submission-UFZ_1788141163592.xml" success="true">
+     <SAMPLE accession="ERS32364360" alias="MAG2ENA_EX_20260831T015234Z_R903_024_MarMAG_000114" status="PRIVATE" holdUntilDate="2028-08-29+01:00">
+          <EXT_ID accession="SAMEA132176116" type="biosample"/>
+     </SAMPLE>
+     <SAMPLE accession="ERS32364361" alias="MAG2ENA_EX_20260831T015234Z_R903_100_HUMAGS_000050" status="PRIVATE" holdUntilDate="2028-08-29+01:00">
+          <EXT_ID accession="SAMEA132176117" type="biosample"/>
+     </SAMPLE>
+     <PROJECT accession="PRJEB124667" alias="MAG2ENA_EXAMPLE_20260831T015234Z" status="PRIVATE" holdUntilDate="2028-08-29+01:00">
+          <EXT_ID accession="ERP204459" type="study"/>
+     </PROJECT>
+     <SUBMISSION accession="ERA36929120" alias="SUBMISSION-31-08-2026-02:52:43:419"/>
+     <MESSAGES>
+          <INFO>All objects in this submission are set to private status (HOLD).</INFO>
+          <INFO>This submission is a TEST submission and will be discarded within 24 hours</INFO>
+     </MESSAGES>
+     <ACTIONS>ADD</ACTIONS>
+     <ACTIONS>HOLD</ACTIONS>
+</RECEIPT>

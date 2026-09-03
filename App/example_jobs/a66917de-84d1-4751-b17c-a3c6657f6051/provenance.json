@@ -1,0 +1,3547 @@
+[
+  {
+    "event_id": "71b0dd12-c91b-413a-bf13-d500620a638c",
+    "timestamp": "2026-08-31T01:52:34.983926+00:00",
+    "stage": "workflow",
+    "action": "example_workflow_loaded",
+    "entity_type": "workflow",
+    "sample_name": "",
+    "field": "",
+    "source": "bundled example",
+    "before": "",
+    "after": "",
+    "method": "MAG2ENA web workflow",
+    "method_version": "1.0.7",
+    "decision": "",
+    "details": {
+      "rows": 2
+    }
+  },
+  {
+    "event_id": "8926a572-fbf3-438e-bc1b-096606993592",
+    "timestamp": "2026-08-31T01:52:34.984856+00:00",
+    "stage": "metadata",
+    "action": "manual_edit",
+    "entity_type": "metadata_cell",
+    "sample_name": "MAG2ENA_EX_20260831T015234Z_R903_024_MarMAG_000114",
+    "field": "sample_name",
+    "source": "metadata table",
+    "before": "R903_024_MarMAG_000114",
+    "after": "MAG2ENA_EX_20260831T015234Z_R903_024_MarMAG_000114",
+    "method": "Streamlit data editor",
+    "method_version": "1.0.7",
+    "decision": "unique example aliases assigned",
+    "details": {
+      "row_index": "0"
+    }
+  },
+  {
+    "event_id": "1e4ffa63-62a5-4374-9d7a-385e7ab4d954",
+    "timestamp": "2026-08-31T01:52:34.987103+00:00",
+    "stage": "metadata",
+    "action": "manual_edit",
+    "entity_type": "metadata_cell",
+    "sample_name": "MAG2ENA_EX_20260831T015234Z_R903_100_HUMAGS_000050",
+    "field": "sample_name",
+    "source": "metadata table",
+    "before": "R903_100_HUMAGS_000050",
+    "after": "MAG2ENA_EX_20260831T015234Z_R903_100_HUMAGS_000050",
+    "method": "Streamlit data editor",
+    "method_version": "1.0.7",
+    "decision": "unique example aliases assigned",
+    "details": {
+      "row_index": "1"
+    }
+  },
+  {
+    "event_id": "06fe375c-71ef-47d5-9487-558bb6fe901e",
+    "timestamp": "2026-08-31T01:52:34.989014+00:00",
+    "stage": "metadata",
+    "action": "manual_edit",
+    "entity_type": "metadata_cell",
+    "sample_name": "MAG2ENA_EX_20260831T015234Z_R903_024_MarMAG_000114",
+    "field": "metagenomic source",
+    "source": "metadata table",
+    "before": "marine metagenome",
+    "after": "",
+    "method": "Streamlit data editor",
+    "method_version": "1.0.7",
+    "decision": "clear fields for parent-record autofill",
+    "details": {
+      "row_index": "0"
+    }
+  },
+  {
+    "event_id": "f3b95b92-2bad-40b0-9277-f931ace7518a",
+    "timestamp": "2026-08-31T01:52:34.989920+00:00",
+    "stage": "metadata",
+    "action": "manual_edit",
+    "entity_type": "metadata_cell",
+    "sample_name": "MAG2ENA_EX_20260831T015234Z_R903_024_MarMAG_000114",
+    "field": "isolation_source",
+    "source": "metadata table",
+    "before": "marine",
+    "after": "",
+    "method": "Streamlit data editor",
+    "method_version": "1.0.7",
+    "decision": "clear fields for parent-record autofill",
+    "details": {
+      "row_index": "0"
+    }
+  },
+  {
+    "event_id": "e83be8c9-e0d2-411f-afe4-1e83e0291385",
+    "timestamp": "2026-08-31T01:52:34.989992+00:00",
+    "stage": "metadata",
+    "action": "manual_edit",
+    "entity_type": "metadata_cell",
+    "sample_name": "MAG2ENA_EX_20260831T015234Z_R903_024_MarMAG_000114",
+    "field": "collection date",
+    "source": "metadata table",
+    "before": "2013-07-24",
+    "after": "",
+    "method": "Streamlit data editor",
+    "method_version": "1.0.7",
+    "decision": "clear fields for parent-record autofill",
+    "details": {
+      "row_index": "0"
+    }
+  },
+  {
+    "event_id": "2e191153-6339-4288-a51e-b8f23936b58b",
+    "timestamp": "2026-08-31T01:52:34.990099+00:00",
+    "stage": "metadata",
+    "action": "manual_edit",
+    "entity_type": "metadata_cell",
+    "sample_name": "MAG2ENA_EX_20260831T015234Z_R903_024_MarMAG_000114",
+    "field": "geographic location (latitude)",
+    "source": "metadata table",
+    "before": "28.7417",
+    "after": "",
+    "method": "Streamlit data editor",
+    "method_version": "1.0.7",
+    "decision": "clear fields for parent-record autofill",
+    "details": {
+      "row_index": "0"
+    }
+  },
+  {
+    "event_id": "a23062d6-fb8b-4ac0-b722-ce14cccdb103",
+    "timestamp": "2026-08-31T01:52:34.990169+00:00",
+    "stage": "metadata",
+    "action": "manual_edit",
+    "entity_type": "metadata_cell",
+    "sample_name": "MAG2ENA_EX_20260831T015234Z_R903_024_MarMAG_000114",
+    "field": "geographic location (longitude)",
+    "source": "metadata table",
+    "before": "-91.25",
+    "after": "",
+    "method": "Streamlit data editor",
+    "method_version": "1.0.7",
+    "decision": "clear fields for parent-record autofill",
+    "details": {
+      "row_index": "0"
+    }
+  },
+  {
+    "event_id": "ad37c944-8ebc-4ac9-a80e-6dcc87c4fd5d",
+    "timestamp": "2026-08-31T01:52:34.990279+00:00",
+    "stage": "metadata",
+    "action": "manual_edit",
+    "entity_type": "metadata_cell",
+    "sample_name": "MAG2ENA_EX_20260831T015234Z_R903_024_MarMAG_000114",
+    "field": "broad-scale environmental context",
+    "source": "metadata table",
+    "before": "marine pelagic",
+    "after": "",
+    "method": "Streamlit data editor",
+    "method_version": "1.0.7",
+    "decision": "clear fields for parent-record autofill",
+    "details": {
+      "row_index": "0"
+    }
+  },
+  {
+    "event_id": "dbc35be8-80d3-440f-9afe-1cb53cb901fd",
+    "timestamp": "2026-08-31T01:52:34.990346+00:00",
+    "stage": "metadata",
+    "action": "manual_edit",
+    "entity_type": "metadata_cell",
+    "sample_name": "MAG2ENA_EX_20260831T015234Z_R903_024_MarMAG_000114",
+    "field": "local environmental context",
+    "source": "metadata table",
+    "before": "continental shelf",
+    "after": "",
+    "method": "Streamlit data editor",
+    "method_version": "1.0.7",
+    "decision": "clear fields for parent-record autofill",
+    "details": {
+      "row_index": "0"
+    }
+  },
+  {
+    "event_id": "9f0ff3c1-a68a-4490-8b31-f86b446cc438",
+    "timestamp": "2026-08-31T01:52:34.990410+00:00",
+    "stage": "metadata",
+    "action": "manual_edit",
+    "entity_type": "metadata_cell",
+    "sample_name": "MAG2ENA_EX_20260831T015234Z_R903_024_MarMAG_000114",
+    "field": "environmental medium",
+    "source": "metadata table",
+    "before": "water",
+    "after": "",
+    "method": "Streamlit data editor",
+    "method_version": "1.0.7",
+    "decision": "clear fields for parent-record autofill",
+    "details": {
+      "row_index": "0"
+    }
+  },
+  {
+    "event_id": "e1155c25-8ad7-4292-a2d8-2c5fc38c2bb9",
+    "timestamp": "2026-08-31T01:52:34.990616+00:00",
+    "stage": "metadata",
+    "action": "manual_edit",
+    "entity_type": "metadata_cell",
+    "sample_name": "MAG2ENA_EX_20260831T015234Z_R903_024_MarMAG_000114",
+    "field": "geographic location (country and/or sea)",
+    "source": "metadata table",
+    "before": "USA",
+    "after": "",
+    "method": "Streamlit data editor",
+    "method_version": "1.0.7",
+    "decision": "clear fields for parent-record autofill",
+    "details": {
+      "row_index": "0"
+    }
+  },
+  {
+    "event_id": "c8e33b52-0b74-4b7a-b71a-77821a803818",
+    "timestamp": "2026-08-31T01:52:34.991302+00:00",
+    "stage": "metadata",
+    "action": "manual_edit",
+    "entity_type": "metadata_cell",
+    "sample_name": "MAG2ENA_EX_20260831T015234Z_R903_100_HUMAGS_000050",
+    "field": "metagenomic source",
+    "source": "metadata table",
+    "before": "human gut metagenome",
+    "after": "",
+    "method": "Streamlit data editor",
+    "method_version": "1.0.7",
+    "decision": "clear fields for parent-record autofill",
+    "details": {
+      "row_index": "1"
+    }
+  },
+  {
+    "event_id": "0d2036be-2e1e-4b18-9391-c12e4288c437",
+    "timestamp": "2026-08-31T01:52:34.991547+00:00",
+    "stage": "metadata",
+    "action": "manual_edit",
+    "entity_type": "metadata_cell",
+    "sample_name": "MAG2ENA_EX_20260831T015234Z_R903_100_HUMAGS_000050",
+    "field": "isolation_source",
+    "source": "metadata table",
+    "before": "missing",
+    "after": "",
+    "method": "Streamlit data editor",
+    "method_version": "1.0.7",
+    "decision": "clear fields for parent-record autofill",
+    "details": {
+      "row_index": "1"
+    }
+  },
+  {
+    "event_id": "6ecca6ce-e816-4e21-bb2e-2a93ddedad13",
+    "timestamp": "2026-08-31T01:52:34.991580+00:00",
+    "stage": "metadata",
+    "action": "manual_edit",
+    "entity_type": "metadata_cell",
+    "sample_name": "MAG2ENA_EX_20260831T015234Z_R903_100_HUMAGS_000050",
+    "field": "collection date",
+    "source": "metadata table",
+    "before": "missing",
+    "after": "",
+    "method": "Streamlit data editor",
+    "method_version": "1.0.7",
+    "decision": "clear fields for parent-record autofill",
+    "details": {
+      "row_index": "1"
+    }
+  },
+  {
+    "event_id": "d410b60d-11b9-4aaf-86e9-355d6b5d04f5",
+    "timestamp": "2026-08-31T01:52:34.991621+00:00",
+    "stage": "metadata",
+    "action": "manual_edit",
+    "entity_type": "metadata_cell",
+    "sample_name": "MAG2ENA_EX_20260831T015234Z_R903_100_HUMAGS_000050",
+    "field": "geographic location (latitude)",
+    "source": "metadata table",
+    "before": "46.0667",
+    "after": "",
+    "method": "Streamlit data editor",
+    "method_version": "1.0.7",
+    "decision": "clear fields for parent-record autofill",
+    "details": {
+      "row_index": "1"
+    }
+  },
+  {
+    "event_id": "f498e0c4-be02-49b9-9f1a-a661e8ced7ee",
+    "timestamp": "2026-08-31T01:52:34.991652+00:00",
+    "stage": "metadata",
+    "action": "manual_edit",
+    "entity_type": "metadata_cell",
+    "sample_name": "MAG2ENA_EX_20260831T015234Z_R903_100_HUMAGS_000050",
+    "field": "geographic location (longitude)",
+    "source": "metadata table",
+    "before": "11.1167",
+    "after": "",
+    "method": "Streamlit data editor",
+    "method_version": "1.0.7",
+    "decision": "clear fields for parent-record autofill",
+    "details": {
+      "row_index": "1"
+    }
+  },
+  {
+    "event_id": "2588761c-8474-4c72-89b4-80a999641d7c",
+    "timestamp": "2026-08-31T01:52:34.991692+00:00",
+    "stage": "metadata",
+    "action": "manual_edit",
+    "entity_type": "metadata_cell",
+    "sample_name": "MAG2ENA_EX_20260831T015234Z_R903_100_HUMAGS_000050",
+    "field": "broad-scale environmental context",
+    "source": "metadata table",
+    "before": "Human stool",
+    "after": "",
+    "method": "Streamlit data editor",
+    "method_version": "1.0.7",
+    "decision": "clear fields for parent-record autofill",
+    "details": {
+      "row_index": "1"
+    }
+  },
+  {
+    "event_id": "7a590123-3d9f-4d48-adc1-8700d3fa4515",
+    "timestamp": "2026-08-31T01:52:34.991728+00:00",
+    "stage": "metadata",
+    "action": "manual_edit",
+    "entity_type": "metadata_cell",
+    "sample_name": "MAG2ENA_EX_20260831T015234Z_R903_100_HUMAGS_000050",
+    "field": "local environmental context",
+    "source": "metadata table",
+    "before": "Human-associated habitat",
+    "after": "",
+    "method": "Streamlit data editor",
+    "method_version": "1.0.7",
+    "decision": "clear fields for parent-record autofill",
+    "details": {
+      "row_index": "1"
+    }
+  },
+  {
+    "event_id": "db4cf756-1773-4794-87ff-cac16cae72c0",
+    "timestamp": "2026-08-31T01:52:34.991758+00:00",
+    "stage": "metadata",
+    "action": "manual_edit",
+    "entity_type": "metadata_cell",
+    "sample_name": "MAG2ENA_EX_20260831T015234Z_R903_100_HUMAGS_000050",
+    "field": "environmental medium",
+    "source": "metadata table",
+    "before": "Human infant stool",
+    "after": "",
+    "method": "Streamlit data editor",
+    "method_version": "1.0.7",
+    "decision": "clear fields for parent-record autofill",
+    "details": {
+      "row_index": "1"
+    }
+  },
+  {
+    "event_id": "f436a40d-a49b-4b2c-9231-ea075ba00d2a",
+    "timestamp": "2026-08-31T01:52:34.991816+00:00",
+    "stage": "metadata",
+    "action": "manual_edit",
+    "entity_type": "metadata_cell",
+    "sample_name": "MAG2ENA_EX_20260831T015234Z_R903_100_HUMAGS_000050",
+    "field": "geographic location (country and/or sea)",
+    "source": "metadata table",
+    "before": "Italy",
+    "after": "",
+    "method": "Streamlit data editor",
+    "method_version": "1.0.7",
+    "decision": "clear fields for parent-record autofill",
+    "details": {
+      "row_index": "1"
+    }
+  },
+  {
+    "event_id": "c8b6c3b0-6a32-4696-8a8c-6a6b12b881ce",
+    "timestamp": "2026-08-31T01:52:35.396503+00:00",
+    "stage": "metadata",
+    "action": "ena_parent_autofill",
+    "entity_type": "metadata_cell",
+    "sample_name": "MAG2ENA_EX_20260831T015234Z_R903_024_MarMAG_000114",
+    "field": "metagenomic source",
+    "source": "ENA Browser sample XML",
+    "before": "",
+    "after": "marine metagenome",
+    "method": "parent-record mapping and normalization",
+    "method_version": "1.0.7",
+    "decision": "",
+    "details": {
+      "assembly_fallback_accessions": [],
+      "fallback_assembly_accessions": [],
+      "omitted_fallback_conflicts": {},
+      "only_empty_cells": true,
+      "parent_accession": "SRS1726551",
+      "row_index": "0",
+      "source_url": "https://www.ebi.ac.uk/ena/browser/api/xml/SRS1726551"
+    }
+  },
+  {
+    "event_id": "97ab6e3d-03d5-46f7-80c9-3eba9739e493",
+    "timestamp": "2026-08-31T01:52:35.398639+00:00",
+    "stage": "metadata",
+    "action": "ena_parent_autofill",
+    "entity_type": "metadata_cell",
+    "sample_name": "MAG2ENA_EX_20260831T015234Z_R903_024_MarMAG_000114",
+    "field": "isolation_source",
+    "source": "ENA Browser sample XML",
+    "before": "",
+    "after": "marine",
+    "method": "parent-record mapping and normalization",
+    "method_version": "1.0.7",
+    "decision": "",
+    "details": {
+      "assembly_fallback_accessions": [],
+      "fallback_assembly_accessions": [],
+      "omitted_fallback_conflicts": {},
+      "only_empty_cells": true,
+      "parent_accession": "SRS1726551",
+      "row_index": "0",
+      "source_url": "https://www.ebi.ac.uk/ena/browser/api/xml/SRS1726551"
+    }
+  },
+  {
+    "event_id": "1682d373-13f6-49af-8410-53c2716aae2f",
+    "timestamp": "2026-08-31T01:52:35.398813+00:00",
+    "stage": "metadata",
+    "action": "ena_parent_autofill",
+    "entity_type": "metadata_cell",
+    "sample_name": "MAG2ENA_EX_20260831T015234Z_R903_024_MarMAG_000114",
+    "field": "collection date",
+    "source": "ENA Browser sample XML",
+    "before": "",
+    "after": "2013-07-24",
+    "method": "parent-record mapping and normalization",
+    "method_version": "1.0.7",
+    "decision": "",
+    "details": {
+      "assembly_fallback_accessions": [],
+      "fallback_assembly_accessions": [],
+      "omitted_fallback_conflicts": {},
+      "only_empty_cells": true,
+      "parent_accession": "SRS1726551",
+      "row_index": "0",
+      "source_url": "https://www.ebi.ac.uk/ena/browser/api/xml/SRS1726551"
+    }
+  },
+  {
+    "event_id": "fc5b1e2f-e546-4915-9231-53f8704771be",
+    "timestamp": "2026-08-31T01:52:35.399074+00:00",
+    "stage": "metadata",
+    "action": "ena_parent_autofill",
+    "entity_type": "metadata_cell",
+    "sample_name": "MAG2ENA_EX_20260831T015234Z_R903_024_MarMAG_000114",
+    "field": "geographic location (latitude)",
+    "source": "ENA Browser sample XML",
+    "before": "",
+    "after": "28.7417",
+    "method": "parent-record mapping and normalization",
+    "method_version": "1.0.7",
+    "decision": "",
+    "details": {
+      "assembly_fallback_accessions": [],
+      "fallback_assembly_accessions": [],
+      "omitted_fallback_conflicts": {},
+      "only_empty_cells": true,
+      "parent_accession": "SRS1726551",
+      "row_index": "0",
+      "source_url": "https://www.ebi.ac.uk/ena/browser/api/xml/SRS1726551"
+    }
+  },
+  {
+    "event_id": "0733fc39-5291-4fad-8d00-9ab026a811c1",
+    "timestamp": "2026-08-31T01:52:35.399250+00:00",
+    "stage": "metadata",
+    "action": "ena_parent_autofill",
+    "entity_type": "metadata_cell",
+    "sample_name": "MAG2ENA_EX_20260831T015234Z_R903_024_MarMAG_000114",
+    "field": "geographic location (longitude)",
+    "source": "ENA Browser sample XML",
+    "before": "",
+    "after": "-91.25",
+    "method": "parent-record mapping and normalization",
+    "method_version": "1.0.7",
+    "decision": "",
+    "details": {
+      "assembly_fallback_accessions": [],
+      "fallback_assembly_accessions": [],
+      "omitted_fallback_conflicts": {},
+      "only_empty_cells": true,
+      "parent_accession": "SRS1726551",
+      "row_index": "0",
+      "source_url": "https://www.ebi.ac.uk/ena/browser/api/xml/SRS1726551"
+    }
+  },
+  {
+    "event_id": "f0057b4d-e69b-4b2f-9dbd-0a3b4cacaf5f",
+    "timestamp": "2026-08-31T01:52:35.399498+00:00",
+    "stage": "metadata",
+    "action": "ena_parent_autofill",
+    "entity_type": "metadata_cell",
+    "sample_name": "MAG2ENA_EX_20260831T015234Z_R903_024_MarMAG_000114",
+    "field": "broad-scale environmental context",
+    "source": "ENA Browser sample XML",
+    "before": "",
+    "after": "marine pelagic",
+    "method": "parent-record mapping and normalization",
+    "method_version": "1.0.7",
+    "decision": "",
+    "details": {
+      "assembly_fallback_accessions": [],
+      "fallback_assembly_accessions": [],
+      "omitted_fallback_conflicts": {},
+      "only_empty_cells": true,
+      "parent_accession": "SRS1726551",
+      "row_index": "0",
+      "source_url": "https://www.ebi.ac.uk/ena/browser/api/xml/SRS1726551"
+    }
+  },
+  {
+    "event_id": "e0ba0c63-ee1f-48ae-8d5f-8354dde6002a",
+    "timestamp": "2026-08-31T01:52:35.399660+00:00",
+    "stage": "metadata",
+    "action": "ena_parent_autofill",
+    "entity_type": "metadata_cell",
+    "sample_name": "MAG2ENA_EX_20260831T015234Z_R903_024_MarMAG_000114",
+    "field": "local environmental context",
+    "source": "ENA Browser sample XML",
+    "before": "",
+    "after": "continental shelf",
+    "method": "parent-record mapping and normalization",
+    "method_version": "1.0.7",
+    "decision": "",
+    "details": {
+      "assembly_fallback_accessions": [],
+      "fallback_assembly_accessions": [],
+      "omitted_fallback_conflicts": {},
+      "only_empty_cells": true,
+      "parent_accession": "SRS1726551",
+      "row_index": "0",
+      "source_url": "https://www.ebi.ac.uk/ena/browser/api/xml/SRS1726551"
+    }
+  },
+  {
+    "event_id": "a6a6d925-76a8-43c8-bd2f-479f37fc283e",
+    "timestamp": "2026-08-31T01:52:35.399821+00:00",
+    "stage": "metadata",
+    "action": "ena_parent_autofill",
+    "entity_type": "metadata_cell",
+    "sample_name": "MAG2ENA_EX_20260831T015234Z_R903_024_MarMAG_000114",
+    "field": "environmental medium",
+    "source": "ENA Browser sample XML",
+    "before": "",
+    "after": "water",
+    "method": "parent-record mapping and normalization",
+    "method_version": "1.0.7",
+    "decision": "",
+    "details": {
+      "assembly_fallback_accessions": [],
+      "fallback_assembly_accessions": [],
+      "omitted_fallback_conflicts": {},
+      "only_empty_cells": true,
+      "parent_accession": "SRS1726551",
+      "row_index": "0",
+      "source_url": "https://www.ebi.ac.uk/ena/browser/api/xml/SRS1726551"
+    }
+  },
+  {
+    "event_id": "5fb6061a-8c5e-445a-ba5d-bc800a1fddee",
+    "timestamp": "2026-08-31T01:52:35.400249+00:00",
+    "stage": "metadata",
+    "action": "ena_parent_autofill",
+    "entity_type": "metadata_cell",
+    "sample_name": "MAG2ENA_EX_20260831T015234Z_R903_024_MarMAG_000114",
+    "field": "geographic location (country and/or sea)",
+    "source": "ENA Browser sample XML",
+    "before": "",
+    "after": "USA",
+    "method": "parent-record mapping and normalization",
+    "method_version": "1.0.7",
+    "decision": "",
+    "details": {
+      "assembly_fallback_accessions": [],
+      "fallback_assembly_accessions": [],
+      "omitted_fallback_conflicts": {},
+      "only_empty_cells": true,
+      "parent_accession": "SRS1726551",
+      "row_index": "0",
+      "source_url": "https://www.ebi.ac.uk/ena/browser/api/xml/SRS1726551"
+    }
+  },
+  {
+    "event_id": "110c0813-2a2f-45d7-89db-a5f910500361",
+    "timestamp": "2026-08-31T01:52:35.402026+00:00",
+    "stage": "metadata",
+    "action": "ena_parent_autofill",
+    "entity_type": "metadata_cell",
+    "sample_name": "MAG2ENA_EX_20260831T015234Z_R903_100_HUMAGS_000050",
+    "field": "metagenomic source",
+    "source": "ENA Browser sample XML",
+    "before": "",
+    "after": "human gut metagenome",
+    "method": "parent-record mapping and normalization",
+    "method_version": "1.0.7",
+    "decision": "",
+    "details": {
+      "assembly_fallback_accessions": [],
+      "fallback_assembly_accessions": [],
+      "omitted_fallback_conflicts": {},
+      "only_empty_cells": true,
+      "parent_accession": "SRS1634656",
+      "row_index": "1",
+      "source_url": "https://www.ebi.ac.uk/ena/browser/api/xml/SRS1634656"
+    }
+  },
+  {
+    "event_id": "817fdf20-d592-43b3-9795-3a3de2bea75f",
+    "timestamp": "2026-08-31T01:52:35.402624+00:00",
+    "stage": "metadata",
+    "action": "ena_parent_autofill",
+    "entity_type": "metadata_cell",
+    "sample_name": "MAG2ENA_EX_20260831T015234Z_R903_100_HUMAGS_000050",
+    "field": "collection date",
+    "source": "ENA Browser sample XML",
+    "before": "",
+    "after": "2015-01-01",
+    "method": "parent-record mapping and normalization",
+    "method_version": "1.0.7",
+    "decision": "",
+    "details": {
+      "assembly_fallback_accessions": [],
+      "fallback_assembly_accessions": [],
+      "omitted_fallback_conflicts": {},
+      "only_empty_cells": true,
+      "parent_accession": "SRS1634656",
+      "row_index": "1",
+      "source_url": "https://www.ebi.ac.uk/ena/browser/api/xml/SRS1634656"
+    }
+  },
+  {
+    "event_id": "b04101df-7247-468c-a06d-0361bfea9a8a",
+    "timestamp": "2026-08-31T01:52:35.402737+00:00",
+    "stage": "metadata",
+    "action": "ena_parent_autofill",
+    "entity_type": "metadata_cell",
+    "sample_name": "MAG2ENA_EX_20260831T015234Z_R903_100_HUMAGS_000050",
+    "field": "geographic location (latitude)",
+    "source": "ENA Browser sample XML",
+    "before": "",
+    "after": "46.0667",
+    "method": "parent-record mapping and normalization",
+    "method_version": "1.0.7",
+    "decision": "",
+    "details": {
+      "assembly_fallback_accessions": [],
+      "fallback_assembly_accessions": [],
+      "omitted_fallback_conflicts": {},
+      "only_empty_cells": true,
+      "parent_accession": "SRS1634656",
+      "row_index": "1",
+      "source_url": "https://www.ebi.ac.uk/ena/browser/api/xml/SRS1634656"
+    }
+  },
+  {
+    "event_id": "121642ee-a6d6-450f-bd94-2af8ba8ba5d7",
+    "timestamp": "2026-08-31T01:52:35.402838+00:00",
+    "stage": "metadata",
+    "action": "ena_parent_autofill",
+    "entity_type": "metadata_cell",
+    "sample_name": "MAG2ENA_EX_20260831T015234Z_R903_100_HUMAGS_000050",
+    "field": "geographic location (longitude)",
+    "source": "ENA Browser sample XML",
+    "before": "",
+    "after": "11.1167",
+    "method": "parent-record mapping and normalization",
+    "method_version": "1.0.7",
+    "decision": "",
+    "details": {
+      "assembly_fallback_accessions": [],
+      "fallback_assembly_accessions": [],
+      "omitted_fallback_conflicts": {},
+      "only_empty_cells": true,
+      "parent_accession": "SRS1634656",
+      "row_index": "1",
+      "source_url": "https://www.ebi.ac.uk/ena/browser/api/xml/SRS1634656"
+    }
+  },
+  {
+    "event_id": "be4c6013-a6ab-4f5c-83fe-feeaa95b68c3",
+    "timestamp": "2026-08-31T01:52:35.402947+00:00",
+    "stage": "metadata",
+    "action": "ena_parent_autofill",
+    "entity_type": "metadata_cell",
+    "sample_name": "MAG2ENA_EX_20260831T015234Z_R903_100_HUMAGS_000050",
+    "field": "broad-scale environmental context",
+    "source": "ENA Browser sample XML",
+    "before": "",
+    "after": "Human stool",
+    "method": "parent-record mapping and normalization",
+    "method_version": "1.0.7",
+    "decision": "",
+    "details": {
+      "assembly_fallback_accessions": [],
+      "fallback_assembly_accessions": [],
+      "omitted_fallback_conflicts": {},
+      "only_empty_cells": true,
+      "parent_accession": "SRS1634656",
+      "row_index": "1",
+      "source_url": "https://www.ebi.ac.uk/ena/browser/api/xml/SRS1634656"
+    }
+  },
+  {
+    "event_id": "4ef7f53e-7036-47fe-980f-93bc5fd71244",
+    "timestamp": "2026-08-31T01:52:35.403030+00:00",
+    "stage": "metadata",
+    "action": "ena_parent_autofill",
+    "entity_type": "metadata_cell",
+    "sample_name": "MAG2ENA_EX_20260831T015234Z_R903_100_HUMAGS_000050",
+    "field": "local environmental context",
+    "source": "ENA Browser sample XML",
+    "before": "",
+    "after": "Human-associated habitat",
+    "method": "parent-record mapping and normalization",
+    "method_version": "1.0.7",
+    "decision": "",
+    "details": {
+      "assembly_fallback_accessions": [],
+      "fallback_assembly_accessions": [],
+      "omitted_fallback_conflicts": {},
+      "only_empty_cells": true,
+      "parent_accession": "SRS1634656",
+      "row_index": "1",
+      "source_url": "https://www.ebi.ac.uk/ena/browser/api/xml/SRS1634656"
+    }
+  },
+  {
+    "event_id": "4e1cc7c3-4de4-4d3e-adb9-b1a5a7e7ec68",
+    "timestamp": "2026-08-31T01:52:35.403112+00:00",
+    "stage": "metadata",
+    "action": "ena_parent_autofill",
+    "entity_type": "metadata_cell",
+    "sample_name": "MAG2ENA_EX_20260831T015234Z_R903_100_HUMAGS_000050",
+    "field": "environmental medium",
+    "source": "ENA Browser sample XML",
+    "before": "",
+    "after": "Human infant stool",
+    "method": "parent-record mapping and normalization",
+    "method_version": "1.0.7",
+    "decision": "",
+    "details": {
+      "assembly_fallback_accessions": [],
+      "fallback_assembly_accessions": [],
+      "omitted_fallback_conflicts": {},
+      "only_empty_cells": true,
+      "parent_accession": "SRS1634656",
+      "row_index": "1",
+      "source_url": "https://www.ebi.ac.uk/ena/browser/api/xml/SRS1634656"
+    }
+  },
+  {
+    "event_id": "9c6beb02-3818-43ee-a814-46c7ba18de4d",
+    "timestamp": "2026-08-31T01:52:35.403260+00:00",
+    "stage": "metadata",
+    "action": "ena_parent_autofill",
+    "entity_type": "metadata_cell",
+    "sample_name": "MAG2ENA_EX_20260831T015234Z_R903_100_HUMAGS_000050",
+    "field": "geographic location (country and/or sea)",
+    "source": "ENA Browser sample XML",
+    "before": "",
+    "after": "Italy",
+    "method": "parent-record mapping and normalization",
+    "method_version": "1.0.7",
+    "decision": "",
+    "details": {
+      "assembly_fallback_accessions": [],
+      "fallback_assembly_accessions": [],
+      "omitted_fallback_conflicts": {},
+      "only_empty_cells": true,
+      "parent_accession": "SRS1634656",
+      "row_index": "1",
+      "source_url": "https://www.ebi.ac.uk/ena/browser/api/xml/SRS1634656"
+    }
+  },
+  {
+    "event_id": "95522c81-1374-44dd-8407-4032ffe118ca",
+    "timestamp": "2026-08-31T01:52:35.411645+00:00",
+    "stage": "metadata",
+    "action": "manual_edit",
+    "entity_type": "metadata_cell",
+    "sample_name": "MAG2ENA_EX_20260831T015234Z_R903_100_HUMAGS_000050",
+    "field": "isolation_source",
+    "source": "metadata table",
+    "before": "",
+    "after": "missing",
+    "method": "Streamlit data editor",
+    "method_version": "1.0.7",
+    "decision": "declare values unavailable from parent record",
+    "details": {
+      "row_index": "1"
+    }
+  },
+  {
+    "event_id": "df15f528-4974-4fdc-b26e-f0d85a81f497",
+    "timestamp": "2026-08-31T01:52:41.721441+00:00",
+    "stage": "metadata",
+    "action": "environment_term_proposed",
+    "entity_type": "ontology_proposal",
+    "sample_name": "",
+    "field": "broad-scale environmental context",
+    "source": "OLS4 / ENVO",
+    "before": "marine pelagic",
+    "after": "marine pelagic biome [ENVO:01000023]",
+    "method": "field-aware environmental resolver",
+    "method_version": "2026-06-26",
+    "decision": "pending curator review",
+    "details": {
+      "alternatives": [
+        "marine biome [ENVO:00000447]",
+        "marine reef biome [ENVO:01000029]",
+        "marine benthic biome [ENVO:01000024]",
+        "marine cold seep biome [ENVO:01000127]",
+        "marine coral reef biome [ENVO:01000049]"
+      ],
+      "confidence": "Review",
+      "parent_accession": "SRS1726551",
+      "proposal_id": "ENV-0001",
+      "reason": "Phrase match in preferred label; biome branch; evidence: broad-scale environmental context",
+      "row_indices": [
+        0
+      ],
+      "sample_names": [
+        "MAG2ENA_EX_20260831T015234Z_R903_024_MarMAG_000114"
+      ],
+      "score": 0.858,
+      "selected_id": "ENVO:01000023",
+      "selected_label": "marine pelagic biome",
+      "source_evidence": "broad-scale environmental context: marine pelagic; metagenomic source: marine metagenome; isolation_source: marine"
+    }
+  },
+  {
+    "event_id": "b53fa7a8-812b-400b-9928-0d67a6b764f4",
+    "timestamp": "2026-08-31T01:52:41.721567+00:00",
+    "stage": "metadata",
+    "action": "environment_term_proposed",
+    "entity_type": "ontology_proposal",
+    "sample_name": "",
+    "field": "local environmental context",
+    "source": "OLS4 / ENVO",
+    "before": "continental shelf",
+    "after": "continental shelf [ENVO:00000223]",
+    "method": "field-aware environmental resolver",
+    "method_version": "2026-06-26",
+    "decision": "pending curator review",
+    "details": {
+      "alternatives": [
+        "marine biota [ENVO:06105013]",
+        "marine park area [ENVO:00000362]",
+        "marine terrace [ENVO:00000509]",
+        "marine water body [ENVO:00001999]",
+        "marine chemocline [ENVO:01000076]"
+      ],
+      "confidence": "High",
+      "parent_accession": "SRS1726551",
+      "proposal_id": "ENV-0002",
+      "reason": "Exact preferred label match; local-context ENVO scope; evidence: local environmental context",
+      "row_indices": [
+        0
+      ],
+      "sample_names": [
+        "MAG2ENA_EX_20260831T015234Z_R903_024_MarMAG_000114"
+      ],
+      "score": 0.99,
+      "selected_id": "ENVO:00000223",
+      "selected_label": "continental shelf",
+      "source_evidence": "local environmental context: continental shelf; isolation_source: marine; metagenomic source: marine metagenome"
+    }
+  },
+  {
+    "event_id": "e123eb41-e117-4bfe-a85b-3431e0082247",
+    "timestamp": "2026-08-31T01:52:41.721653+00:00",
+    "stage": "metadata",
+    "action": "environment_term_proposed",
+    "entity_type": "ontology_proposal",
+    "sample_name": "",
+    "field": "environmental medium",
+    "source": "OLS4 / ENVO",
+    "before": "water",
+    "after": "sea water [ENVO:00002149]",
+    "method": "field-aware environmental resolver",
+    "method_version": "2026-06-26",
+    "decision": "pending curator review",
+    "details": {
+      "alternatives": [
+        "water ice [ENVO:01000277]",
+        "fresh water [ENVO:00002011]",
+        "saline water [ENVO:00002010]",
+        "water vapour [ENVO:01000266]",
+        "anoxic water [ENVO:01000173]"
+      ],
+      "confidence": "Ambiguous",
+      "parent_accession": "SRS1726551",
+      "proposal_id": "ENV-0003",
+      "reason": "Close alternatives; Phrase match in synonym; environmental material branch; evidence: environmental medium",
+      "row_indices": [
+        0
+      ],
+      "sample_names": [
+        "MAG2ENA_EX_20260831T015234Z_R903_024_MarMAG_000114"
+      ],
+      "score": 0.8475,
+      "selected_id": "ENVO:00002149",
+      "selected_label": "sea water",
+      "source_evidence": "environmental medium: water; isolation_source: marine; metagenomic source: marine metagenome"
+    }
+  },
+  {
+    "event_id": "fc3d91d2-6450-4370-8c95-3f35317d108d",
+    "timestamp": "2026-08-31T01:52:41.721732+00:00",
+    "stage": "metadata",
+    "action": "environment_term_proposed",
+    "entity_type": "ontology_proposal",
+    "sample_name": "",
+    "field": "broad-scale environmental context",
+    "source": "OLS4 / ENVO",
+    "before": "Human stool",
+    "after": "",
+    "method": "field-aware environmental resolver",
+    "method_version": "2026-06-26",
+    "decision": "pending curator review",
+    "details": {
+      "alternatives": [],
+      "confidence": "Unresolved",
+      "parent_accession": "SRS1634656",
+      "proposal_id": "ENV-0004",
+      "reason": "No suitable term found in the field-appropriate OLS search",
+      "row_indices": [
+        1
+      ],
+      "sample_names": [
+        "MAG2ENA_EX_20260831T015234Z_R903_100_HUMAGS_000050"
+      ],
+      "score": 0.0,
+      "selected_id": "",
+      "selected_label": "",
+      "source_evidence": "broad-scale environmental context: Human stool; metagenomic source: human gut metagenome; isolation_source: missing"
+    }
+  },
+  {
+    "event_id": "b621e17e-a6a7-404e-8fb0-08e14c7058b4",
+    "timestamp": "2026-08-31T01:52:41.721817+00:00",
+    "stage": "metadata",
+    "action": "environment_term_proposed",
+    "entity_type": "ontology_proposal",
+    "sample_name": "",
+    "field": "local environmental context",
+    "source": "OLS4 / ENVO",
+    "before": "Human-associated habitat",
+    "after": "",
+    "method": "field-aware environmental resolver",
+    "method_version": "2026-06-26",
+    "decision": "pending curator review",
+    "details": {
+      "alternatives": [],
+      "confidence": "Unresolved",
+      "parent_accession": "SRS1634656",
+      "proposal_id": "ENV-0005",
+      "reason": "No suitable term found in the field-appropriate OLS search",
+      "row_indices": [
+        1
+      ],
+      "sample_names": [
+        "MAG2ENA_EX_20260831T015234Z_R903_100_HUMAGS_000050"
+      ],
+      "score": 0.0,
+      "selected_id": "",
+      "selected_label": "",
+      "source_evidence": "local environmental context: Human-associated habitat; isolation_source: missing; metagenomic source: human gut metagenome"
+    }
+  },
+  {
+    "event_id": "bc43f991-8986-429f-958e-b8162f93b5ec",
+    "timestamp": "2026-08-31T01:52:41.721887+00:00",
+    "stage": "metadata",
+    "action": "environment_term_proposed",
+    "entity_type": "ontology_proposal",
+    "sample_name": "",
+    "field": "environmental medium",
+    "source": "OLS4 / ENVO",
+    "before": "Human infant stool",
+    "after": "",
+    "method": "field-aware environmental resolver",
+    "method_version": "2026-06-26",
+    "decision": "pending curator review",
+    "details": {
+      "alternatives": [],
+      "confidence": "Unresolved",
+      "parent_accession": "SRS1634656",
+      "proposal_id": "ENV-0006",
+      "reason": "No suitable term found in the field-appropriate OLS search",
+      "row_indices": [
+        1
+      ],
+      "sample_names": [
+        "MAG2ENA_EX_20260831T015234Z_R903_100_HUMAGS_000050"
+      ],
+      "score": 0.0,
+      "selected_id": "",
+      "selected_label": "",
+      "source_evidence": "environmental medium: Human infant stool; isolation_source: missing; metagenomic source: human gut metagenome"
+    }
+  },
+  {
+    "event_id": "bdad4497-a18a-42dc-9885-46c07e8044fc",
+    "timestamp": "2026-08-31T01:52:41.721970+00:00",
+    "stage": "metadata",
+    "action": "environment_proposal_reviewed",
+    "entity_type": "ontology_proposal",
+    "sample_name": "",
+    "field": "broad-scale environmental context",
+    "source": "OLS4 / ENVO",
+    "before": "marine pelagic",
+    "after": "marine pelagic biome [ENVO:01000023]",
+    "method": "field-aware environmental resolver",
+    "method_version": "2026-06-26",
+    "decision": "not selected",
+    "details": {
+      "alternatives": [
+        "marine biome [ENVO:00000447]",
+        "marine reef biome [ENVO:01000029]",
+        "marine benthic biome [ENVO:01000024]",
+        "marine cold seep biome [ENVO:01000127]",
+        "marine coral reef biome [ENVO:01000049]"
+      ],
+      "confidence": "Review",
+      "parent_accession": "SRS1726551",
+      "proposal_id": "ENV-0001",
+      "reason": "Phrase match in preferred label; biome branch; evidence: broad-scale environmental context",
+      "row_indices": [
+        0
+      ],
+      "sample_names": [
+        "MAG2ENA_EX_20260831T015234Z_R903_024_MarMAG_000114"
+      ],
+      "score": 0.858,
+      "selected_id": "ENVO:01000023",
+      "selected_label": "marine pelagic biome",
+      "source_evidence": "broad-scale environmental context: marine pelagic; metagenomic source: marine metagenome; isolation_source: marine"
+    }
+  },
+  {
+    "event_id": "862582b8-7509-4163-aa29-8fdb59424347",
+    "timestamp": "2026-08-31T01:52:41.722055+00:00",
+    "stage": "metadata",
+    "action": "environment_proposal_reviewed",
+    "entity_type": "ontology_proposal",
+    "sample_name": "",
+    "field": "local environmental context",
+    "source": "OLS4 / ENVO",
+    "before": "continental shelf",
+    "after": "continental shelf [ENVO:00000223]",
+    "method": "field-aware environmental resolver",
+    "method_version": "2026-06-26",
+    "decision": "curator approved",
+    "details": {
+      "alternatives": [
+        "marine biota [ENVO:06105013]",
+        "marine park area [ENVO:00000362]",
+        "marine terrace [ENVO:00000509]",
+        "marine water body [ENVO:00001999]",
+        "marine chemocline [ENVO:01000076]"
+      ],
+      "confidence": "High",
+      "parent_accession": "SRS1726551",
+      "proposal_id": "ENV-0002",
+      "reason": "Exact preferred label match; local-context ENVO scope; evidence: local environmental context",
+      "row_indices": [
+        0
+      ],
+      "sample_names": [
+        "MAG2ENA_EX_20260831T015234Z_R903_024_MarMAG_000114"
+      ],
+      "score": 0.99,
+      "selected_id": "ENVO:00000223",
+      "selected_label": "continental shelf",
+      "source_evidence": "local environmental context: continental shelf; isolation_source: marine; metagenomic source: marine metagenome"
+    }
+  },
+  {
+    "event_id": "f2dfe6a3-ff46-4ff7-b8f1-842282a58f43",
+    "timestamp": "2026-08-31T01:52:41.722134+00:00",
+    "stage": "metadata",
+    "action": "environment_proposal_reviewed",
+    "entity_type": "ontology_proposal",
+    "sample_name": "",
+    "field": "environmental medium",
+    "source": "OLS4 / ENVO",
+    "before": "water",
+    "after": "sea water [ENVO:00002149]",
+    "method": "field-aware environmental resolver",
+    "method_version": "2026-06-26",
+    "decision": "not selected",
+    "details": {
+      "alternatives": [
+        "water ice [ENVO:01000277]",
+        "fresh water [ENVO:00002011]",
+        "saline water [ENVO:00002010]",
+        "water vapour [ENVO:01000266]",
+        "anoxic water [ENVO:01000173]"
+      ],
+      "confidence": "Ambiguous",
+      "parent_accession": "SRS1726551",
+      "proposal_id": "ENV-0003",
+      "reason": "Close alternatives; Phrase match in synonym; environmental material branch; evidence: environmental medium",
+      "row_indices": [
+        0
+      ],
+      "sample_names": [
+        "MAG2ENA_EX_20260831T015234Z_R903_024_MarMAG_000114"
+      ],
+      "score": 0.8475,
+      "selected_id": "ENVO:00002149",
+      "selected_label": "sea water",
+      "source_evidence": "environmental medium: water; isolation_source: marine; metagenomic source: marine metagenome"
+    }
+  },
+  {
+    "event_id": "cd9ceaaf-43ac-4f7c-b575-b0da22391699",
+    "timestamp": "2026-08-31T01:52:41.722219+00:00",
+    "stage": "metadata",
+    "action": "environment_proposal_reviewed",
+    "entity_type": "ontology_proposal",
+    "sample_name": "",
+    "field": "broad-scale environmental context",
+    "source": "OLS4 / ENVO",
+    "before": "Human stool",
+    "after": "",
+    "method": "field-aware environmental resolver",
+    "method_version": "2026-06-26",
+    "decision": "not selected",
+    "details": {
+      "alternatives": [],
+      "confidence": "Unresolved",
+      "parent_accession": "SRS1634656",
+      "proposal_id": "ENV-0004",
+      "reason": "No suitable term found in the field-appropriate OLS search",
+      "row_indices": [
+        1
+      ],
+      "sample_names": [
+        "MAG2ENA_EX_20260831T015234Z_R903_100_HUMAGS_000050"
+      ],
+      "score": 0.0,
+      "selected_id": "",
+      "selected_label": "",
+      "source_evidence": "broad-scale environmental context: Human stool; metagenomic source: human gut metagenome; isolation_source: missing"
+    }
+  },
+  {
+    "event_id": "cfee9414-73a4-4d60-b4be-f319009cb6ab",
+    "timestamp": "2026-08-31T01:52:41.722293+00:00",
+    "stage": "metadata",
+    "action": "environment_proposal_reviewed",
+    "entity_type": "ontology_proposal",
+    "sample_name": "",
+    "field": "local environmental context",
+    "source": "OLS4 / ENVO",
+    "before": "Human-associated habitat",
+    "after": "",
+    "method": "field-aware environmental resolver",
+    "method_version": "2026-06-26",
+    "decision": "not selected",
+    "details": {
+      "alternatives": [],
+      "confidence": "Unresolved",
+      "parent_accession": "SRS1634656",
+      "proposal_id": "ENV-0005",
+      "reason": "No suitable term found in the field-appropriate OLS search",
+      "row_indices": [
+        1
+      ],
+      "sample_names": [
+        "MAG2ENA_EX_20260831T015234Z_R903_100_HUMAGS_000050"
+      ],
+      "score": 0.0,
+      "selected_id": "",
+      "selected_label": "",
+      "source_evidence": "local environmental context: Human-associated habitat; isolation_source: missing; metagenomic source: human gut metagenome"
+    }
+  },
+  {
+    "event_id": "424383ad-8669-4c17-aa86-d1d5a218f35f",
+    "timestamp": "2026-08-31T01:52:41.722363+00:00",
+    "stage": "metadata",
+    "action": "environment_proposal_reviewed",
+    "entity_type": "ontology_proposal",
+    "sample_name": "",
+    "field": "environmental medium",
+    "source": "OLS4 / ENVO",
+    "before": "Human infant stool",
+    "after": "",
+    "method": "field-aware environmental resolver",
+    "method_version": "2026-06-26",
+    "decision": "not selected",
+    "details": {
+      "alternatives": [],
+      "confidence": "Unresolved",
+      "parent_accession": "SRS1634656",
+      "proposal_id": "ENV-0006",
+      "reason": "No suitable term found in the field-appropriate OLS search",
+      "row_indices": [
+        1
+      ],
+      "sample_names": [
+        "MAG2ENA_EX_20260831T015234Z_R903_100_HUMAGS_000050"
+      ],
+      "score": 0.0,
+      "selected_id": "",
+      "selected_label": "",
+      "source_evidence": "environmental medium: Human infant stool; isolation_source: missing; metagenomic source: human gut metagenome"
+    }
+  },
+  {
+    "event_id": "b4297792-386f-497b-9f88-fdf002cd8a98",
+    "timestamp": "2026-08-31T01:52:41.727495+00:00",
+    "stage": "metadata",
+    "action": "environment_term_applied",
+    "entity_type": "metadata_cell",
+    "sample_name": "MAG2ENA_EX_20260831T015234Z_R903_024_MarMAG_000114",
+    "field": "local environmental context",
+    "source": "OLS4 / ENVO",
+    "before": "continental shelf",
+    "after": "continental shelf [ENVO:00000223]",
+    "method": "field-aware environmental resolver",
+    "method_version": "1.0.7",
+    "decision": "curator approved",
+    "details": {
+      "alternatives": "marine biota [ENVO:06105013] | marine park area [ENVO:00000362] | marine terrace [ENVO:00000509] | marine water body [ENVO:00001999] | marine chemocline [ENVO:01000076]",
+      "confidence": "High",
+      "ontology_version": "2026-06-26",
+      "parent_accession": "SRS1726551",
+      "proposal_id": "ENV-0002",
+      "reason": "Exact preferred label match; local-context ENVO scope; evidence: local environmental context",
+      "row_index": "0",
+      "score": 0.99,
+      "source_evidence": "local environmental context: continental shelf; isolation_source: marine; metagenomic source: marine metagenome"
+    }
+  },
+  {
+    "event_id": "d617af18-294d-4d49-bb22-6fcc89227737",
+    "timestamp": "2026-08-31T01:52:42.131712+00:00",
+    "stage": "validation",
+    "action": "metadata_validated",
+    "entity_type": "metadata_table",
+    "sample_name": "",
+    "field": "",
+    "source": "ERC000047",
+    "before": "",
+    "after": "passed",
+    "method": "checklist-derived pre-submission validation",
+    "method_version": "1.0.7",
+    "decision": "passed",
+    "details": {
+      "checklist": "ERC000047",
+      "checklist_sha256": "8d4f75417c5ee238fec7e6de3ebf080b54774e992fcbe1b9c9cbe87aa42e7817",
+      "error_count": 0,
+      "errors": [],
+      "metadata_sha256": "da505809b41f499d1b304986b85bcc17d1ab1863385d2d00384eacefa9961bc3",
+      "rows": 2
+    }
+  },
+  {
+    "event_id": "e3a9e826-6dca-49d7-9067-6c01603176cb",
+    "timestamp": "2026-08-31T01:52:42.137170+00:00",
+    "stage": "fasta",
+    "action": "fasta_uploaded",
+    "entity_type": "file",
+    "sample_name": "MAG2ENA_EX_20260831T015234Z_R903_024_MarMAG_000114",
+    "field": "FASTA",
+    "source": "bundled example",
+    "before": "",
+    "after": "ba03ce81a060eb3f19801aafa35c8811f248dfcadc0b6f88677163d0bbb26c6f",
+    "method": "gzip-compressed FASTA upload",
+    "method_version": "1.0.7",
+    "decision": "",
+    "details": {
+      "filename": "MAG2ENA_EX_20260831T015234Z_R903_024_MarMAG_000114.fasta.gz",
+      "sha256": "ba03ce81a060eb3f19801aafa35c8811f248dfcadc0b6f88677163d0bbb26c6f",
+      "size_bytes": 400101
+    }
+  },
+  {
+    "event_id": "68b5c19e-9ffa-4041-8807-c6cd6c8b0977",
+    "timestamp": "2026-08-31T01:52:42.140081+00:00",
+    "stage": "fasta",
+    "action": "fasta_uploaded",
+    "entity_type": "file",
+    "sample_name": "MAG2ENA_EX_20260831T015234Z_R903_100_HUMAGS_000050",
+    "field": "FASTA",
+    "source": "bundled example",
+    "before": "",
+    "after": "d1e8235bde4cd2c44de18f07e354ce237f6070fca639383ba59b43c6db460187",
+    "method": "gzip-compressed FASTA upload",
+    "method_version": "1.0.7",
+    "decision": "",
+    "details": {
+      "filename": "MAG2ENA_EX_20260831T015234Z_R903_100_HUMAGS_000050.fasta.gz",
+      "sha256": "d1e8235bde4cd2c44de18f07e354ce237f6070fca639383ba59b43c6db460187",
+      "size_bytes": 430325
+    }
+  },
+  {
+    "event_id": "e43f2e36-5ea0-4ba2-b2c0-a85b1f4407cc",
+    "timestamp": "2026-08-31T01:52:42.148866+00:00",
+    "stage": "submission",
+    "action": "submission_queued",
+    "entity_type": "submission",
+    "sample_name": "",
+    "field": "",
+    "source": "Testing",
+    "before": "",
+    "after": "queued",
+    "method": "MAG2ENA asynchronous submission",
+    "method_version": "1.0.7",
+    "decision": "user submitted",
+    "details": {
+      "fasta_sha256": {
+        "MAG2ENA_EX_20260831T015234Z_R903_024_MarMAG_000114": "ba03ce81a060eb3f19801aafa35c8811f248dfcadc0b6f88677163d0bbb26c6f",
+        "MAG2ENA_EX_20260831T015234Z_R903_100_HUMAGS_000050": "d1e8235bde4cd2c44de18f07e354ce237f6070fca639383ba59b43c6db460187"
+      },
+      "hold_until_date": "2028-08-29",
+      "metadata_sha256": "da505809b41f499d1b304986b85bcc17d1ab1863385d2d00384eacefa9961bc3",
+      "portal": "Testing",
+      "sample_count": 2,
+      "single_contig_chromosomes_confirmed": false,
+      "single_contig_samples": [],
+      "study_mode": "Create new study",
+      "study_name": "MAG2ENA_EXAMPLE_20260831T015234Z"
+    }
+  },
+  {
+    "event_id": "fad00d4c-aa85-4fb5-b4c1-559e47ed5a9c",
+    "timestamp": "2026-08-31T01:52:42.158724+00:00",
+    "stage": "submission",
+    "action": "submission_started",
+    "entity_type": "submission",
+    "sample_name": "",
+    "field": "",
+    "source": "Testing",
+    "before": "",
+    "after": "running",
+    "method": "MAG2ENA RQ worker",
+    "method_version": "1.0.7",
+    "decision": "",
+    "details": {
+      "job_id": "a66917de-84d1-4751-b17c-a3c6657f6051"
+    }
+  },
+  {
+    "event_id": "00871a75-7980-4c38-8be1-038061c13213",
+    "timestamp": "2026-08-31T01:52:42.174540+00:00",
+    "stage": "validation",
+    "action": "taxonomy_preflight_passed",
+    "entity_type": "metadata",
+    "sample_name": "",
+    "field": "",
+    "source": "ENA taxonomy API",
+    "before": "",
+    "after": "passed",
+    "method": "MAG taxonomy preflight",
+    "method_version": "1.0.7",
+    "decision": "continue",
+    "details": {
+      "metagenome_taxa_allowed": false,
+      "required_rank": "species",
+      "sample_count": 2,
+      "unique_tax_id_count": 2
+    }
+  },
+  {
+    "event_id": "6095e00c-07ca-451a-aaf6-3f8c1d34c437",
+    "timestamp": "2026-08-31T01:52:42.247662+00:00",
+    "stage": "submission",
+    "action": "submission_xml_generated",
+    "entity_type": "file",
+    "sample_name": "",
+    "field": "",
+    "source": "validated metadata",
+    "before": "",
+    "after": "6fcb84951e9bc430a632d65bffbb044b56f50a4198ae5c343d229719710ae71b",
+    "method": "WEBIN XML generation",
+    "method_version": "1.0.7",
+    "decision": "",
+    "details": {
+      "checklist": "ERC000047",
+      "filename": "submit.xml",
+      "sample_count": 2,
+      "sha256": "6fcb84951e9bc430a632d65bffbb044b56f50a4198ae5c343d229719710ae71b",
+      "size_bytes": 5794
+    }
+  },
+  {
+    "event_id": "ca9add33-4f8f-4ada-88cb-1879a333ea40",
+    "timestamp": "2026-08-31T01:52:48.284329+00:00",
+    "stage": "submission",
+    "action": "ena_metadata_receipt_received",
+    "entity_type": "receipt",
+    "sample_name": "",
+    "field": "",
+    "source": "https://wwwdev.ebi.ac.uk/ena/submit/webin-v2/submit/queue",
+    "before": "",
+    "after": "success",
+    "method": "ENA Webin REST asynchronous submission",
+    "method_version": "",
+    "decision": "accepted",
+    "details": {
+      "job_id": "a66917de-84d1-4751-b17c-a3c6657f6051",
+      "poll_url": "https://wwwdev.ebi.ac.uk/ena/submit/webin-v2/submit/poll/ERA36929120",
+      "portal": "Testing",
+      "project_accession": "PRJEB124667",
+      "receipt_sha256": "eb514124cc2c77827d2b0f47148508cbbe11ca9b55f5ace8887334b738160c6f",
+      "sample_accessions": {
+        "MAG2ENA_EX_20260831T015234Z_R903_024_MarMAG_000114": "ERS32364360",
+        "MAG2ENA_EX_20260831T015234Z_R903_100_HUMAGS_000050": "ERS32364361"
+      },
+      "submission_accessions": [
+        "ERA36929120"
+      ]
+    }
+  },
+  {
+    "event_id": "8de0663a-af11-459b-8b75-da9ad6e8015d",
+    "timestamp": "2026-08-31T01:52:50.277791+00:00",
+    "stage": "fasta",
+    "action": "fasta_prepared",
+    "entity_type": "file",
+    "sample_name": "MAG2ENA_EX_20260831T015234Z_R903_024_MarMAG_000114",
+    "field": "FASTA",
+    "source": "MAG2ENA_EX_20260831T015234Z_R903_024_MarMAG_000114.fasta.gz",
+    "before": "ba03ce81a060eb3f19801aafa35c8811f248dfcadc0b6f88677163d0bbb26c6f",
+    "after": "c2f2c7284fdbd0447d223608328d3eef9805f00121bb23ac9a91ab6e30e57779",
+    "method": "ENA FASTA preprocessor",
+    "method_version": "1.0.7",
+    "decision": "",
+    "details": {
+      "duplicate_headers_renamed": 191,
+      "output_changed": true,
+      "rename_map": [
+        {
+          "after": "ENA_1|CDUDIN010000002|CDUDIN010000002.1",
+          "before": "ENA|CDUDIN010000002|CDUDIN010000002.1"
+        },
+        {
+          "after": "ENA_2|CDUDIN010000003|CDUDIN010000003.1",
+          "before": "ENA|CDUDIN010000003|CDUDIN010000003.1"
+        },
+        {
+          "after": "ENA_3|CDUDIN010000004|CDUDIN010000004.1",
+          "before": "ENA|CDUDIN010000004|CDUDIN010000004.1"
+        },
+        {
+          "after": "ENA_4|CDUDIN010000005|CDUDIN010000005.1",
+          "before": "ENA|CDUDIN010000005|CDUDIN010000005.1"
+        },
+        {
+          "after": "ENA_5|CDUDIN010000006|CDUDIN010000006.1",
+          "before": "ENA|CDUDIN010000006|CDUDIN010000006.1"
+        },
+        {
+          "after": "ENA_6|CDUDIN010000007|CDUDIN010000007.1",
+          "before": "ENA|CDUDIN010000007|CDUDIN010000007.1"
+        },
+        {
+          "after": "ENA_7|CDUDIN010000008|CDUDIN010000008.1",
+          "before": "ENA|CDUDIN010000008|CDUDIN010000008.1"
+        },
+        {
+          "after": "ENA_8|CDUDIN010000009|CDUDIN010000009.1",
+          "before": "ENA|CDUDIN010000009|CDUDIN010000009.1"
+        },
+        {
+          "after": "ENA_9|CDUDIN010000010|CDUDIN010000010.1",
+          "before": "ENA|CDUDIN010000010|CDUDIN010000010.1"
+        },
+        {
+          "after": "ENA_10|CDUDIN010000011|CDUDIN010000011.1",
+          "before": "ENA|CDUDIN010000011|CDUDIN010000011.1"
+        },
+        {
+          "after": "ENA_11|CDUDIN010000012|CDUDIN010000012.1",
+          "before": "ENA|CDUDIN010000012|CDUDIN010000012.1"
+        },
+        {
+          "after": "ENA_12|CDUDIN010000013|CDUDIN010000013.1",
+          "before": "ENA|CDUDIN010000013|CDUDIN010000013.1"
+        },
+        {
+          "after": "ENA_13|CDUDIN010000014|CDUDIN010000014.1",
+          "before": "ENA|CDUDIN010000014|CDUDIN010000014.1"
+        },
+        {
+          "after": "ENA_14|CDUDIN010000015|CDUDIN010000015.1",
+          "before": "ENA|CDUDIN010000015|CDUDIN010000015.1"
+        },
+        {
+          "after": "ENA_15|CDUDIN010000016|CDUDIN010000016.1",
+          "before": "ENA|CDUDIN010000016|CDUDIN010000016.1"
+        },
+        {
+          "after": "ENA_16|CDUDIN010000017|CDUDIN010000017.1",
+          "before": "ENA|CDUDIN010000017|CDUDIN010000017.1"
+        },
+        {
+          "after": "ENA_17|CDUDIN010000018|CDUDIN010000018.1",
+          "before": "ENA|CDUDIN010000018|CDUDIN010000018.1"
+        },
+        {
+          "after": "ENA_18|CDUDIN010000019|CDUDIN010000019.1",
+          "before": "ENA|CDUDIN010000019|CDUDIN010000019.1"
+        },
+        {
+          "after": "ENA_19|CDUDIN010000020|CDUDIN010000020.1",
+          "before": "ENA|CDUDIN010000020|CDUDIN010000020.1"
+        },
+        {
+          "after": "ENA_20|CDUDIN010000021|CDUDIN010000021.1",
+          "before": "ENA|CDUDIN010000021|CDUDIN010000021.1"
+        },
+        {
+          "after": "ENA_21|CDUDIN010000022|CDUDIN010000022.1",
+          "before": "ENA|CDUDIN010000022|CDUDIN010000022.1"
+        },
+        {
+          "after": "ENA_22|CDUDIN010000023|CDUDIN010000023.1",
+          "before": "ENA|CDUDIN010000023|CDUDIN010000023.1"
+        },
+        {
+          "after": "ENA_23|CDUDIN010000024|CDUDIN010000024.1",
+          "before": "ENA|CDUDIN010000024|CDUDIN010000024.1"
+        },
+        {
+          "after": "ENA_24|CDUDIN010000025|CDUDIN010000025.1",
+          "before": "ENA|CDUDIN010000025|CDUDIN010000025.1"
+        },
+        {
+          "after": "ENA_25|CDUDIN010000026|CDUDIN010000026.1",
+          "before": "ENA|CDUDIN010000026|CDUDIN010000026.1"
+        },
+        {
+          "after": "ENA_26|CDUDIN010000027|CDUDIN010000027.1",
+          "before": "ENA|CDUDIN010000027|CDUDIN010000027.1"
+        },
+        {
+          "after": "ENA_27|CDUDIN010000028|CDUDIN010000028.1",
+          "before": "ENA|CDUDIN010000028|CDUDIN010000028.1"
+        },
+        {
+          "after": "ENA_28|CDUDIN010000029|CDUDIN010000029.1",
+          "before": "ENA|CDUDIN010000029|CDUDIN010000029.1"
+        },
+        {
+          "after": "ENA_29|CDUDIN010000030|CDUDIN010000030.1",
+          "before": "ENA|CDUDIN010000030|CDUDIN010000030.1"
+        },
+        {
+          "after": "ENA_30|CDUDIN010000031|CDUDIN010000031.1",
+          "before": "ENA|CDUDIN010000031|CDUDIN010000031.1"
+        },
+        {
+          "after": "ENA_31|CDUDIN010000032|CDUDIN010000032.1",
+          "before": "ENA|CDUDIN010000032|CDUDIN010000032.1"
+        },
+        {
+          "after": "ENA_32|CDUDIN010000033|CDUDIN010000033.1",
+          "before": "ENA|CDUDIN010000033|CDUDIN010000033.1"
+        },
+        {
+          "after": "ENA_33|CDUDIN010000034|CDUDIN010000034.1",
+          "before": "ENA|CDUDIN010000034|CDUDIN010000034.1"
+        },
+        {
+          "after": "ENA_34|CDUDIN010000035|CDUDIN010000035.1",
+          "before": "ENA|CDUDIN010000035|CDUDIN010000035.1"
+        },
+        {
+          "after": "ENA_35|CDUDIN010000036|CDUDIN010000036.1",
+          "before": "ENA|CDUDIN010000036|CDUDIN010000036.1"
+        },
+        {
+          "after": "ENA_36|CDUDIN010000037|CDUDIN010000037.1",
+          "before": "ENA|CDUDIN010000037|CDUDIN010000037.1"
+        },
+        {
+          "after": "ENA_37|CDUDIN010000038|CDUDIN010000038.1",
+          "before": "ENA|CDUDIN010000038|CDUDIN010000038.1"
+        },
+        {
+          "after": "ENA_38|CDUDIN010000039|CDUDIN010000039.1",
+          "before": "ENA|CDUDIN010000039|CDUDIN010000039.1"
+        },
+        {
+          "after": "ENA_39|CDUDIN010000040|CDUDIN010000040.1",
+          "before": "ENA|CDUDIN010000040|CDUDIN010000040.1"
+        },
+        {
+          "after": "ENA_40|CDUDIN010000041|CDUDIN010000041.1",
+          "before": "ENA|CDUDIN010000041|CDUDIN010000041.1"
+        },
+        {
+          "after": "ENA_41|CDUDIN010000042|CDUDIN010000042.1",
+          "before": "ENA|CDUDIN010000042|CDUDIN010000042.1"
+        },
+        {
+          "after": "ENA_42|CDUDIN010000043|CDUDIN010000043.1",
+          "before": "ENA|CDUDIN010000043|CDUDIN010000043.1"
+        },
+        {
+          "after": "ENA_43|CDUDIN010000044|CDUDIN010000044.1",
+          "before": "ENA|CDUDIN010000044|CDUDIN010000044.1"
+        },
+        {
+          "after": "ENA_44|CDUDIN010000045|CDUDIN010000045.1",
+          "before": "ENA|CDUDIN010000045|CDUDIN010000045.1"
+        },
+        {
+          "after": "ENA_45|CDUDIN010000046|CDUDIN010000046.1",
+          "before": "ENA|CDUDIN010000046|CDUDIN010000046.1"
+        },
+        {
+          "after": "ENA_46|CDUDIN010000047|CDUDIN010000047.1",
+          "before": "ENA|CDUDIN010000047|CDUDIN010000047.1"
+        },
+        {
+          "after": "ENA_47|CDUDIN010000048|CDUDIN010000048.1",
+          "before": "ENA|CDUDIN010000048|CDUDIN010000048.1"
+        },
+        {
+          "after": "ENA_48|CDUDIN010000049|CDUDIN010000049.1",
+          "before": "ENA|CDUDIN010000049|CDUDIN010000049.1"
+        },
+        {
+          "after": "ENA_49|CDUDIN010000050|CDUDIN010000050.1",
+          "before": "ENA|CDUDIN010000050|CDUDIN010000050.1"
+        },
+        {
+          "after": "ENA_50|CDUDIN010000051|CDUDIN010000051.1",
+          "before": "ENA|CDUDIN010000051|CDUDIN010000051.1"
+        },
+        {
+          "after": "ENA_51|CDUDIN010000052|CDUDIN010000052.1",
+          "before": "ENA|CDUDIN010000052|CDUDIN010000052.1"
+        },
+        {
+          "after": "ENA_52|CDUDIN010000053|CDUDIN010000053.1",
+          "before": "ENA|CDUDIN010000053|CDUDIN010000053.1"
+        },
+        {
+          "after": "ENA_53|CDUDIN010000054|CDUDIN010000054.1",
+          "before": "ENA|CDUDIN010000054|CDUDIN010000054.1"
+        },
+        {
+          "after": "ENA_54|CDUDIN010000055|CDUDIN010000055.1",
+          "before": "ENA|CDUDIN010000055|CDUDIN010000055.1"
+        },
+        {
+          "after": "ENA_55|CDUDIN010000056|CDUDIN010000056.1",
+          "before": "ENA|CDUDIN010000056|CDUDIN010000056.1"
+        },
+        {
+          "after": "ENA_56|CDUDIN010000057|CDUDIN010000057.1",
+          "before": "ENA|CDUDIN010000057|CDUDIN010000057.1"
+        },
+        {
+          "after": "ENA_57|CDUDIN010000058|CDUDIN010000058.1",
+          "before": "ENA|CDUDIN010000058|CDUDIN010000058.1"
+        },
+        {
+          "after": "ENA_58|CDUDIN010000059|CDUDIN010000059.1",
+          "before": "ENA|CDUDIN010000059|CDUDIN010000059.1"
+        },
+        {
+          "after": "ENA_59|CDUDIN010000060|CDUDIN010000060.1",
+          "before": "ENA|CDUDIN010000060|CDUDIN010000060.1"
+        },
+        {
+          "after": "ENA_60|CDUDIN010000061|CDUDIN010000061.1",
+          "before": "ENA|CDUDIN010000061|CDUDIN010000061.1"
+        },
+        {
+          "after": "ENA_61|CDUDIN010000062|CDUDIN010000062.1",
+          "before": "ENA|CDUDIN010000062|CDUDIN010000062.1"
+        },
+        {
+          "after": "ENA_62|CDUDIN010000063|CDUDIN010000063.1",
+          "before": "ENA|CDUDIN010000063|CDUDIN010000063.1"
+        },
+        {
+          "after": "ENA_63|CDUDIN010000064|CDUDIN010000064.1",
+          "before": "ENA|CDUDIN010000064|CDUDIN010000064.1"
+        },
+        {
+          "after": "ENA_64|CDUDIN010000065|CDUDIN010000065.1",
+          "before": "ENA|CDUDIN010000065|CDUDIN010000065.1"
+        },
+        {
+          "after": "ENA_65|CDUDIN010000066|CDUDIN010000066.1",
+          "before": "ENA|CDUDIN010000066|CDUDIN010000066.1"
+        },
+        {
+          "after": "ENA_66|CDUDIN010000067|CDUDIN010000067.1",
+          "before": "ENA|CDUDIN010000067|CDUDIN010000067.1"
+        },
+        {
+          "after": "ENA_67|CDUDIN010000068|CDUDIN010000068.1",
+          "before": "ENA|CDUDIN010000068|CDUDIN010000068.1"
+        },
+        {
+          "after": "ENA_68|CDUDIN010000069|CDUDIN010000069.1",
+          "before": "ENA|CDUDIN010000069|CDUDIN010000069.1"
+        },
+        {
+          "after": "ENA_69|CDUDIN010000070|CDUDIN010000070.1",
+          "before": "ENA|CDUDIN010000070|CDUDIN010000070.1"
+        },
+        {
+          "after": "ENA_70|CDUDIN010000071|CDUDIN010000071.1",
+          "before": "ENA|CDUDIN010000071|CDUDIN010000071.1"
+        },
+        {
+          "after": "ENA_71|CDUDIN010000072|CDUDIN010000072.1",
+          "before": "ENA|CDUDIN010000072|CDUDIN010000072.1"
+        },
+        {
+          "after": "ENA_72|CDUDIN010000073|CDUDIN010000073.1",
+          "before": "ENA|CDUDIN010000073|CDUDIN010000073.1"
+        },
+        {
+          "after": "ENA_73|CDUDIN010000074|CDUDIN010000074.1",
+          "before": "ENA|CDUDIN010000074|CDUDIN010000074.1"
+        },
+        {
+          "after": "ENA_74|CDUDIN010000075|CDUDIN010000075.1",
+          "before": "ENA|CDUDIN010000075|CDUDIN010000075.1"
+        },
+        {
+          "after": "ENA_75|CDUDIN010000076|CDUDIN010000076.1",
+          "before": "ENA|CDUDIN010000076|CDUDIN010000076.1"
+        },
+        {
+          "after": "ENA_76|CDUDIN010000077|CDUDIN010000077.1",
+          "before": "ENA|CDUDIN010000077|CDUDIN010000077.1"
+        },
+        {
+          "after": "ENA_77|CDUDIN010000078|CDUDIN010000078.1",
+          "before": "ENA|CDUDIN010000078|CDUDIN010000078.1"
+        },
+        {
+          "after": "ENA_78|CDUDIN010000079|CDUDIN010000079.1",
+          "before": "ENA|CDUDIN010000079|CDUDIN010000079.1"
+        },
+        {
+          "after": "ENA_79|CDUDIN010000080|CDUDIN010000080.1",
+          "before": "ENA|CDUDIN010000080|CDUDIN010000080.1"
+        },
+        {
+          "after": "ENA_80|CDUDIN010000081|CDUDIN010000081.1",
+          "before": "ENA|CDUDIN010000081|CDUDIN010000081.1"
+        },
+        {
+          "after": "ENA_81|CDUDIN010000082|CDUDIN010000082.1",
+          "before": "ENA|CDUDIN010000082|CDUDIN010000082.1"
+        },
+        {
+          "after": "ENA_82|CDUDIN010000083|CDUDIN010000083.1",
+          "before": "ENA|CDUDIN010000083|CDUDIN010000083.1"
+        },
+        {
+          "after": "ENA_83|CDUDIN010000084|CDUDIN010000084.1",
+          "before": "ENA|CDUDIN010000084|CDUDIN010000084.1"
+        },
+        {
+          "after": "ENA_84|CDUDIN010000085|CDUDIN010000085.1",
+          "before": "ENA|CDUDIN010000085|CDUDIN010000085.1"
+        },
+        {
+          "after": "ENA_85|CDUDIN010000086|CDUDIN010000086.1",
+          "before": "ENA|CDUDIN010000086|CDUDIN010000086.1"
+        },
+        {
+          "after": "ENA_86|CDUDIN010000087|CDUDIN010000087.1",
+          "before": "ENA|CDUDIN010000087|CDUDIN010000087.1"
+        },
+        {
+          "after": "ENA_87|CDUDIN010000088|CDUDIN010000088.1",
+          "before": "ENA|CDUDIN010000088|CDUDIN010000088.1"
+        },
+        {
+          "after": "ENA_88|CDUDIN010000089|CDUDIN010000089.1",
+          "before": "ENA|CDUDIN010000089|CDUDIN010000089.1"
+        },
+        {
+          "after": "ENA_89|CDUDIN010000090|CDUDIN010000090.1",
+          "before": "ENA|CDUDIN010000090|CDUDIN010000090.1"
+        },
+        {
+          "after": "ENA_90|CDUDIN010000091|CDUDIN010000091.1",
+          "before": "ENA|CDUDIN010000091|CDUDIN010000091.1"
+        },
+        {
+          "after": "ENA_91|CDUDIN010000092|CDUDIN010000092.1",
+          "before": "ENA|CDUDIN010000092|CDUDIN010000092.1"
+        },
+        {
+          "after": "ENA_92|CDUDIN010000093|CDUDIN010000093.1",
+          "before": "ENA|CDUDIN010000093|CDUDIN010000093.1"
+        },
+        {
+          "after": "ENA_93|CDUDIN010000094|CDUDIN010000094.1",
+          "before": "ENA|CDUDIN010000094|CDUDIN010000094.1"
+        },
+        {
+          "after": "ENA_94|CDUDIN010000095|CDUDIN010000095.1",
+          "before": "ENA|CDUDIN010000095|CDUDIN010000095.1"
+        },
+        {
+          "after": "ENA_95|CDUDIN010000096|CDUDIN010000096.1",
+          "before": "ENA|CDUDIN010000096|CDUDIN010000096.1"
+        },
+        {
+          "after": "ENA_96|CDUDIN010000097|CDUDIN010000097.1",
+          "before": "ENA|CDUDIN010000097|CDUDIN010000097.1"
+        },
+        {
+          "after": "ENA_97|CDUDIN010000098|CDUDIN010000098.1",
+          "before": "ENA|CDUDIN010000098|CDUDIN010000098.1"
+        },
+        {
+          "after": "ENA_98|CDUDIN010000099|CDUDIN010000099.1",
+          "before": "ENA|CDUDIN010000099|CDUDIN010000099.1"
+        },
+        {
+          "after": "ENA_99|CDUDIN010000100|CDUDIN010000100.1",
+          "before": "ENA|CDUDIN010000100|CDUDIN010000100.1"
+        },
+        {
+          "after": "ENA_100|CDUDIN010000101|CDUDIN010000101.1",
+          "before": "ENA|CDUDIN010000101|CDUDIN010000101.1"
+        },
+        {
+          "after": "ENA_101|CDUDIN010000102|CDUDIN010000102.1",
+          "before": "ENA|CDUDIN010000102|CDUDIN010000102.1"
+        },
+        {
+          "after": "ENA_102|CDUDIN010000103|CDUDIN010000103.1",
+          "before": "ENA|CDUDIN010000103|CDUDIN010000103.1"
+        },
+        {
+          "after": "ENA_103|CDUDIN010000104|CDUDIN010000104.1",
+          "before": "ENA|CDUDIN010000104|CDUDIN010000104.1"
+        },
+        {
+          "after": "ENA_104|CDUDIN010000105|CDUDIN010000105.1",
+          "before": "ENA|CDUDIN010000105|CDUDIN010000105.1"
+        },
+        {
+          "after": "ENA_105|CDUDIN010000106|CDUDIN010000106.1",
+          "before": "ENA|CDUDIN010000106|CDUDIN010000106.1"
+        },
+        {
+          "after": "ENA_106|CDUDIN010000107|CDUDIN010000107.1",
+          "before": "ENA|CDUDIN010000107|CDUDIN010000107.1"
+        },
+        {
+          "after": "ENA_107|CDUDIN010000108|CDUDIN010000108.1",
+          "before": "ENA|CDUDIN010000108|CDUDIN010000108.1"
+        },
+        {
+          "after": "ENA_108|CDUDIN010000109|CDUDIN010000109.1",
+          "before": "ENA|CDUDIN010000109|CDUDIN010000109.1"
+        },
+        {
+          "after": "ENA_109|CDUDIN010000110|CDUDIN010000110.1",
+          "before": "ENA|CDUDIN010000110|CDUDIN010000110.1"
+        },
+        {
+          "after": "ENA_110|CDUDIN010000111|CDUDIN010000111.1",
+          "before": "ENA|CDUDIN010000111|CDUDIN010000111.1"
+        },
+        {
+          "after": "ENA_111|CDUDIN010000112|CDUDIN010000112.1",
+          "before": "ENA|CDUDIN010000112|CDUDIN010000112.1"
+        },
+        {
+          "after": "ENA_112|CDUDIN010000113|CDUDIN010000113.1",
+          "before": "ENA|CDUDIN010000113|CDUDIN010000113.1"
+        },
+        {
+          "after": "ENA_113|CDUDIN010000114|CDUDIN010000114.1",
+          "before": "ENA|CDUDIN010000114|CDUDIN010000114.1"
+        },
+        {
+          "after": "ENA_114|CDUDIN010000115|CDUDIN010000115.1",
+          "before": "ENA|CDUDIN010000115|CDUDIN010000115.1"
+        },
+        {
+          "after": "ENA_115|CDUDIN010000116|CDUDIN010000116.1",
+          "before": "ENA|CDUDIN010000116|CDUDIN010000116.1"
+        },
+        {
+          "after": "ENA_116|CDUDIN010000117|CDUDIN010000117.1",
+          "before": "ENA|CDUDIN010000117|CDUDIN010000117.1"
+        },
+        {
+          "after": "ENA_117|CDUDIN010000118|CDUDIN010000118.1",
+          "before": "ENA|CDUDIN010000118|CDUDIN010000118.1"
+        },
+        {
+          "after": "ENA_118|CDUDIN010000119|CDUDIN010000119.1",
+          "before": "ENA|CDUDIN010000119|CDUDIN010000119.1"
+        },
+        {
+          "after": "ENA_119|CDUDIN010000120|CDUDIN010000120.1",
+          "before": "ENA|CDUDIN010000120|CDUDIN010000120.1"
+        },
+        {
+          "after": "ENA_120|CDUDIN010000121|CDUDIN010000121.1",
+          "before": "ENA|CDUDIN010000121|CDUDIN010000121.1"
+        },
+        {
+          "after": "ENA_121|CDUDIN010000122|CDUDIN010000122.1",
+          "before": "ENA|CDUDIN010000122|CDUDIN010000122.1"
+        },
+        {
+          "after": "ENA_122|CDUDIN010000123|CDUDIN010000123.1",
+          "before": "ENA|CDUDIN010000123|CDUDIN010000123.1"
+        },
+        {
+          "after": "ENA_123|CDUDIN010000124|CDUDIN010000124.1",
+          "before": "ENA|CDUDIN010000124|CDUDIN010000124.1"
+        },
+        {
+          "after": "ENA_124|CDUDIN010000125|CDUDIN010000125.1",
+          "before": "ENA|CDUDIN010000125|CDUDIN010000125.1"
+        },
+        {
+          "after": "ENA_125|CDUDIN010000126|CDUDIN010000126.1",
+          "before": "ENA|CDUDIN010000126|CDUDIN010000126.1"
+        },
+        {
+          "after": "ENA_126|CDUDIN010000127|CDUDIN010000127.1",
+          "before": "ENA|CDUDIN010000127|CDUDIN010000127.1"
+        },
+        {
+          "after": "ENA_127|CDUDIN010000128|CDUDIN010000128.1",
+          "before": "ENA|CDUDIN010000128|CDUDIN010000128.1"
+        },
+        {
+          "after": "ENA_128|CDUDIN010000129|CDUDIN010000129.1",
+          "before": "ENA|CDUDIN010000129|CDUDIN010000129.1"
+        },
+        {
+          "after": "ENA_129|CDUDIN010000130|CDUDIN010000130.1",
+          "before": "ENA|CDUDIN010000130|CDUDIN010000130.1"
+        },
+        {
+          "after": "ENA_130|CDUDIN010000131|CDUDIN010000131.1",
+          "before": "ENA|CDUDIN010000131|CDUDIN010000131.1"
+        },
+        {
+          "after": "ENA_131|CDUDIN010000132|CDUDIN010000132.1",
+          "before": "ENA|CDUDIN010000132|CDUDIN010000132.1"
+        },
+        {
+          "after": "ENA_132|CDUDIN010000133|CDUDIN010000133.1",
+          "before": "ENA|CDUDIN010000133|CDUDIN010000133.1"
+        },
+        {
+          "after": "ENA_133|CDUDIN010000134|CDUDIN010000134.1",
+          "before": "ENA|CDUDIN010000134|CDUDIN010000134.1"
+        },
+        {
+          "after": "ENA_134|CDUDIN010000135|CDUDIN010000135.1",
+          "before": "ENA|CDUDIN010000135|CDUDIN010000135.1"
+        },
+        {
+          "after": "ENA_135|CDUDIN010000136|CDUDIN010000136.1",
+          "before": "ENA|CDUDIN010000136|CDUDIN010000136.1"
+        },
+        {
+          "after": "ENA_136|CDUDIN010000137|CDUDIN010000137.1",
+          "before": "ENA|CDUDIN010000137|CDUDIN010000137.1"
+        },
+        {
+          "after": "ENA_137|CDUDIN010000138|CDUDIN010000138.1",
+          "before": "ENA|CDUDIN010000138|CDUDIN010000138.1"
+        },
+        {
+          "after": "ENA_138|CDUDIN010000139|CDUDIN010000139.1",
+          "before": "ENA|CDUDIN010000139|CDUDIN010000139.1"
+        },
+        {
+          "after": "ENA_139|CDUDIN010000140|CDUDIN010000140.1",
+          "before": "ENA|CDUDIN010000140|CDUDIN010000140.1"
+        },
+        {
+          "after": "ENA_140|CDUDIN010000141|CDUDIN010000141.1",
+          "before": "ENA|CDUDIN010000141|CDUDIN010000141.1"
+        },
+        {
+          "after": "ENA_141|CDUDIN010000142|CDUDIN010000142.1",
+          "before": "ENA|CDUDIN010000142|CDUDIN010000142.1"
+        },
+        {
+          "after": "ENA_142|CDUDIN010000143|CDUDIN010000143.1",
+          "before": "ENA|CDUDIN010000143|CDUDIN010000143.1"
+        },
+        {
+          "after": "ENA_143|CDUDIN010000144|CDUDIN010000144.1",
+          "before": "ENA|CDUDIN010000144|CDUDIN010000144.1"
+        },
+        {
+          "after": "ENA_144|CDUDIN010000145|CDUDIN010000145.1",
+          "before": "ENA|CDUDIN010000145|CDUDIN010000145.1"
+        },
+        {
+          "after": "ENA_145|CDUDIN010000146|CDUDIN010000146.1",
+          "before": "ENA|CDUDIN010000146|CDUDIN010000146.1"
+        },
+        {
+          "after": "ENA_146|CDUDIN010000147|CDUDIN010000147.1",
+          "before": "ENA|CDUDIN010000147|CDUDIN010000147.1"
+        },
+        {
+          "after": "ENA_147|CDUDIN010000148|CDUDIN010000148.1",
+          "before": "ENA|CDUDIN010000148|CDUDIN010000148.1"
+        },
+        {
+          "after": "ENA_148|CDUDIN010000149|CDUDIN010000149.1",
+          "before": "ENA|CDUDIN010000149|CDUDIN010000149.1"
+        },
+        {
+          "after": "ENA_149|CDUDIN010000150|CDUDIN010000150.1",
+          "before": "ENA|CDUDIN010000150|CDUDIN010000150.1"
+        },
+        {
+          "after": "ENA_150|CDUDIN010000151|CDUDIN010000151.1",
+          "before": "ENA|CDUDIN010000151|CDUDIN010000151.1"
+        },
+        {
+          "after": "ENA_151|CDUDIN010000152|CDUDIN010000152.1",
+          "before": "ENA|CDUDIN010000152|CDUDIN010000152.1"
+        },
+        {
+          "after": "ENA_152|CDUDIN010000153|CDUDIN010000153.1",
+          "before": "ENA|CDUDIN010000153|CDUDIN010000153.1"
+        },
+        {
+          "after": "ENA_153|CDUDIN010000154|CDUDIN010000154.1",
+          "before": "ENA|CDUDIN010000154|CDUDIN010000154.1"
+        },
+        {
+          "after": "ENA_154|CDUDIN010000155|CDUDIN010000155.1",
+          "before": "ENA|CDUDIN010000155|CDUDIN010000155.1"
+        },
+        {
+          "after": "ENA_155|CDUDIN010000156|CDUDIN010000156.1",
+          "before": "ENA|CDUDIN010000156|CDUDIN010000156.1"
+        },
+        {
+          "after": "ENA_156|CDUDIN010000157|CDUDIN010000157.1",
+          "before": "ENA|CDUDIN010000157|CDUDIN010000157.1"
+        },
+        {
+          "after": "ENA_157|CDUDIN010000158|CDUDIN010000158.1",
+          "before": "ENA|CDUDIN010000158|CDUDIN010000158.1"
+        },
+        {
+          "after": "ENA_158|CDUDIN010000159|CDUDIN010000159.1",
+          "before": "ENA|CDUDIN010000159|CDUDIN010000159.1"
+        },
+        {
+          "after": "ENA_159|CDUDIN010000160|CDUDIN010000160.1",
+          "before": "ENA|CDUDIN010000160|CDUDIN010000160.1"
+        },
+        {
+          "after": "ENA_160|CDUDIN010000161|CDUDIN010000161.1",
+          "before": "ENA|CDUDIN010000161|CDUDIN010000161.1"
+        },
+        {
+          "after": "ENA_161|CDUDIN010000162|CDUDIN010000162.1",
+          "before": "ENA|CDUDIN010000162|CDUDIN010000162.1"
+        },
+        {
+          "after": "ENA_162|CDUDIN010000163|CDUDIN010000163.1",
+          "before": "ENA|CDUDIN010000163|CDUDIN010000163.1"
+        },
+        {
+          "after": "ENA_163|CDUDIN010000164|CDUDIN010000164.1",
+          "before": "ENA|CDUDIN010000164|CDUDIN010000164.1"
+        },
+        {
+          "after": "ENA_164|CDUDIN010000165|CDUDIN010000165.1",
+          "before": "ENA|CDUDIN010000165|CDUDIN010000165.1"
+        },
+        {
+          "after": "ENA_165|CDUDIN010000166|CDUDIN010000166.1",
+          "before": "ENA|CDUDIN010000166|CDUDIN010000166.1"
+        },
+        {
+          "after": "ENA_166|CDUDIN010000167|CDUDIN010000167.1",
+          "before": "ENA|CDUDIN010000167|CDUDIN010000167.1"
+        },
+        {
+          "after": "ENA_167|CDUDIN010000168|CDUDIN010000168.1",
+          "before": "ENA|CDUDIN010000168|CDUDIN010000168.1"
+        },
+        {
+          "after": "ENA_168|CDUDIN010000169|CDUDIN010000169.1",
+          "before": "ENA|CDUDIN010000169|CDUDIN010000169.1"
+        },
+        {
+          "after": "ENA_169|CDUDIN010000170|CDUDIN010000170.1",
+          "before": "ENA|CDUDIN010000170|CDUDIN010000170.1"
+        },
+        {
+          "after": "ENA_170|CDUDIN010000171|CDUDIN010000171.1",
+          "before": "ENA|CDUDIN010000171|CDUDIN010000171.1"
+        },
+        {
+          "after": "ENA_171|CDUDIN010000172|CDUDIN010000172.1",
+          "before": "ENA|CDUDIN010000172|CDUDIN010000172.1"
+        },
+        {
+          "after": "ENA_172|CDUDIN010000173|CDUDIN010000173.1",
+          "before": "ENA|CDUDIN010000173|CDUDIN010000173.1"
+        },
+        {
+          "after": "ENA_173|CDUDIN010000174|CDUDIN010000174.1",
+          "before": "ENA|CDUDIN010000174|CDUDIN010000174.1"
+        },
+        {
+          "after": "ENA_174|CDUDIN010000175|CDUDIN010000175.1",
+          "before": "ENA|CDUDIN010000175|CDUDIN010000175.1"
+        },
+        {
+          "after": "ENA_175|CDUDIN010000176|CDUDIN010000176.1",
+          "before": "ENA|CDUDIN010000176|CDUDIN010000176.1"
+        },
+        {
+          "after": "ENA_176|CDUDIN010000177|CDUDIN010000177.1",
+          "before": "ENA|CDUDIN010000177|CDUDIN010000177.1"
+        },
+        {
+          "after": "ENA_177|CDUDIN010000178|CDUDIN010000178.1",
+          "before": "ENA|CDUDIN010000178|CDUDIN010000178.1"
+        },
+        {
+          "after": "ENA_178|CDUDIN010000179|CDUDIN010000179.1",
+          "before": "ENA|CDUDIN010000179|CDUDIN010000179.1"
+        },
+        {
+          "after": "ENA_179|CDUDIN010000180|CDUDIN010000180.1",
+          "before": "ENA|CDUDIN010000180|CDUDIN010000180.1"
+        },
+        {
+          "after": "ENA_180|CDUDIN010000181|CDUDIN010000181.1",
+          "before": "ENA|CDUDIN010000181|CDUDIN010000181.1"
+        },
+        {
+          "after": "ENA_181|CDUDIN010000182|CDUDIN010000182.1",
+          "before": "ENA|CDUDIN010000182|CDUDIN010000182.1"
+        },
+        {
+          "after": "ENA_182|CDUDIN010000183|CDUDIN010000183.1",
+          "before": "ENA|CDUDIN010000183|CDUDIN010000183.1"
+        },
+        {
+          "after": "ENA_183|CDUDIN010000184|CDUDIN010000184.1",
+          "before": "ENA|CDUDIN010000184|CDUDIN010000184.1"
+        },
+        {
+          "after": "ENA_184|CDUDIN010000185|CDUDIN010000185.1",
+          "before": "ENA|CDUDIN010000185|CDUDIN010000185.1"
+        },
+        {
+          "after": "ENA_185|CDUDIN010000186|CDUDIN010000186.1",
+          "before": "ENA|CDUDIN010000186|CDUDIN010000186.1"
+        },
+        {
+          "after": "ENA_186|CDUDIN010000187|CDUDIN010000187.1",
+          "before": "ENA|CDUDIN010000187|CDUDIN010000187.1"
+        },
+        {
+          "after": "ENA_187|CDUDIN010000188|CDUDIN010000188.1",
+          "before": "ENA|CDUDIN010000188|CDUDIN010000188.1"
+        },
+        {
+          "after": "ENA_188|CDUDIN010000189|CDUDIN010000189.1",
+          "before": "ENA|CDUDIN010000189|CDUDIN010000189.1"
+        },
+        {
+          "after": "ENA_189|CDUDIN010000190|CDUDIN010000190.1",
+          "before": "ENA|CDUDIN010000190|CDUDIN010000190.1"
+        },
+        {
+          "after": "ENA_190|CDUDIN010000191|CDUDIN010000191.1",
+          "before": "ENA|CDUDIN010000191|CDUDIN010000191.1"
+        },
+        {
+          "after": "ENA_191|CDUDIN010000192|CDUDIN010000192.1",
+          "before": "ENA|CDUDIN010000192|CDUDIN010000192.1"
+        }
+      ],
+      "sequence_count": 192
+    }
+  },
+  {
+    "event_id": "ac6e9d28-e6d8-45bb-9006-4ac8285804d1",
+    "timestamp": "2026-08-31T01:52:50.296245+00:00",
+    "stage": "submission",
+    "action": "webin_manifest_generated",
+    "entity_type": "file",
+    "sample_name": "MAG2ENA_EX_20260831T015234Z_R903_024_MarMAG_000114",
+    "field": "manifest",
+    "source": "validated metadata and prepared FASTA",
+    "before": "",
+    "after": "12b0c879f456c00e79314686eafa5f91d2a98ceba573adfc11c5c3bd29ab7ac5",
+    "method": "Webin-CLI manifest generation",
+    "method_version": "1.0.7",
+    "decision": "",
+    "details": {
+      "chromosome_list_included": false,
+      "sample_accession": "ERS32364360",
+      "sha256": "12b0c879f456c00e79314686eafa5f91d2a98ceba573adfc11c5c3bd29ab7ac5",
+      "study_accession": "PRJEB124667"
+    }
+  },
+  {
+    "event_id": "77576b29-2a68-4aeb-89fe-da049214bae3",
+    "timestamp": "2026-08-31T01:52:57.073084+00:00",
+    "stage": "submission",
+    "action": "assembly_submitted",
+    "entity_type": "assembly",
+    "sample_name": "MAG2ENA_EX_20260831T015234Z_R903_024_MarMAG_000114",
+    "field": "",
+    "source": "ENA Webin-CLI",
+    "before": "",
+    "after": "success",
+    "method": "Webin-CLI genome submission",
+    "method_version": "webin-cli-9.0.3",
+    "decision": "accepted",
+    "details": {
+      "manifest_sha256": "12b0c879f456c00e79314686eafa5f91d2a98ceba573adfc11c5c3bd29ab7ac5",
+      "portal": "Testing",
+      "prepared_fasta_sha256": "c2f2c7284fdbd0447d223608328d3eef9805f00121bb23ac9a91ab6e30e57779",
+      "project_accession": "PRJEB124667",
+      "return_code": 0,
+      "sample_accession": "ERS32364360"
+    }
+  },
+  {
+    "event_id": "9425fee6-c56b-4b9f-a031-94a7aa9abb0c",
+    "timestamp": "2026-08-31T01:52:59.258504+00:00",
+    "stage": "fasta",
+    "action": "fasta_prepared",
+    "entity_type": "file",
+    "sample_name": "MAG2ENA_EX_20260831T015234Z_R903_100_HUMAGS_000050",
+    "field": "FASTA",
+    "source": "MAG2ENA_EX_20260831T015234Z_R903_100_HUMAGS_000050.fasta.gz",
+    "before": "d1e8235bde4cd2c44de18f07e354ce237f6070fca639383ba59b43c6db460187",
+    "after": "1e8623e61e9534120a6baaf084a93ea3b58f975ffe8c39f9a9c6a704cbbecfc8",
+    "method": "ENA FASTA preprocessor",
+    "method_version": "1.0.7",
+    "decision": "",
+    "details": {
+      "duplicate_headers_renamed": 294,
+      "output_changed": true,
+      "rename_map": [
+        {
+          "after": "ENA_1|CDXHSX010000002|CDXHSX010000002.1",
+          "before": "ENA|CDXHSX010000002|CDXHSX010000002.1"
+        },
+        {
+          "after": "ENA_2|CDXHSX010000003|CDXHSX010000003.1",
+          "before": "ENA|CDXHSX010000003|CDXHSX010000003.1"
+        },
+        {
+          "after": "ENA_3|CDXHSX010000004|CDXHSX010000004.1",
+          "before": "ENA|CDXHSX010000004|CDXHSX010000004.1"
+        },
+        {
+          "after": "ENA_4|CDXHSX010000005|CDXHSX010000005.1",
+          "before": "ENA|CDXHSX010000005|CDXHSX010000005.1"
+        },
+        {
+          "after": "ENA_5|CDXHSX010000006|CDXHSX010000006.1",
+          "before": "ENA|CDXHSX010000006|CDXHSX010000006.1"
+        },
+        {
+          "after": "ENA_6|CDXHSX010000007|CDXHSX010000007.1",
+          "before": "ENA|CDXHSX010000007|CDXHSX010000007.1"
+        },
+        {
+          "after": "ENA_7|CDXHSX010000008|CDXHSX010000008.1",
+          "before": "ENA|CDXHSX010000008|CDXHSX010000008.1"
+        },
+        {
+          "after": "ENA_8|CDXHSX010000009|CDXHSX010000009.1",
+          "before": "ENA|CDXHSX010000009|CDXHSX010000009.1"
+        },
+        {
+          "after": "ENA_9|CDXHSX010000010|CDXHSX010000010.1",
+          "before": "ENA|CDXHSX010000010|CDXHSX010000010.1"
+        },
+        {
+          "after": "ENA_10|CDXHSX010000011|CDXHSX010000011.1",
+          "before": "ENA|CDXHSX010000011|CDXHSX010000011.1"
+        },
+        {
+          "after": "ENA_11|CDXHSX010000012|CDXHSX010000012.1",
+          "before": "ENA|CDXHSX010000012|CDXHSX010000012.1"
+        },
+        {
+          "after": "ENA_12|CDXHSX010000013|CDXHSX010000013.1",
+          "before": "ENA|CDXHSX010000013|CDXHSX010000013.1"
+        },
+        {
+          "after": "ENA_13|CDXHSX010000014|CDXHSX010000014.1",
+          "before": "ENA|CDXHSX010000014|CDXHSX010000014.1"
+        },
+        {
+          "after": "ENA_14|CDXHSX010000015|CDXHSX010000015.1",
+          "before": "ENA|CDXHSX010000015|CDXHSX010000015.1"
+        },
+        {
+          "after": "ENA_15|CDXHSX010000016|CDXHSX010000016.1",
+          "before": "ENA|CDXHSX010000016|CDXHSX010000016.1"
+        },
+        {
+          "after": "ENA_16|CDXHSX010000017|CDXHSX010000017.1",
+          "before": "ENA|CDXHSX010000017|CDXHSX010000017.1"
+        },
+        {
+          "after": "ENA_17|CDXHSX010000018|CDXHSX010000018.1",
+          "before": "ENA|CDXHSX010000018|CDXHSX010000018.1"
+        },
+        {
+          "after": "ENA_18|CDXHSX010000019|CDXHSX010000019.1",
+          "before": "ENA|CDXHSX010000019|CDXHSX010000019.1"
+        },
+        {
+          "after": "ENA_19|CDXHSX010000020|CDXHSX010000020.1",
+          "before": "ENA|CDXHSX010000020|CDXHSX010000020.1"
+        },
+        {
+          "after": "ENA_20|CDXHSX010000021|CDXHSX010000021.1",
+          "before": "ENA|CDXHSX010000021|CDXHSX010000021.1"
+        },
+        {
+          "after": "ENA_21|CDXHSX010000022|CDXHSX010000022.1",
+          "before": "ENA|CDXHSX010000022|CDXHSX010000022.1"
+        },
+        {
+          "after": "ENA_22|CDXHSX010000023|CDXHSX010000023.1",
+          "before": "ENA|CDXHSX010000023|CDXHSX010000023.1"
+        },
+        {
+          "after": "ENA_23|CDXHSX010000024|CDXHSX010000024.1",
+          "before": "ENA|CDXHSX010000024|CDXHSX010000024.1"
+        },
+        {
+          "after": "ENA_24|CDXHSX010000025|CDXHSX010000025.1",
+          "before": "ENA|CDXHSX010000025|CDXHSX010000025.1"
+        },
+        {
+          "after": "ENA_25|CDXHSX010000026|CDXHSX010000026.1",
+          "before": "ENA|CDXHSX010000026|CDXHSX010000026.1"
+        },
+        {
+          "after": "ENA_26|CDXHSX010000027|CDXHSX010000027.1",
+          "before": "ENA|CDXHSX010000027|CDXHSX010000027.1"
+        },
+        {
+          "after": "ENA_27|CDXHSX010000028|CDXHSX010000028.1",
+          "before": "ENA|CDXHSX010000028|CDXHSX010000028.1"
+        },
+        {
+          "after": "ENA_28|CDXHSX010000029|CDXHSX010000029.1",
+          "before": "ENA|CDXHSX010000029|CDXHSX010000029.1"
+        },
+        {
+          "after": "ENA_29|CDXHSX010000030|CDXHSX010000030.1",
+          "before": "ENA|CDXHSX010000030|CDXHSX010000030.1"
+        },
+        {
+          "after": "ENA_30|CDXHSX010000031|CDXHSX010000031.1",
+          "before": "ENA|CDXHSX010000031|CDXHSX010000031.1"
+        },
+        {
+          "after": "ENA_31|CDXHSX010000032|CDXHSX010000032.1",
+          "before": "ENA|CDXHSX010000032|CDXHSX010000032.1"
+        },
+        {
+          "after": "ENA_32|CDXHSX010000033|CDXHSX010000033.1",
+          "before": "ENA|CDXHSX010000033|CDXHSX010000033.1"
+        },
+        {
+          "after": "ENA_33|CDXHSX010000034|CDXHSX010000034.1",
+          "before": "ENA|CDXHSX010000034|CDXHSX010000034.1"
+        },
+        {
+          "after": "ENA_34|CDXHSX010000035|CDXHSX010000035.1",
+          "before": "ENA|CDXHSX010000035|CDXHSX010000035.1"
+        },
+        {
+          "after": "ENA_35|CDXHSX010000036|CDXHSX010000036.1",
+          "before": "ENA|CDXHSX010000036|CDXHSX010000036.1"
+        },
+        {
+          "after": "ENA_36|CDXHSX010000037|CDXHSX010000037.1",
+          "before": "ENA|CDXHSX010000037|CDXHSX010000037.1"
+        },
+        {
+          "after": "ENA_37|CDXHSX010000038|CDXHSX010000038.1",
+          "before": "ENA|CDXHSX010000038|CDXHSX010000038.1"
+        },
+        {
+          "after": "ENA_38|CDXHSX010000039|CDXHSX010000039.1",
+          "before": "ENA|CDXHSX010000039|CDXHSX010000039.1"
+        },
+        {
+          "after": "ENA_39|CDXHSX010000040|CDXHSX010000040.1",
+          "before": "ENA|CDXHSX010000040|CDXHSX010000040.1"
+        },
+        {
+          "after": "ENA_40|CDXHSX010000041|CDXHSX010000041.1",
+          "before": "ENA|CDXHSX010000041|CDXHSX010000041.1"
+        },
+        {
+          "after": "ENA_41|CDXHSX010000042|CDXHSX010000042.1",
+          "before": "ENA|CDXHSX010000042|CDXHSX010000042.1"
+        },
+        {
+          "after": "ENA_42|CDXHSX010000043|CDXHSX010000043.1",
+          "before": "ENA|CDXHSX010000043|CDXHSX010000043.1"
+        },
+        {
+          "after": "ENA_43|CDXHSX010000044|CDXHSX010000044.1",
+          "before": "ENA|CDXHSX010000044|CDXHSX010000044.1"
+        },
+        {
+          "after": "ENA_44|CDXHSX010000045|CDXHSX010000045.1",
+          "before": "ENA|CDXHSX010000045|CDXHSX010000045.1"
+        },
+        {
+          "after": "ENA_45|CDXHSX010000046|CDXHSX010000046.1",
+          "before": "ENA|CDXHSX010000046|CDXHSX010000046.1"
+        },
+        {
+          "after": "ENA_46|CDXHSX010000047|CDXHSX010000047.1",
+          "before": "ENA|CDXHSX010000047|CDXHSX010000047.1"
+        },
+        {
+          "after": "ENA_47|CDXHSX010000048|CDXHSX010000048.1",
+          "before": "ENA|CDXHSX010000048|CDXHSX010000048.1"
+        },
+        {
+          "after": "ENA_48|CDXHSX010000049|CDXHSX010000049.1",
+          "before": "ENA|CDXHSX010000049|CDXHSX010000049.1"
+        },
+        {
+          "after": "ENA_49|CDXHSX010000050|CDXHSX010000050.1",
+          "before": "ENA|CDXHSX010000050|CDXHSX010000050.1"
+        },
+        {
+          "after": "ENA_50|CDXHSX010000051|CDXHSX010000051.1",
+          "before": "ENA|CDXHSX010000051|CDXHSX010000051.1"
+        },
+        {
+          "after": "ENA_51|CDXHSX010000052|CDXHSX010000052.1",
+          "before": "ENA|CDXHSX010000052|CDXHSX010000052.1"
+        },
+        {
+          "after": "ENA_52|CDXHSX010000053|CDXHSX010000053.1",
+          "before": "ENA|CDXHSX010000053|CDXHSX010000053.1"
+        },
+        {
+          "after": "ENA_53|CDXHSX010000054|CDXHSX010000054.1",
+          "before": "ENA|CDXHSX010000054|CDXHSX010000054.1"
+        },
+        {
+          "after": "ENA_54|CDXHSX010000055|CDXHSX010000055.1",
+          "before": "ENA|CDXHSX010000055|CDXHSX010000055.1"
+        },
+        {
+          "after": "ENA_55|CDXHSX010000056|CDXHSX010000056.1",
+          "before": "ENA|CDXHSX010000056|CDXHSX010000056.1"
+        },
+        {
+          "after": "ENA_56|CDXHSX010000057|CDXHSX010000057.1",
+          "before": "ENA|CDXHSX010000057|CDXHSX010000057.1"
+        },
+        {
+          "after": "ENA_57|CDXHSX010000058|CDXHSX010000058.1",
+          "before": "ENA|CDXHSX010000058|CDXHSX010000058.1"
+        },
+        {
+          "after": "ENA_58|CDXHSX010000059|CDXHSX010000059.1",
+          "before": "ENA|CDXHSX010000059|CDXHSX010000059.1"
+        },
+        {
+          "after": "ENA_59|CDXHSX010000060|CDXHSX010000060.1",
+          "before": "ENA|CDXHSX010000060|CDXHSX010000060.1"
+        },
+        {
+          "after": "ENA_60|CDXHSX010000061|CDXHSX010000061.1",
+          "before": "ENA|CDXHSX010000061|CDXHSX010000061.1"
+        },
+        {
+          "after": "ENA_61|CDXHSX010000062|CDXHSX010000062.1",
+          "before": "ENA|CDXHSX010000062|CDXHSX010000062.1"
+        },
+        {
+          "after": "ENA_62|CDXHSX010000063|CDXHSX010000063.1",
+          "before": "ENA|CDXHSX010000063|CDXHSX010000063.1"
+        },
+        {
+          "after": "ENA_63|CDXHSX010000064|CDXHSX010000064.1",
+          "before": "ENA|CDXHSX010000064|CDXHSX010000064.1"
+        },
+        {
+          "after": "ENA_64|CDXHSX010000065|CDXHSX010000065.1",
+          "before": "ENA|CDXHSX010000065|CDXHSX010000065.1"
+        },
+        {
+          "after": "ENA_65|CDXHSX010000066|CDXHSX010000066.1",
+          "before": "ENA|CDXHSX010000066|CDXHSX010000066.1"
+        },
+        {
+          "after": "ENA_66|CDXHSX010000067|CDXHSX010000067.1",
+          "before": "ENA|CDXHSX010000067|CDXHSX010000067.1"
+        },
+        {
+          "after": "ENA_67|CDXHSX010000068|CDXHSX010000068.1",
+          "before": "ENA|CDXHSX010000068|CDXHSX010000068.1"
+        },
+        {
+          "after": "ENA_68|CDXHSX010000069|CDXHSX010000069.1",
+          "before": "ENA|CDXHSX010000069|CDXHSX010000069.1"
+        },
+        {
+          "after": "ENA_69|CDXHSX010000070|CDXHSX010000070.1",
+          "before": "ENA|CDXHSX010000070|CDXHSX010000070.1"
+        },
+        {
+          "after": "ENA_70|CDXHSX010000071|CDXHSX010000071.1",
+          "before": "ENA|CDXHSX010000071|CDXHSX010000071.1"
+        },
+        {
+          "after": "ENA_71|CDXHSX010000072|CDXHSX010000072.1",
+          "before": "ENA|CDXHSX010000072|CDXHSX010000072.1"
+        },
+        {
+          "after": "ENA_72|CDXHSX010000073|CDXHSX010000073.1",
+          "before": "ENA|CDXHSX010000073|CDXHSX010000073.1"
+        },
+        {
+          "after": "ENA_73|CDXHSX010000074|CDXHSX010000074.1",
+          "before": "ENA|CDXHSX010000074|CDXHSX010000074.1"
+        },
+        {
+          "after": "ENA_74|CDXHSX010000075|CDXHSX010000075.1",
+          "before": "ENA|CDXHSX010000075|CDXHSX010000075.1"
+        },
+        {
+          "after": "ENA_75|CDXHSX010000076|CDXHSX010000076.1",
+          "before": "ENA|CDXHSX010000076|CDXHSX010000076.1"
+        },
+        {
+          "after": "ENA_76|CDXHSX010000077|CDXHSX010000077.1",
+          "before": "ENA|CDXHSX010000077|CDXHSX010000077.1"
+        },
+        {
+          "after": "ENA_77|CDXHSX010000078|CDXHSX010000078.1",
+          "before": "ENA|CDXHSX010000078|CDXHSX010000078.1"
+        },
+        {
+          "after": "ENA_78|CDXHSX010000079|CDXHSX010000079.1",
+          "before": "ENA|CDXHSX010000079|CDXHSX010000079.1"
+        },
+        {
+          "after": "ENA_79|CDXHSX010000080|CDXHSX010000080.1",
+          "before": "ENA|CDXHSX010000080|CDXHSX010000080.1"
+        },
+        {
+          "after": "ENA_80|CDXHSX010000081|CDXHSX010000081.1",
+          "before": "ENA|CDXHSX010000081|CDXHSX010000081.1"
+        },
+        {
+          "after": "ENA_81|CDXHSX010000082|CDXHSX010000082.1",
+          "before": "ENA|CDXHSX010000082|CDXHSX010000082.1"
+        },
+        {
+          "after": "ENA_82|CDXHSX010000083|CDXHSX010000083.1",
+          "before": "ENA|CDXHSX010000083|CDXHSX010000083.1"
+        },
+        {
+          "after": "ENA_83|CDXHSX010000084|CDXHSX010000084.1",
+          "before": "ENA|CDXHSX010000084|CDXHSX010000084.1"
+        },
+        {
+          "after": "ENA_84|CDXHSX010000085|CDXHSX010000085.1",
+          "before": "ENA|CDXHSX010000085|CDXHSX010000085.1"
+        },
+        {
+          "after": "ENA_85|CDXHSX010000086|CDXHSX010000086.1",
+          "before": "ENA|CDXHSX010000086|CDXHSX010000086.1"
+        },
+        {
+          "after": "ENA_86|CDXHSX010000087|CDXHSX010000087.1",
+          "before": "ENA|CDXHSX010000087|CDXHSX010000087.1"
+        },
+        {
+          "after": "ENA_87|CDXHSX010000088|CDXHSX010000088.1",
+          "before": "ENA|CDXHSX010000088|CDXHSX010000088.1"
+        },
+        {
+          "after": "ENA_88|CDXHSX010000089|CDXHSX010000089.1",
+          "before": "ENA|CDXHSX010000089|CDXHSX010000089.1"
+        },
+        {
+          "after": "ENA_89|CDXHSX010000090|CDXHSX010000090.1",
+          "before": "ENA|CDXHSX010000090|CDXHSX010000090.1"
+        },
+        {
+          "after": "ENA_90|CDXHSX010000091|CDXHSX010000091.1",
+          "before": "ENA|CDXHSX010000091|CDXHSX010000091.1"
+        },
+        {
+          "after": "ENA_91|CDXHSX010000092|CDXHSX010000092.1",
+          "before": "ENA|CDXHSX010000092|CDXHSX010000092.1"
+        },
+        {
+          "after": "ENA_92|CDXHSX010000093|CDXHSX010000093.1",
+          "before": "ENA|CDXHSX010000093|CDXHSX010000093.1"
+        },
+        {
+          "after": "ENA_93|CDXHSX010000094|CDXHSX010000094.1",
+          "before": "ENA|CDXHSX010000094|CDXHSX010000094.1"
+        },
+        {
+          "after": "ENA_94|CDXHSX010000095|CDXHSX010000095.1",
+          "before": "ENA|CDXHSX010000095|CDXHSX010000095.1"
+        },
+        {
+          "after": "ENA_95|CDXHSX010000096|CDXHSX010000096.1",
+          "before": "ENA|CDXHSX010000096|CDXHSX010000096.1"
+        },
+        {
+          "after": "ENA_96|CDXHSX010000097|CDXHSX010000097.1",
+          "before": "ENA|CDXHSX010000097|CDXHSX010000097.1"
+        },
+        {
+          "after": "ENA_97|CDXHSX010000098|CDXHSX010000098.1",
+          "before": "ENA|CDXHSX010000098|CDXHSX010000098.1"
+        },
+        {
+          "after": "ENA_98|CDXHSX010000099|CDXHSX010000099.1",
+          "before": "ENA|CDXHSX010000099|CDXHSX010000099.1"
+        },
+        {
+          "after": "ENA_99|CDXHSX010000100|CDXHSX010000100.1",
+          "before": "ENA|CDXHSX010000100|CDXHSX010000100.1"
+        },
+        {
+          "after": "ENA_100|CDXHSX010000101|CDXHSX010000101.1",
+          "before": "ENA|CDXHSX010000101|CDXHSX010000101.1"
+        },
+        {
+          "after": "ENA_101|CDXHSX010000102|CDXHSX010000102.1",
+          "before": "ENA|CDXHSX010000102|CDXHSX010000102.1"
+        },
+        {
+          "after": "ENA_102|CDXHSX010000103|CDXHSX010000103.1",
+          "before": "ENA|CDXHSX010000103|CDXHSX010000103.1"
+        },
+        {
+          "after": "ENA_103|CDXHSX010000104|CDXHSX010000104.1",
+          "before": "ENA|CDXHSX010000104|CDXHSX010000104.1"
+        },
+        {
+          "after": "ENA_104|CDXHSX010000105|CDXHSX010000105.1",
+          "before": "ENA|CDXHSX010000105|CDXHSX010000105.1"
+        },
+        {
+          "after": "ENA_105|CDXHSX010000106|CDXHSX010000106.1",
+          "before": "ENA|CDXHSX010000106|CDXHSX010000106.1"
+        },
+        {
+          "after": "ENA_106|CDXHSX010000107|CDXHSX010000107.1",
+          "before": "ENA|CDXHSX010000107|CDXHSX010000107.1"
+        },
+        {
+          "after": "ENA_107|CDXHSX010000108|CDXHSX010000108.1",
+          "before": "ENA|CDXHSX010000108|CDXHSX010000108.1"
+        },
+        {
+          "after": "ENA_108|CDXHSX010000109|CDXHSX010000109.1",
+          "before": "ENA|CDXHSX010000109|CDXHSX010000109.1"
+        },
+        {
+          "after": "ENA_109|CDXHSX010000110|CDXHSX010000110.1",
+          "before": "ENA|CDXHSX010000110|CDXHSX010000110.1"
+        },
+        {
+          "after": "ENA_110|CDXHSX010000111|CDXHSX010000111.1",
+          "before": "ENA|CDXHSX010000111|CDXHSX010000111.1"
+        },
+        {
+          "after": "ENA_111|CDXHSX010000112|CDXHSX010000112.1",
+          "before": "ENA|CDXHSX010000112|CDXHSX010000112.1"
+        },
+        {
+          "after": "ENA_112|CDXHSX010000113|CDXHSX010000113.1",
+          "before": "ENA|CDXHSX010000113|CDXHSX010000113.1"
+        },
+        {
+          "after": "ENA_113|CDXHSX010000114|CDXHSX010000114.1",
+          "before": "ENA|CDXHSX010000114|CDXHSX010000114.1"
+        },
+        {
+          "after": "ENA_114|CDXHSX010000115|CDXHSX010000115.1",
+          "before": "ENA|CDXHSX010000115|CDXHSX010000115.1"
+        },
+        {
+          "after": "ENA_115|CDXHSX010000116|CDXHSX010000116.1",
+          "before": "ENA|CDXHSX010000116|CDXHSX010000116.1"
+        },
+        {
+          "after": "ENA_116|CDXHSX010000117|CDXHSX010000117.1",
+          "before": "ENA|CDXHSX010000117|CDXHSX010000117.1"
+        },
+        {
+          "after": "ENA_117|CDXHSX010000118|CDXHSX010000118.1",
+          "before": "ENA|CDXHSX010000118|CDXHSX010000118.1"
+        },
+        {
+          "after": "ENA_118|CDXHSX010000119|CDXHSX010000119.1",
+          "before": "ENA|CDXHSX010000119|CDXHSX010000119.1"
+        },
+        {
+          "after": "ENA_119|CDXHSX010000120|CDXHSX010000120.1",
+          "before": "ENA|CDXHSX010000120|CDXHSX010000120.1"
+        },
+        {
+          "after": "ENA_120|CDXHSX010000121|CDXHSX010000121.1",
+          "before": "ENA|CDXHSX010000121|CDXHSX010000121.1"
+        },
+        {
+          "after": "ENA_121|CDXHSX010000122|CDXHSX010000122.1",
+          "before": "ENA|CDXHSX010000122|CDXHSX010000122.1"
+        },
+        {
+          "after": "ENA_122|CDXHSX010000123|CDXHSX010000123.1",
+          "before": "ENA|CDXHSX010000123|CDXHSX010000123.1"
+        },
+        {
+          "after": "ENA_123|CDXHSX010000124|CDXHSX010000124.1",
+          "before": "ENA|CDXHSX010000124|CDXHSX010000124.1"
+        },
+        {
+          "after": "ENA_124|CDXHSX010000125|CDXHSX010000125.1",
+          "before": "ENA|CDXHSX010000125|CDXHSX010000125.1"
+        },
+        {
+          "after": "ENA_125|CDXHSX010000126|CDXHSX010000126.1",
+          "before": "ENA|CDXHSX010000126|CDXHSX010000126.1"
+        },
+        {
+          "after": "ENA_126|CDXHSX010000127|CDXHSX010000127.1",
+          "before": "ENA|CDXHSX010000127|CDXHSX010000127.1"
+        },
+        {
+          "after": "ENA_127|CDXHSX010000128|CDXHSX010000128.1",
+          "before": "ENA|CDXHSX010000128|CDXHSX010000128.1"
+        },
+        {
+          "after": "ENA_128|CDXHSX010000129|CDXHSX010000129.1",
+          "before": "ENA|CDXHSX010000129|CDXHSX010000129.1"
+        },
+        {
+          "after": "ENA_129|CDXHSX010000130|CDXHSX010000130.1",
+          "before": "ENA|CDXHSX010000130|CDXHSX010000130.1"
+        },
+        {
+          "after": "ENA_130|CDXHSX010000131|CDXHSX010000131.1",
+          "before": "ENA|CDXHSX010000131|CDXHSX010000131.1"
+        },
+        {
+          "after": "ENA_131|CDXHSX010000132|CDXHSX010000132.1",
+          "before": "ENA|CDXHSX010000132|CDXHSX010000132.1"
+        },
+        {
+          "after": "ENA_132|CDXHSX010000133|CDXHSX010000133.1",
+          "before": "ENA|CDXHSX010000133|CDXHSX010000133.1"
+        },
+        {
+          "after": "ENA_133|CDXHSX010000134|CDXHSX010000134.1",
+          "before": "ENA|CDXHSX010000134|CDXHSX010000134.1"
+        },
+        {
+          "after": "ENA_134|CDXHSX010000135|CDXHSX010000135.1",
+          "before": "ENA|CDXHSX010000135|CDXHSX010000135.1"
+        },
+        {
+          "after": "ENA_135|CDXHSX010000136|CDXHSX010000136.1",
+          "before": "ENA|CDXHSX010000136|CDXHSX010000136.1"
+        },
+        {
+          "after": "ENA_136|CDXHSX010000137|CDXHSX010000137.1",
+          "before": "ENA|CDXHSX010000137|CDXHSX010000137.1"
+        },
+        {
+          "after": "ENA_137|CDXHSX010000138|CDXHSX010000138.1",
+          "before": "ENA|CDXHSX010000138|CDXHSX010000138.1"
+        },
+        {
+          "after": "ENA_138|CDXHSX010000139|CDXHSX010000139.1",
+          "before": "ENA|CDXHSX010000139|CDXHSX010000139.1"
+        },
+        {
+          "after": "ENA_139|CDXHSX010000140|CDXHSX010000140.1",
+          "before": "ENA|CDXHSX010000140|CDXHSX010000140.1"
+        },
+        {
+          "after": "ENA_140|CDXHSX010000141|CDXHSX010000141.1",
+          "before": "ENA|CDXHSX010000141|CDXHSX010000141.1"
+        },
+        {
+          "after": "ENA_141|CDXHSX010000142|CDXHSX010000142.1",
+          "before": "ENA|CDXHSX010000142|CDXHSX010000142.1"
+        },
+        {
+          "after": "ENA_142|CDXHSX010000143|CDXHSX010000143.1",
+          "before": "ENA|CDXHSX010000143|CDXHSX010000143.1"
+        },
+        {
+          "after": "ENA_143|CDXHSX010000144|CDXHSX010000144.1",
+          "before": "ENA|CDXHSX010000144|CDXHSX010000144.1"
+        },
+        {
+          "after": "ENA_144|CDXHSX010000145|CDXHSX010000145.1",
+          "before": "ENA|CDXHSX010000145|CDXHSX010000145.1"
+        },
+        {
+          "after": "ENA_145|CDXHSX010000146|CDXHSX010000146.1",
+          "before": "ENA|CDXHSX010000146|CDXHSX010000146.1"
+        },
+        {
+          "after": "ENA_146|CDXHSX010000147|CDXHSX010000147.1",
+          "before": "ENA|CDXHSX010000147|CDXHSX010000147.1"
+        },
+        {
+          "after": "ENA_147|CDXHSX010000148|CDXHSX010000148.1",
+          "before": "ENA|CDXHSX010000148|CDXHSX010000148.1"
+        },
+        {
+          "after": "ENA_148|CDXHSX010000149|CDXHSX010000149.1",
+          "before": "ENA|CDXHSX010000149|CDXHSX010000149.1"
+        },
+        {
+          "after": "ENA_149|CDXHSX010000150|CDXHSX010000150.1",
+          "before": "ENA|CDXHSX010000150|CDXHSX010000150.1"
+        },
+        {
+          "after": "ENA_150|CDXHSX010000151|CDXHSX010000151.1",
+          "before": "ENA|CDXHSX010000151|CDXHSX010000151.1"
+        },
+        {
+          "after": "ENA_151|CDXHSX010000152|CDXHSX010000152.1",
+          "before": "ENA|CDXHSX010000152|CDXHSX010000152.1"
+        },
+        {
+          "after": "ENA_152|CDXHSX010000153|CDXHSX010000153.1",
+          "before": "ENA|CDXHSX010000153|CDXHSX010000153.1"
+        },
+        {
+          "after": "ENA_153|CDXHSX010000154|CDXHSX010000154.1",
+          "before": "ENA|CDXHSX010000154|CDXHSX010000154.1"
+        },
+        {
+          "after": "ENA_154|CDXHSX010000155|CDXHSX010000155.1",
+          "before": "ENA|CDXHSX010000155|CDXHSX010000155.1"
+        },
+        {
+          "after": "ENA_155|CDXHSX010000156|CDXHSX010000156.1",
+          "before": "ENA|CDXHSX010000156|CDXHSX010000156.1"
+        },
+        {
+          "after": "ENA_156|CDXHSX010000157|CDXHSX010000157.1",
+          "before": "ENA|CDXHSX010000157|CDXHSX010000157.1"
+        },
+        {
+          "after": "ENA_157|CDXHSX010000158|CDXHSX010000158.1",
+          "before": "ENA|CDXHSX010000158|CDXHSX010000158.1"
+        },
+        {
+          "after": "ENA_158|CDXHSX010000159|CDXHSX010000159.1",
+          "before": "ENA|CDXHSX010000159|CDXHSX010000159.1"
+        },
+        {
+          "after": "ENA_159|CDXHSX010000160|CDXHSX010000160.1",
+          "before": "ENA|CDXHSX010000160|CDXHSX010000160.1"
+        },
+        {
+          "after": "ENA_160|CDXHSX010000161|CDXHSX010000161.1",
+          "before": "ENA|CDXHSX010000161|CDXHSX010000161.1"
+        },
+        {
+          "after": "ENA_161|CDXHSX010000162|CDXHSX010000162.1",
+          "before": "ENA|CDXHSX010000162|CDXHSX010000162.1"
+        },
+        {
+          "after": "ENA_162|CDXHSX010000163|CDXHSX010000163.1",
+          "before": "ENA|CDXHSX010000163|CDXHSX010000163.1"
+        },
+        {
+          "after": "ENA_163|CDXHSX010000164|CDXHSX010000164.1",
+          "before": "ENA|CDXHSX010000164|CDXHSX010000164.1"
+        },
+        {
+          "after": "ENA_164|CDXHSX010000165|CDXHSX010000165.1",
+          "before": "ENA|CDXHSX010000165|CDXHSX010000165.1"
+        },
+        {
+          "after": "ENA_165|CDXHSX010000166|CDXHSX010000166.1",
+          "before": "ENA|CDXHSX010000166|CDXHSX010000166.1"
+        },
+        {
+          "after": "ENA_166|CDXHSX010000167|CDXHSX010000167.1",
+          "before": "ENA|CDXHSX010000167|CDXHSX010000167.1"
+        },
+        {
+          "after": "ENA_167|CDXHSX010000168|CDXHSX010000168.1",
+          "before": "ENA|CDXHSX010000168|CDXHSX010000168.1"
+        },
+        {
+          "after": "ENA_168|CDXHSX010000169|CDXHSX010000169.1",
+          "before": "ENA|CDXHSX010000169|CDXHSX010000169.1"
+        },
+        {
+          "after": "ENA_169|CDXHSX010000170|CDXHSX010000170.1",
+          "before": "ENA|CDXHSX010000170|CDXHSX010000170.1"
+        },
+        {
+          "after": "ENA_170|CDXHSX010000171|CDXHSX010000171.1",
+          "before": "ENA|CDXHSX010000171|CDXHSX010000171.1"
+        },
+        {
+          "after": "ENA_171|CDXHSX010000172|CDXHSX010000172.1",
+          "before": "ENA|CDXHSX010000172|CDXHSX010000172.1"
+        },
+        {
+          "after": "ENA_172|CDXHSX010000173|CDXHSX010000173.1",
+          "before": "ENA|CDXHSX010000173|CDXHSX010000173.1"
+        },
+        {
+          "after": "ENA_173|CDXHSX010000174|CDXHSX010000174.1",
+          "before": "ENA|CDXHSX010000174|CDXHSX010000174.1"
+        },
+        {
+          "after": "ENA_174|CDXHSX010000175|CDXHSX010000175.1",
+          "before": "ENA|CDXHSX010000175|CDXHSX010000175.1"
+        },
+        {
+          "after": "ENA_175|CDXHSX010000176|CDXHSX010000176.1",
+          "before": "ENA|CDXHSX010000176|CDXHSX010000176.1"
+        },
+        {
+          "after": "ENA_176|CDXHSX010000177|CDXHSX010000177.1",
+          "before": "ENA|CDXHSX010000177|CDXHSX010000177.1"
+        },
+        {
+          "after": "ENA_177|CDXHSX010000178|CDXHSX010000178.1",
+          "before": "ENA|CDXHSX010000178|CDXHSX010000178.1"
+        },
+        {
+          "after": "ENA_178|CDXHSX010000179|CDXHSX010000179.1",
+          "before": "ENA|CDXHSX010000179|CDXHSX010000179.1"
+        },
+        {
+          "after": "ENA_179|CDXHSX010000180|CDXHSX010000180.1",
+          "before": "ENA|CDXHSX010000180|CDXHSX010000180.1"
+        },
+        {
+          "after": "ENA_180|CDXHSX010000181|CDXHSX010000181.1",
+          "before": "ENA|CDXHSX010000181|CDXHSX010000181.1"
+        },
+        {
+          "after": "ENA_181|CDXHSX010000182|CDXHSX010000182.1",
+          "before": "ENA|CDXHSX010000182|CDXHSX010000182.1"
+        },
+        {
+          "after": "ENA_182|CDXHSX010000183|CDXHSX010000183.1",
+          "before": "ENA|CDXHSX010000183|CDXHSX010000183.1"
+        },
+        {
+          "after": "ENA_183|CDXHSX010000184|CDXHSX010000184.1",
+          "before": "ENA|CDXHSX010000184|CDXHSX010000184.1"
+        },
+        {
+          "after": "ENA_184|CDXHSX010000185|CDXHSX010000185.1",
+          "before": "ENA|CDXHSX010000185|CDXHSX010000185.1"
+        },
+        {
+          "after": "ENA_185|CDXHSX010000186|CDXHSX010000186.1",
+          "before": "ENA|CDXHSX010000186|CDXHSX010000186.1"
+        },
+        {
+          "after": "ENA_186|CDXHSX010000187|CDXHSX010000187.1",
+          "before": "ENA|CDXHSX010000187|CDXHSX010000187.1"
+        },
+        {
+          "after": "ENA_187|CDXHSX010000188|CDXHSX010000188.1",
+          "before": "ENA|CDXHSX010000188|CDXHSX010000188.1"
+        },
+        {
+          "after": "ENA_188|CDXHSX010000189|CDXHSX010000189.1",
+          "before": "ENA|CDXHSX010000189|CDXHSX010000189.1"
+        },
+        {
+          "after": "ENA_189|CDXHSX010000190|CDXHSX010000190.1",
+          "before": "ENA|CDXHSX010000190|CDXHSX010000190.1"
+        },
+        {
+          "after": "ENA_190|CDXHSX010000191|CDXHSX010000191.1",
+          "before": "ENA|CDXHSX010000191|CDXHSX010000191.1"
+        },
+        {
+          "after": "ENA_191|CDXHSX010000192|CDXHSX010000192.1",
+          "before": "ENA|CDXHSX010000192|CDXHSX010000192.1"
+        },
+        {
+          "after": "ENA_192|CDXHSX010000193|CDXHSX010000193.1",
+          "before": "ENA|CDXHSX010000193|CDXHSX010000193.1"
+        },
+        {
+          "after": "ENA_193|CDXHSX010000194|CDXHSX010000194.1",
+          "before": "ENA|CDXHSX010000194|CDXHSX010000194.1"
+        },
+        {
+          "after": "ENA_194|CDXHSX010000195|CDXHSX010000195.1",
+          "before": "ENA|CDXHSX010000195|CDXHSX010000195.1"
+        },
+        {
+          "after": "ENA_195|CDXHSX010000196|CDXHSX010000196.1",
+          "before": "ENA|CDXHSX010000196|CDXHSX010000196.1"
+        },
+        {
+          "after": "ENA_196|CDXHSX010000197|CDXHSX010000197.1",
+          "before": "ENA|CDXHSX010000197|CDXHSX010000197.1"
+        },
+        {
+          "after": "ENA_197|CDXHSX010000198|CDXHSX010000198.1",
+          "before": "ENA|CDXHSX010000198|CDXHSX010000198.1"
+        },
+        {
+          "after": "ENA_198|CDXHSX010000199|CDXHSX010000199.1",
+          "before": "ENA|CDXHSX010000199|CDXHSX010000199.1"
+        },
+        {
+          "after": "ENA_199|CDXHSX010000200|CDXHSX010000200.1",
+          "before": "ENA|CDXHSX010000200|CDXHSX010000200.1"
+        },
+        {
+          "after": "ENA_200|CDXHSX010000201|CDXHSX010000201.1",
+          "before": "ENA|CDXHSX010000201|CDXHSX010000201.1"
+        },
+        {
+          "after": "ENA_201|CDXHSX010000202|CDXHSX010000202.1",
+          "before": "ENA|CDXHSX010000202|CDXHSX010000202.1"
+        },
+        {
+          "after": "ENA_202|CDXHSX010000203|CDXHSX010000203.1",
+          "before": "ENA|CDXHSX010000203|CDXHSX010000203.1"
+        },
+        {
+          "after": "ENA_203|CDXHSX010000204|CDXHSX010000204.1",
+          "before": "ENA|CDXHSX010000204|CDXHSX010000204.1"
+        },
+        {
+          "after": "ENA_204|CDXHSX010000205|CDXHSX010000205.1",
+          "before": "ENA|CDXHSX010000205|CDXHSX010000205.1"
+        },
+        {
+          "after": "ENA_205|CDXHSX010000206|CDXHSX010000206.1",
+          "before": "ENA|CDXHSX010000206|CDXHSX010000206.1"
+        },
+        {
+          "after": "ENA_206|CDXHSX010000207|CDXHSX010000207.1",
+          "before": "ENA|CDXHSX010000207|CDXHSX010000207.1"
+        },
+        {
+          "after": "ENA_207|CDXHSX010000208|CDXHSX010000208.1",
+          "before": "ENA|CDXHSX010000208|CDXHSX010000208.1"
+        },
+        {
+          "after": "ENA_208|CDXHSX010000209|CDXHSX010000209.1",
+          "before": "ENA|CDXHSX010000209|CDXHSX010000209.1"
+        },
+        {
+          "after": "ENA_209|CDXHSX010000210|CDXHSX010000210.1",
+          "before": "ENA|CDXHSX010000210|CDXHSX010000210.1"
+        },
+        {
+          "after": "ENA_210|CDXHSX010000211|CDXHSX010000211.1",
+          "before": "ENA|CDXHSX010000211|CDXHSX010000211.1"
+        },
+        {
+          "after": "ENA_211|CDXHSX010000212|CDXHSX010000212.1",
+          "before": "ENA|CDXHSX010000212|CDXHSX010000212.1"
+        },
+        {
+          "after": "ENA_212|CDXHSX010000213|CDXHSX010000213.1",
+          "before": "ENA|CDXHSX010000213|CDXHSX010000213.1"
+        },
+        {
+          "after": "ENA_213|CDXHSX010000214|CDXHSX010000214.1",
+          "before": "ENA|CDXHSX010000214|CDXHSX010000214.1"
+        },
+        {
+          "after": "ENA_214|CDXHSX010000215|CDXHSX010000215.1",
+          "before": "ENA|CDXHSX010000215|CDXHSX010000215.1"
+        },
+        {
+          "after": "ENA_215|CDXHSX010000216|CDXHSX010000216.1",
+          "before": "ENA|CDXHSX010000216|CDXHSX010000216.1"
+        },
+        {
+          "after": "ENA_216|CDXHSX010000217|CDXHSX010000217.1",
+          "before": "ENA|CDXHSX010000217|CDXHSX010000217.1"
+        },
+        {
+          "after": "ENA_217|CDXHSX010000218|CDXHSX010000218.1",
+          "before": "ENA|CDXHSX010000218|CDXHSX010000218.1"
+        },
+        {
+          "after": "ENA_218|CDXHSX010000219|CDXHSX010000219.1",
+          "before": "ENA|CDXHSX010000219|CDXHSX010000219.1"
+        },
+        {
+          "after": "ENA_219|CDXHSX010000220|CDXHSX010000220.1",
+          "before": "ENA|CDXHSX010000220|CDXHSX010000220.1"
+        },
+        {
+          "after": "ENA_220|CDXHSX010000221|CDXHSX010000221.1",
+          "before": "ENA|CDXHSX010000221|CDXHSX010000221.1"
+        },
+        {
+          "after": "ENA_221|CDXHSX010000222|CDXHSX010000222.1",
+          "before": "ENA|CDXHSX010000222|CDXHSX010000222.1"
+        },
+        {
+          "after": "ENA_222|CDXHSX010000223|CDXHSX010000223.1",
+          "before": "ENA|CDXHSX010000223|CDXHSX010000223.1"
+        },
+        {
+          "after": "ENA_223|CDXHSX010000224|CDXHSX010000224.1",
+          "before": "ENA|CDXHSX010000224|CDXHSX010000224.1"
+        },
+        {
+          "after": "ENA_224|CDXHSX010000225|CDXHSX010000225.1",
+          "before": "ENA|CDXHSX010000225|CDXHSX010000225.1"
+        },
+        {
+          "after": "ENA_225|CDXHSX010000226|CDXHSX010000226.1",
+          "before": "ENA|CDXHSX010000226|CDXHSX010000226.1"
+        },
+        {
+          "after": "ENA_226|CDXHSX010000227|CDXHSX010000227.1",
+          "before": "ENA|CDXHSX010000227|CDXHSX010000227.1"
+        },
+        {
+          "after": "ENA_227|CDXHSX010000228|CDXHSX010000228.1",
+          "before": "ENA|CDXHSX010000228|CDXHSX010000228.1"
+        },
+        {
+          "after": "ENA_228|CDXHSX010000229|CDXHSX010000229.1",
+          "before": "ENA|CDXHSX010000229|CDXHSX010000229.1"
+        },
+        {
+          "after": "ENA_229|CDXHSX010000230|CDXHSX010000230.1",
+          "before": "ENA|CDXHSX010000230|CDXHSX010000230.1"
+        },
+        {
+          "after": "ENA_230|CDXHSX010000231|CDXHSX010000231.1",
+          "before": "ENA|CDXHSX010000231|CDXHSX010000231.1"
+        },
+        {
+          "after": "ENA_231|CDXHSX010000232|CDXHSX010000232.1",
+          "before": "ENA|CDXHSX010000232|CDXHSX010000232.1"
+        },
+        {
+          "after": "ENA_232|CDXHSX010000233|CDXHSX010000233.1",
+          "before": "ENA|CDXHSX010000233|CDXHSX010000233.1"
+        },
+        {
+          "after": "ENA_233|CDXHSX010000234|CDXHSX010000234.1",
+          "before": "ENA|CDXHSX010000234|CDXHSX010000234.1"
+        },
+        {
+          "after": "ENA_234|CDXHSX010000235|CDXHSX010000235.1",
+          "before": "ENA|CDXHSX010000235|CDXHSX010000235.1"
+        },
+        {
+          "after": "ENA_235|CDXHSX010000236|CDXHSX010000236.1",
+          "before": "ENA|CDXHSX010000236|CDXHSX010000236.1"
+        },
+        {
+          "after": "ENA_236|CDXHSX010000237|CDXHSX010000237.1",
+          "before": "ENA|CDXHSX010000237|CDXHSX010000237.1"
+        },
+        {
+          "after": "ENA_237|CDXHSX010000238|CDXHSX010000238.1",
+          "before": "ENA|CDXHSX010000238|CDXHSX010000238.1"
+        },
+        {
+          "after": "ENA_238|CDXHSX010000239|CDXHSX010000239.1",
+          "before": "ENA|CDXHSX010000239|CDXHSX010000239.1"
+        },
+        {
+          "after": "ENA_239|CDXHSX010000240|CDXHSX010000240.1",
+          "before": "ENA|CDXHSX010000240|CDXHSX010000240.1"
+        },
+        {
+          "after": "ENA_240|CDXHSX010000241|CDXHSX010000241.1",
+          "before": "ENA|CDXHSX010000241|CDXHSX010000241.1"
+        },
+        {
+          "after": "ENA_241|CDXHSX010000242|CDXHSX010000242.1",
+          "before": "ENA|CDXHSX010000242|CDXHSX010000242.1"
+        },
+        {
+          "after": "ENA_242|CDXHSX010000243|CDXHSX010000243.1",
+          "before": "ENA|CDXHSX010000243|CDXHSX010000243.1"
+        },
+        {
+          "after": "ENA_243|CDXHSX010000244|CDXHSX010000244.1",
+          "before": "ENA|CDXHSX010000244|CDXHSX010000244.1"
+        },
+        {
+          "after": "ENA_244|CDXHSX010000245|CDXHSX010000245.1",
+          "before": "ENA|CDXHSX010000245|CDXHSX010000245.1"
+        },
+        {
+          "after": "ENA_245|CDXHSX010000246|CDXHSX010000246.1",
+          "before": "ENA|CDXHSX010000246|CDXHSX010000246.1"
+        },
+        {
+          "after": "ENA_246|CDXHSX010000247|CDXHSX010000247.1",
+          "before": "ENA|CDXHSX010000247|CDXHSX010000247.1"
+        },
+        {
+          "after": "ENA_247|CDXHSX010000248|CDXHSX010000248.1",
+          "before": "ENA|CDXHSX010000248|CDXHSX010000248.1"
+        },
+        {
+          "after": "ENA_248|CDXHSX010000249|CDXHSX010000249.1",
+          "before": "ENA|CDXHSX010000249|CDXHSX010000249.1"
+        },
+        {
+          "after": "ENA_249|CDXHSX010000250|CDXHSX010000250.1",
+          "before": "ENA|CDXHSX010000250|CDXHSX010000250.1"
+        },
+        {
+          "after": "ENA_250|CDXHSX010000251|CDXHSX010000251.1",
+          "before": "ENA|CDXHSX010000251|CDXHSX010000251.1"
+        },
+        {
+          "after": "ENA_251|CDXHSX010000252|CDXHSX010000252.1",
+          "before": "ENA|CDXHSX010000252|CDXHSX010000252.1"
+        },
+        {
+          "after": "ENA_252|CDXHSX010000253|CDXHSX010000253.1",
+          "before": "ENA|CDXHSX010000253|CDXHSX010000253.1"
+        },
+        {
+          "after": "ENA_253|CDXHSX010000254|CDXHSX010000254.1",
+          "before": "ENA|CDXHSX010000254|CDXHSX010000254.1"
+        },
+        {
+          "after": "ENA_254|CDXHSX010000255|CDXHSX010000255.1",
+          "before": "ENA|CDXHSX010000255|CDXHSX010000255.1"
+        },
+        {
+          "after": "ENA_255|CDXHSX010000256|CDXHSX010000256.1",
+          "before": "ENA|CDXHSX010000256|CDXHSX010000256.1"
+        },
+        {
+          "after": "ENA_256|CDXHSX010000257|CDXHSX010000257.1",
+          "before": "ENA|CDXHSX010000257|CDXHSX010000257.1"
+        },
+        {
+          "after": "ENA_257|CDXHSX010000258|CDXHSX010000258.1",
+          "before": "ENA|CDXHSX010000258|CDXHSX010000258.1"
+        },
+        {
+          "after": "ENA_258|CDXHSX010000259|CDXHSX010000259.1",
+          "before": "ENA|CDXHSX010000259|CDXHSX010000259.1"
+        },
+        {
+          "after": "ENA_259|CDXHSX010000260|CDXHSX010000260.1",
+          "before": "ENA|CDXHSX010000260|CDXHSX010000260.1"
+        },
+        {
+          "after": "ENA_260|CDXHSX010000261|CDXHSX010000261.1",
+          "before": "ENA|CDXHSX010000261|CDXHSX010000261.1"
+        },
+        {
+          "after": "ENA_261|CDXHSX010000262|CDXHSX010000262.1",
+          "before": "ENA|CDXHSX010000262|CDXHSX010000262.1"
+        },
+        {
+          "after": "ENA_262|CDXHSX010000263|CDXHSX010000263.1",
+          "before": "ENA|CDXHSX010000263|CDXHSX010000263.1"
+        },
+        {
+          "after": "ENA_263|CDXHSX010000264|CDXHSX010000264.1",
+          "before": "ENA|CDXHSX010000264|CDXHSX010000264.1"
+        },
+        {
+          "after": "ENA_264|CDXHSX010000265|CDXHSX010000265.1",
+          "before": "ENA|CDXHSX010000265|CDXHSX010000265.1"
+        },
+        {
+          "after": "ENA_265|CDXHSX010000266|CDXHSX010000266.1",
+          "before": "ENA|CDXHSX010000266|CDXHSX010000266.1"
+        },
+        {
+          "after": "ENA_266|CDXHSX010000267|CDXHSX010000267.1",
+          "before": "ENA|CDXHSX010000267|CDXHSX010000267.1"
+        },
+        {
+          "after": "ENA_267|CDXHSX010000268|CDXHSX010000268.1",
+          "before": "ENA|CDXHSX010000268|CDXHSX010000268.1"
+        },
+        {
+          "after": "ENA_268|CDXHSX010000269|CDXHSX010000269.1",
+          "before": "ENA|CDXHSX010000269|CDXHSX010000269.1"
+        },
+        {
+          "after": "ENA_269|CDXHSX010000270|CDXHSX010000270.1",
+          "before": "ENA|CDXHSX010000270|CDXHSX010000270.1"
+        },
+        {
+          "after": "ENA_270|CDXHSX010000271|CDXHSX010000271.1",
+          "before": "ENA|CDXHSX010000271|CDXHSX010000271.1"
+        },
+        {
+          "after": "ENA_271|CDXHSX010000272|CDXHSX010000272.1",
+          "before": "ENA|CDXHSX010000272|CDXHSX010000272.1"
+        },
+        {
+          "after": "ENA_272|CDXHSX010000273|CDXHSX010000273.1",
+          "before": "ENA|CDXHSX010000273|CDXHSX010000273.1"
+        },
+        {
+          "after": "ENA_273|CDXHSX010000274|CDXHSX010000274.1",
+          "before": "ENA|CDXHSX010000274|CDXHSX010000274.1"
+        },
+        {
+          "after": "ENA_274|CDXHSX010000275|CDXHSX010000275.1",
+          "before": "ENA|CDXHSX010000275|CDXHSX010000275.1"
+        },
+        {
+          "after": "ENA_275|CDXHSX010000276|CDXHSX010000276.1",
+          "before": "ENA|CDXHSX010000276|CDXHSX010000276.1"
+        },
+        {
+          "after": "ENA_276|CDXHSX010000277|CDXHSX010000277.1",
+          "before": "ENA|CDXHSX010000277|CDXHSX010000277.1"
+        },
+        {
+          "after": "ENA_277|CDXHSX010000278|CDXHSX010000278.1",
+          "before": "ENA|CDXHSX010000278|CDXHSX010000278.1"
+        },
+        {
+          "after": "ENA_278|CDXHSX010000279|CDXHSX010000279.1",
+          "before": "ENA|CDXHSX010000279|CDXHSX010000279.1"
+        },
+        {
+          "after": "ENA_279|CDXHSX010000280|CDXHSX010000280.1",
+          "before": "ENA|CDXHSX010000280|CDXHSX010000280.1"
+        },
+        {
+          "after": "ENA_280|CDXHSX010000281|CDXHSX010000281.1",
+          "before": "ENA|CDXHSX010000281|CDXHSX010000281.1"
+        },
+        {
+          "after": "ENA_281|CDXHSX010000282|CDXHSX010000282.1",
+          "before": "ENA|CDXHSX010000282|CDXHSX010000282.1"
+        },
+        {
+          "after": "ENA_282|CDXHSX010000283|CDXHSX010000283.1",
+          "before": "ENA|CDXHSX010000283|CDXHSX010000283.1"
+        },
+        {
+          "after": "ENA_283|CDXHSX010000284|CDXHSX010000284.1",
+          "before": "ENA|CDXHSX010000284|CDXHSX010000284.1"
+        },
+        {
+          "after": "ENA_284|CDXHSX010000285|CDXHSX010000285.1",
+          "before": "ENA|CDXHSX010000285|CDXHSX010000285.1"
+        },
+        {
+          "after": "ENA_285|CDXHSX010000286|CDXHSX010000286.1",
+          "before": "ENA|CDXHSX010000286|CDXHSX010000286.1"
+        },
+        {
+          "after": "ENA_286|CDXHSX010000287|CDXHSX010000287.1",
+          "before": "ENA|CDXHSX010000287|CDXHSX010000287.1"
+        },
+        {
+          "after": "ENA_287|CDXHSX010000288|CDXHSX010000288.1",
+          "before": "ENA|CDXHSX010000288|CDXHSX010000288.1"
+        },
+        {
+          "after": "ENA_288|CDXHSX010000289|CDXHSX010000289.1",
+          "before": "ENA|CDXHSX010000289|CDXHSX010000289.1"
+        },
+        {
+          "after": "ENA_289|CDXHSX010000290|CDXHSX010000290.1",
+          "before": "ENA|CDXHSX010000290|CDXHSX010000290.1"
+        },
+        {
+          "after": "ENA_290|CDXHSX010000291|CDXHSX010000291.1",
+          "before": "ENA|CDXHSX010000291|CDXHSX010000291.1"
+        },
+        {
+          "after": "ENA_291|CDXHSX010000292|CDXHSX010000292.1",
+          "before": "ENA|CDXHSX010000292|CDXHSX010000292.1"
+        },
+        {
+          "after": "ENA_292|CDXHSX010000293|CDXHSX010000293.1",
+          "before": "ENA|CDXHSX010000293|CDXHSX010000293.1"
+        },
+        {
+          "after": "ENA_293|CDXHSX010000294|CDXHSX010000294.1",
+          "before": "ENA|CDXHSX010000294|CDXHSX010000294.1"
+        },
+        {
+          "after": "ENA_294|CDXHSX010000295|CDXHSX010000295.1",
+          "before": "ENA|CDXHSX010000295|CDXHSX010000295.1"
+        }
+      ],
+      "sequence_count": 295
+    }
+  },
+  {
+    "event_id": "330afa3d-0571-4e28-8cbf-83a84210f79f",
+    "timestamp": "2026-08-31T01:52:59.287631+00:00",
+    "stage": "submission",
+    "action": "webin_manifest_generated",
+    "entity_type": "file",
+    "sample_name": "MAG2ENA_EX_20260831T015234Z_R903_100_HUMAGS_000050",
+    "field": "manifest",
+    "source": "validated metadata and prepared FASTA",
+    "before": "",
+    "after": "656b8a5074a572d0ce6ec8529aeb93b49e4ccbbd193ce0150ced6aeab24f084c",
+    "method": "Webin-CLI manifest generation",
+    "method_version": "1.0.7",
+    "decision": "",
+    "details": {
+      "chromosome_list_included": false,
+      "sample_accession": "ERS32364361",
+      "sha256": "656b8a5074a572d0ce6ec8529aeb93b49e4ccbbd193ce0150ced6aeab24f084c",
+      "study_accession": "PRJEB124667"
+    }
+  },
+  {
+    "event_id": "19679f1e-70bb-4436-8c21-f9e96c3be0d9",
+    "timestamp": "2026-08-31T01:53:05.866539+00:00",
+    "stage": "submission",
+    "action": "assembly_submitted",
+    "entity_type": "assembly",
+    "sample_name": "MAG2ENA_EX_20260831T015234Z_R903_100_HUMAGS_000050",
+    "field": "",
+    "source": "ENA Webin-CLI",
+    "before": "",
+    "after": "success",
+    "method": "Webin-CLI genome submission",
+    "method_version": "webin-cli-9.0.3",
+    "decision": "accepted",
+    "details": {
+      "manifest_sha256": "656b8a5074a572d0ce6ec8529aeb93b49e4ccbbd193ce0150ced6aeab24f084c",
+      "portal": "Testing",
+      "prepared_fasta_sha256": "1e8623e61e9534120a6baaf084a93ea3b58f975ffe8c39f9a9c6a704cbbecfc8",
+      "project_accession": "PRJEB124667",
+      "return_code": 0,
+      "sample_accession": "ERS32364361"
+    }
+  },
+  {
+    "event_id": "99500055-5e4d-411d-b5b7-c47523e565ea",
+    "timestamp": "2026-08-31T01:53:05.895759+00:00",
+    "stage": "submission",
+    "action": "manifest_archive_generated",
+    "entity_type": "file",
+    "sample_name": "",
+    "field": "",
+    "source": "per-MAG Webin-CLI manifests",
+    "before": "",
+    "after": "e57da01d7c8be90d44620e2f612580650618302ee01e1e7eeba326bb6771b2e9",
+    "method": "ZIP archive generation",
+    "method_version": "1.0.7",
+    "decision": "",
+    "details": {
+      "filename": "manifests.zip",
+      "manifest_count": 2,
+      "sha256": "e57da01d7c8be90d44620e2f612580650618302ee01e1e7eeba326bb6771b2e9"
+    }
+  },
+  {
+    "event_id": "d14bba64-81c7-462e-a970-bd23c9ff7f3d",
+    "timestamp": "2026-08-31T01:53:05.940085+00:00",
+    "stage": "submission",
+    "action": "submission_completed",
+    "entity_type": "submission",
+    "sample_name": "",
+    "field": "",
+    "source": "Testing",
+    "before": "",
+    "after": "completed",
+    "method": "MAG2ENA RQ worker",
+    "method_version": "1.0.7",
+    "decision": "completed",
+    "details": {
+      "errors": 0,
+      "job_id": "a66917de-84d1-4751-b17c-a3c6657f6051",
+      "result_sha256": "53f9b0811c1a3970896af3e5bd5fd15371495f192561c7f594c38232bda24ca8",
+      "submitted": 2
+    }
+  }
+]
