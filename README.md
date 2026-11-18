@@ -117,10 +117,10 @@ Java is required for Webin-CLI. Install on Debian/Ubuntu:
 sudo apt install default-jre
 ```
 
-MAG2ENA uses Webin-CLI 9.0.3. Its JAR is bundled at:
+MAG2ENA uses Webin-CLI 11.0.0. Its JAR is bundled at:
 
 ```
-App/webin-cli-9.0.3.jar
+App/webin-cli-11.0.0.jar
 ```
 
 ---
@@ -267,6 +267,68 @@ The CLI creates new submissions but does not modify existing ENA sample records.
 Post-submission metadata changes must use the web application's **Update** page,
 which provides interactive diff review, ENA dry-run validation, concurrency checks,
 rollback XML, and provenance.
+## Installation with uv (Linux/macOS)
+
+The CLI requires Git, Python 3.11 or newer, and Java 17 or newer. The repository pins Python 3.11 in `.python-version`; `uv` manages the Python environment and dependencies, while Java must be installed separately.
+
+Install `uv` if it is not already available:
+
+```bash
+curl -LsSf https://astral.sh/uv/install.sh | sh
+source "$HOME/.local/bin/env"
+uv --version
+```
+Clone the repository if you have not already done so, then enter its directory:
+
+```bash
+git clone https://github.com/NFDI4Microbiota/MAG2ENA.git
+cd MAG2ENA
+```
+
+From the repository root, create the isolated Python environment using the committed dependency lockfile:
+
+```bash
+uv python install 3.11
+uv sync --locked --python 3.11
+```
+
+This creates `.venv/` in the repository and installs the locked dependencies.
+
+Check Java:
+
+```bash
+java -version
+```
+
+If Java is missing or older than 17, you will have to install it. On Debian/Ubuntu run:
+
+```bash
+sudo apt update
+sudo apt install default-jre-headless
+java -version
+```
+
+Verify MAG2ENA and the exact Webin-CLI JAR configured for its submission command:
+
+```bash
+uv run --locked python mag2ena.py --version
+uv run --locked python mag2ena.py --help
+
+webin_jar="$(uv run --locked python -c 'from mag2ena import WEBIN_JAR; print(WEBIN_JAR)')"
+printf 'Configured Webin-CLI: %s\n' "$webin_jar"
+java -jar "$webin_jar" -version
+```
+
+These checks do not submit data, but insted provide versions and confirmations on used packages. Downloading a different Webin-CLI JAR does not automatically switch MAG2ENA to it: the `WEBIN_JAR` path in `mag2ena.py` must refer to the intended file, so if you download a new version the call needs to be updated there. 
+
+To verfy the MAG2ENA version, activate the environment first:
+
+```bash
+source .venv/bin/activate
+python mag2ena.py --version
+```
+
+Which should return the current version of MAG2ENA and confirm the installation. You can now proceed with the CLI submission.
 
 ## Usage
 
@@ -502,7 +564,7 @@ WEBIN v2 metadata submission → sample accessions returned
 Per-MAG manifest generation
       │   └─ confirmed complete one-sequence chromosome? → chromosome list generated
       ▼
-Serial Webin-CLI 9.0.3 assembly submission
+Serial Webin-CLI 11.0.0 assembly submission
       │
       ▼
 Results: accessions, receipts, manifests, and success/error logs
