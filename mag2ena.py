@@ -48,7 +48,7 @@ from App.utils.taxonomy import resolve_species_taxon, validate_mag_taxonomy_reco
 VERSION = "1.0.7"
 PROJECT_DIR = Path(__file__).resolve().parent
 CHECKLIST_XML = PROJECT_DIR / "checklists" / "ERC000047.xml"
-WEBIN_JAR = PROJECT_DIR / "App" / "webin-cli-9.0.3.jar"
+WEBIN_JAR = PROJECT_DIR / "App" / "webin-cli-11.0.0.jar"
 WEBIN_USER_ENV = "MAG2ENA_WEBIN_USER"
 WEBIN_PASSWORD_ENV = "MAG2ENA_WEBIN_PASSWORD"
 ENVIRONMENT_DECISIONS = {"accept", "accepted", "approve", "approved", "yes", "true", "1"}
@@ -749,7 +749,7 @@ def build_and_submit(
         "submitted": submitted,
         "errors": errors,
         "project_accession": project_accession,
-        "webin_cli": "9.0.3",
+        "webin_cli": "11.0.0",
         "portal": submission["portal"],
     }
     (output / "result.json").write_text(
