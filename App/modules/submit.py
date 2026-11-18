@@ -61,7 +61,7 @@ _APP_DIR = _HERE.parent
 _PROJECT_DIR = _APP_DIR.parent
 
 CHECKLIST_XML = str(_PROJECT_DIR / "checklists" / "ERC000047.xml")
-WEBIN_JAR = str(_APP_DIR / "webin-cli-9.0.3.jar")
+WEBIN_JAR = str(_APP_DIR / "webin-cli-11.0.0.jar")
 SUBMISSIONS_DIR = _APP_DIR / "jobs"
 EXAMPLES_DIR = _PROJECT_DIR / "examples"
 MAG2ENA_VERSION = "1.0.7"
