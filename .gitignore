@@ -7,3 +7,6 @@ test.ipynb
 task_results.db
 jobs
 secrets.toml
+taxonomy_local_test/*
+taxonomy_lookup_cache.sqlite
+tests/*
