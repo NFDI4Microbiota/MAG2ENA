@@ -12,6 +12,7 @@ import json
 import os
 from pathlib import Path
 import re
+import sqlite3
 import subprocess
 import tempfile
 import time
@@ -37,12 +38,18 @@ from App.utils.environment_resolver import (
 )
 from App.utils.metadata_assistance import (
     autofill_parent_metadata,
-    is_empty,
     merge_empty_cells,
     parse_checkm_file,
-    parse_gtdbtk_file,
 )
-from App.utils.taxonomy import resolve_species_taxon, validate_mag_taxonomy_records
+from App.utils.taxonomy_resolution import (
+    gtdb_organism_table,
+    read_gtdb_summaries,
+    resolve_taxonomy_batch,
+    sha_file,
+    taxonomy_failure_message,
+    validate_submission_taxonomy_records,
+    write_taxonomy_report,
+)
 
 
 VERSION = "1.0.7"
@@ -174,7 +181,7 @@ def validate_dataframe(df: pl.DataFrame, field_defs: dict) -> None:
         "Taxonomy at row "
         f"{error['row']} ({error['sample_name'] or 'unnamed sample'}, "
         f"tax_id {error['tax_id']}): {error['expected']}"
-        for error in validate_mag_taxonomy_records(df.to_dicts())
+        for error in validate_submission_taxonomy_records(df.to_dicts())
     )
     if errors:
         raise ValueError("\n".join(errors))
@@ -193,23 +200,48 @@ def _polars_from_pandas(frame: pd.DataFrame) -> pl.DataFrame:
     )
 
 
-def _resolve_missing_taxonomy(frame: pd.DataFrame) -> tuple[pd.DataFrame, dict]:
-    result = frame.copy()
-    resolved = {}
-    unresolved = []
-    for index, row in result.iterrows():
-        organism = str(row.get("organism", "") or "").strip()
-        tax_id = row.get("tax_id", "")
-        if not organism or not is_empty(tax_id):
-            continue
-        match = resolve_species_taxon(organism)
-        sample_name = str(row.get("sample_name", index))
-        if match:
-            result.at[index, "tax_id"] = match["tax_id"]
-            resolved[sample_name] = match
-        else:
-            unresolved.append(sample_name)
-    return result, {"resolved": resolved, "unresolved": unresolved}
+def _validate_taxonomy_arguments(args: argparse.Namespace) -> None:
+    taxonomy_options = (
+        args.gtdb_release
+        or args.gtdb_metadata
+        or args.gtdb_min_af is not None
+        or args.taxonomy_scope != "empty"
+        or args.taxonomy_report_out
+        or args.taxonomy_cache != Path("taxonomy_lookup_cache.sqlite")
+        or args.taxonomy_refresh_http
+        or args.taxonomy_offline
+        or args.apply_generic_taxonomy
+    )
+    if taxonomy_options and not args.resolve_taxonomy:
+        raise ValueError("Taxonomy options require --resolve-taxonomy.")
+    if args.resolve_taxonomy and (args.gtdbtk or args.gtdb_metadata) and not args.gtdb_release:
+        raise ValueError("GTDB reference resolution requires --gtdb-release.")
+    if args.gtdb_release and not re.fullmatch(r"[rR]?\d{2,3}\.\d+", args.gtdb_release):
+        raise ValueError("--gtdb-release must include a point release, e.g. 214.1.")
+    if args.gtdb_min_af is not None and not 0 <= args.gtdb_min_af <= 1:
+        raise ValueError("--gtdb-min-af must be between 0 and 1.")
+    if args.taxonomy_offline and args.taxonomy_refresh_http:
+        raise ValueError("--taxonomy-offline cannot be combined with --taxonomy-refresh-http.")
+    if args.resolve_taxonomy and args.taxonomy_report_out is None:
+        args.taxonomy_report_out = args.metadata.with_name(args.metadata.stem + ".taxonomy.tsv")
+    prepared_path = args.prepared_metadata_out
+    if args.prepare_only and prepared_path is None:
+        prepared_path = Path("mag2ena_prepared_metadata.tsv")
+    outputs = [path.resolve() for path in (prepared_path, args.taxonomy_report_out) if path]
+    inputs = [path for path in [
+        args.metadata, args.checkm, args.environment_decisions,
+        *args.gtdbtk, *args.gtdb_metadata,
+    ] if path]
+    if args.resolve_taxonomy and args.taxonomy_cache.resolve() in {path.resolve() for path in inputs}:
+        raise ValueError("Taxonomy cache must differ from every input file.")
+    protected = {
+        path.resolve()
+        for path in [*inputs, args.taxonomy_cache]
+    }
+    if args.environment_review_out:
+        protected.add(args.environment_review_out.resolve())
+    if len(outputs) != len(set(outputs)) or any(path in protected for path in outputs):
+        raise ValueError("Prepared metadata and taxonomy report must differ from each other and all inputs/cache.")
 
 
 def _proposal_target(proposal: dict) -> str:
@@ -279,7 +311,7 @@ def _apply_environment_decisions(
 
 
 def prepare_metadata(frame: pl.DataFrame, args: argparse.Namespace) -> tuple[pl.DataFrame, dict]:
-    """Apply opt-in web-equivalent metadata assistance without provenance."""
+    """Import metadata, resolve taxonomy and apply environmental decisions."""
     prepared = _pandas_from_polars(frame)
     summary: dict[str, object] = {}
 
@@ -287,8 +319,9 @@ def prepare_metadata(frame: pl.DataFrame, args: argparse.Namespace) -> tuple[pl.
         prepared, changed = merge_empty_cells(prepared, parse_checkm_file(args.checkm))
         summary["quality_cells_filled"] = changed
         print(f"CheckM/CheckM2 import filled {changed} cell(s).")
-    if args.gtdbtk:
-        prepared, changed = merge_empty_cells(prepared, parse_gtdbtk_file(args.gtdbtk))
+    gtdb_evidence = read_gtdb_summaries(args.gtdbtk)
+    if gtdb_evidence:
+        prepared, changed = merge_empty_cells(prepared, gtdb_organism_table(gtdb_evidence))
         summary["organism_cells_filled"] = changed
         print(f"GTDB-Tk import filled {changed} cell(s).")
 
@@ -317,12 +350,33 @@ def prepare_metadata(frame: pl.DataFrame, args: argparse.Namespace) -> tuple[pl.
                 print(f"WARNING: Parent metadata unavailable for {accession}: {error}")
 
     if args.resolve_taxonomy:
-        prepared, taxonomy_summary = _resolve_missing_taxonomy(prepared)
-        summary["taxonomy"] = taxonomy_summary
-        print(
-            f"Taxonomy resolver filled {len(taxonomy_summary['resolved'])} tax ID(s); "
-            f"{len(taxonomy_summary['unresolved'])} remained unresolved."
+        prepared, taxonomy_report, taxonomy_summary = resolve_taxonomy_batch(
+            prepared,
+            evidence=gtdb_evidence,
+            release=args.gtdb_release,
+            cache_path=args.taxonomy_cache,
+            metadata_paths=args.gtdb_metadata,
+            min_af=args.gtdb_min_af,
+            scope=args.taxonomy_scope,
+            apply_generic=args.apply_generic_taxonomy,
+            refresh_http=args.taxonomy_refresh_http,
+            offline=args.taxonomy_offline,
+            input_metadata_path=args.metadata.resolve(),
+            input_metadata_sha256=sha_file(args.metadata),
         )
+        write_taxonomy_report(
+            args.taxonomy_report_out,
+            taxonomy_report,
+            protected_paths=[args.metadata, args.taxonomy_cache, *args.gtdbtk, *args.gtdb_metadata],
+        )
+        summary["taxonomy"] = taxonomy_summary
+        summary["taxonomy_report"] = str(args.taxonomy_report_out.resolve())
+        print(
+            f"Taxonomy: {taxonomy_summary['resolved']} resolved; "
+            f"{taxonomy_summary['applied']} updated; "
+            f"{len(taxonomy_summary['unresolved'])} unresolved."
+        )
+        print(f"Taxonomy report written to {args.taxonomy_report_out}.")
 
     proposals = []
     decisions = {}
@@ -591,7 +645,7 @@ def build_and_submit(
     output_dir: Path,
 ) -> dict:
     """Register metadata and submit each assembly serially through Webin-CLI."""
-    validate_errors = validate_mag_taxonomy_records(df.to_dicts())
+    validate_errors = validate_submission_taxonomy_records(df.to_dicts())
     if validate_errors:
         raise ValueError(
             "Taxonomy preflight failed immediately before submission: "
@@ -788,7 +842,11 @@ def build_parser() -> argparse.ArgumentParser:
         "--checkm", type=Path, help="Optional CheckM storage.tsv or CheckM2 quality_report.tsv."
     )
     parser.add_argument(
-        "--gtdbtk", type=Path, help="Optional GTDB-Tk bacterial or archaeal summary TSV."
+        "--gtdbtk",
+        type=Path,
+        action="append",
+        default=[],
+        help="Original GTDB-Tk summary TSV; repeat for bacterial and archaeal files.",
     )
     parser.add_argument(
         "--autofill-parent-metadata",
@@ -798,7 +856,40 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--resolve-taxonomy",
         action="store_true",
-        help="Resolve missing tax IDs from organism names, accepting species-rank taxa only.",
+        help="Resolve taxonomy using exact ENA names or recorded GTDB reference evidence.",
+    )
+    parser.add_argument("--gtdb-release", help="GTDB database point release, e.g. 214.1.")
+    parser.add_argument(
+        "--gtdb-metadata", type=Path, action="append", default=[],
+        help="Local official GTDB metadata TSV/TSV.GZ; repeat for both domains.",
+    )
+    parser.add_argument(
+        "--gtdb-min-af", type=float,
+        help="Original run's minimum AF; default 0.5 for R207 onward, 0.65 for older releases.",
+    )
+    parser.add_argument(
+        "--taxonomy-scope", choices=["empty", "all"], default="empty",
+        help="Fill empty tax IDs (default), or also correct populated taxonomy pairs.",
+    )
+    parser.add_argument(
+        "--taxonomy-report-out", type=Path,
+        help="Evidence TSV; default <metadata-stem>.taxonomy.tsv beside the input.",
+    )
+    parser.add_argument(
+        "--taxonomy-cache", type=Path, default=Path("taxonomy_lookup_cache.sqlite"),
+        help="Reusable taxonomy SQLite cache.",
+    )
+    parser.add_argument(
+        "--taxonomy-refresh-http", action="store_true",
+        help="Refresh live API responses while retaining indexed GTDB metadata.",
+    )
+    parser.add_argument(
+        "--taxonomy-offline", action="store_true",
+        help="Prepare taxonomy using indexed metadata and cached responses only.",
+    )
+    parser.add_argument(
+        "--apply-generic-taxonomy", action="store_true",
+        help="Also apply verified generic/non-binomial species-rank replacements.",
     )
     parser.add_argument(
         "--environment-review-out",
@@ -880,10 +971,17 @@ def main(argv: list[str] | None = None) -> int:
     parser = build_parser()
     args = parser.parse_args(argv)
     try:
+        _validate_taxonomy_arguments(args)
         if not args.metadata.is_file():
             raise ValueError(f"Metadata file not found: {args.metadata}")
         frame = pl.read_csv(args.metadata, separator="\t", infer_schema_length=0)
-        frame, _ = prepare_metadata(frame, args)
+        frame, preparation = prepare_metadata(frame, args)
+        taxonomy_summary = preparation.get("taxonomy")
+        if taxonomy_summary and taxonomy_summary["unresolved"]:
+            print("ERROR: " + taxonomy_failure_message(
+                taxonomy_summary, preparation["taxonomy_report"]
+            ))
+            return 1
         if args.prepare_only:
             print("Metadata preparation complete; no ENA submission was attempted.")
             return 0
@@ -940,7 +1038,7 @@ def main(argv: list[str] | None = None) -> int:
             output_dir,
         )
         return 0 if result["errors"] == 0 else 1
-    except (OSError, ValueError, requests.RequestException, ET.ParseError) as exc:
+    except (OSError, ValueError, sqlite3.Error, requests.RequestException, ET.ParseError) as exc:
         print(f"ERROR: {exc}")
         return 2
 

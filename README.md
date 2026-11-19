@@ -364,18 +364,18 @@ command-line argument.
 
 ## Optional metadata preparation
 
-The CLI can reuse parent metadata, import CheckM/CheckM2 and GTDB-Tk output,
-resolve missing species-level taxonomy IDs, and create a four-column environmental
-review table:
+The CLI can reuse parent metadata, import CheckM/CheckM2 and GTDB-Tk output, resolve taxonomy from exact ENA names or original GTDB reference evidence, and create a four-column environmental review table. GTDB reference resolution requires the database release used for classification:
 
 ~~~bash
 python mag2ena.py \
   --metadata metadata.tsv \
   --checkm quality_report.tsv \
   --gtdbtk gtdbtk.bac120.summary.tsv \
+  --gtdb-release 214.1 \
   --autofill-parent-metadata \
   --resolve-taxonomy \
-  --environment-review-out environment_review.tsv \
+  --taxonomy-report-out taxonomy_report.tsv \
+  --environment-review-out environment_review.tsv
   --prepared-metadata-out prepared_metadata.tsv \
   --prepare-only
 ~~~
@@ -392,9 +392,14 @@ python mag2ena.py \
   --prepare-only
 ~~~
 
-Autofill and imports preserve existing cells, and environmental proposals are
-never applied without explicit acceptance. Use `--environment-scope all` when
-reviewing existing environmental values as well as empty cells.
+Autofill and imports preserve existing cells, and environmental proposals are never applied without explicit acceptance. Use `--environment-scope all` when reviewing existing environmental values as well as empty cells.
+
+Repeat `--gtdbtk` to supply both bacterial and archaeal summaries. Original GTDB species names retain underscores during import; higher-rank classifications do not supply a species name. The taxonomy report preserves the complete original GTDB row, its classification, source paths and SHA256 hashes, and the reference accession, ANI, AF and selected metadata release.
+
+Repeat `--gtdbtk` to supply both bacterial and archaeal summaries. Original GTDB species names retain underscores during import; higher-rank classifications do not supply a species name. The taxonomy report preserves every supplied GTDB column, its classification, source paths and SHA256 hashes, and any recorded reference accession, ANI, AF and selected metadata release.
+
+A two-column `user_genome/classification` table supports classification import and exact ENA name/ID checks; it cannot provide reference-based mappings. Use the original full GTDB-Tk summary for placeholders and suffixed taxa, including cases where old metadata have already replaced underscores with spaces. When a species assignment has a recorded reference accession, the reference checks remain mandatory and failures do not fall back to a name lookup. When no reference is recorded, conventional species names can be checked against exact ENA names and synonyms; this verifies naming consistency rather than an ANI-based assignment. Existing verified name/ID pairs, including generic species-rank taxa, are not rejected merely because the GTDB classification stops above species. A new generic mapping still requires `--apply-generic-taxonomy`; a higher-rank GTDB classification cannot establish a new named descendant species.
+Unresolved or conflicting rows remain in the report and cause exit code 1 before credentials are requested or submission starts, including in `--prepare-only` mode. Prepared metadata are still written for inspection. Without `--resolve-taxonomy`, submission preflight checks every supplied name/ID pair directly against ENA. Offline lookup is for preparation; submission preflight always checks current ENA records.
 
 ## Arguments
 
@@ -402,9 +407,18 @@ reviewing existing environmental values as well as empty cells.
 |----------|----------|-------------|
 | `--metadata` | Yes | Path to metadata TSV |
 | `--fasta-dir` | For submission | Directory containing `.fasta.gz` files |
-| `--checkm` / `--gtdbtk` | No | Import quality estimates or GTDB-Tk classifications |
+| `--checkm` / `--gtdbtk` | No | Import quality estimates or original GTDB-Tk classifications; repeat `--gtdbtk` for both domains |
 | `--autofill-parent-metadata` | No | Fill empty cells from ENA parent records with strict assembly fallback |
-| `--resolve-taxonomy` | No | Resolve missing species-level, non-metagenome tax IDs |
+| `--resolve-taxonomy` | No | Resolve exact ENA names or release-matched GTDB references |
+| `--gtdb-release` | For GTDB resolution | Original database point release, e.g. `214.1` |
+| `--gtdb-metadata` | No | Local official metadata TSV/TSV.GZ; repeat for both domains |
+| `--gtdb-min-af` | No | Original minimum AF; default 0.5 from R207, 0.65 earlier |
+| `--taxonomy-scope` | No | Fill `empty` tax IDs (default), or permit supported corrections with `all` |
+| `--taxonomy-report-out` | No | Detailed evidence TSV; defaults to `<metadata-stem>.taxonomy.tsv` |
+| `--taxonomy-cache` | No | Reusable SQLite cache path |
+| `--taxonomy-refresh-http` | No | Refresh cached live responses, retaining GTDB indexes |
+| `--taxonomy-offline` | No | Prepare from cached evidence; submission still requires live checks |
+| `--apply-generic-taxonomy` | No | Permit verified generic species-rank replacements |
 | `--environment-review-out` | No | Write four-column environmental proposals for review |
 | `--environment-decisions` | No | Apply proposals explicitly accepted in a review TSV |
 | `--environment-scope` | No | Resolve `empty` fields (default) or normalize `all` environmental fields |
