@@ -39,7 +39,10 @@ FIELDS = ['metadata_file', 'sample_name', 'original_organism', 'original_tax_id'
           'mapping_scope', 'release_species_clusters_sharing_ncbi_id',
           'lookup_utc', 'input_metadata_sha256', 'gtdb_sources_json', 'gtdb_record_json',
           'gtdb_metadata_sha256', 'ena_record_url', 'candidate_verified',
-          'resolved', 'applied', 'blocking_reason']
+          'resolved', 'applied', 'blocking_reason',
+          'primary_status', 'primary_detail', 'fallback_status', 'fallback_detail',
+          'fallback_source_rank', 'fallback_source_name', 'fallback_query',
+          'fallback_attempts_json', 'name_normalization']
 
 
 class Unresolved(ValueError):
@@ -365,7 +368,7 @@ def validate_node(node, expected_domain):
 
 def generic(node):
     name = norm(node.get('scientificName'))
-    return not truth(node.get('binomial')) or bool(re.search(r'(?:\bsp\.|\bbacterium|\barchaeon|\bprokaryote)$', name))
+    return not truth(node.get('binomial')) or bool(re.search(r'(?:\bsp\.|\bbacterium|\bcyanobacterium|\barchaeon|\bprokaryote)$', name))
 
 
 def names(node):
@@ -538,7 +541,7 @@ def _deepest_gtdb_name(saved):
     return ''
 
 
-def _resolve_taxonomy_row(row, saved, out, cache, release, min_af, apply_generic):
+def _resolve_primary_taxonomy_row(row, saved, out, cache, release, min_af, apply_generic):
     assigned = species(saved.get('classification', ''))
     needs_reference = (
         _gtdb_label(row['organism']) or _gtdb_label(_deepest_gtdb_name(saved))
@@ -574,6 +577,172 @@ def _resolve_taxonomy_row(row, saved, out, cache, release, min_af, apply_generic
                 'lookup cannot establish a new named species assignment for this MAG',
             )
     out.update(proposal)
+
+
+def _without_gtdb_suffixes(value):
+    return re.sub(r'(?<=[A-Za-z0-9])_[A-Z]+(?=\s|$)', '', str(value)).strip()
+
+
+def _fallback_levels(row, saved):
+    ranks = {}
+    for part in str(saved.get('classification', '')).split(';'):
+        rank, separator, name = part.strip().partition('__')
+        if separator and name.strip():
+            ranks[rank] = name.strip()
+    levels = [(rank, ranks[rank]) for rank in ('g', 'f') if rank in ranks]
+    if not levels:
+        name = re.sub(r'^uncultured\s+', '', row['organism'].strip(), flags=re.I)
+        name = _without_gtdb_suffixes(name).split()
+        if name and re.fullmatch(r'[A-Za-z][A-Za-z0-9_-]*', name[0]):
+            label = name[0]
+            if label.casefold() not in {'bacterium', 'archaeon', 'prokaryote',
+                                         'unclassified', 'unidentified', 'unknown'}:
+                levels.append(('f' if label.endswith('aceae') else 'g', label))
+    return levels
+
+
+def _fallback_query(cache, out, endpoint, query):
+    attempts = json.loads(out.get('fallback_attempts_json') or '[]')
+    attempt = {'endpoint': endpoint, 'query': query}
+    attempts.append(attempt)
+    try:
+        records = cache.get(ENA + endpoint + '/' + urllib.parse.quote(query, safe=''))
+        records = records if isinstance(records, list) else []
+        attempt['returned_tax_ids'] = [str(node.get('taxId', '')) for node in records]
+        return records
+    except Unresolved as exc:
+        attempt.update(status=exc.status, detail=exc.detail)
+        if exc.status != 'NOT_CACHED':
+            raise
+        return []
+    finally:
+        out['fallback_attempts_json'] = json.dumps(attempts, ensure_ascii=False)
+
+
+def _fallback_node(cache, candidate, expected_domain):
+    node = cache.ena(str(candidate.get('taxId', '')))
+    if str(node.get('taxId', '')) != str(candidate.get('taxId', '')):
+        raise Unresolved('TAX_ID_CHANGED', str(candidate.get('taxId', '')))
+    validate_node(node, expected_domain)
+    return node
+
+
+def _resolve_supplied_suffix_pair(row, saved, out, cache):
+    original = row['organism'].strip()
+    assigned = species(saved.get('classification', ''))
+    source = assigned if assigned and original == assigned.replace('_', ' ') else original
+    query = _without_gtdb_suffixes(source)
+    if query == source or not re.fullmatch(r'[1-9]\d*', row['tax_id'].strip()):
+        return False
+    node = cache.ena(row['tax_id'].strip())
+    validate_node(node, domain(saved.get('classification', '')))
+    if norm(query) not in names(node):
+        return False
+    if assigned and norm(_without_gtdb_suffixes(assigned)) not in names(node):
+        return False
+    set_proposal(out, node, 'CANONICAL_NAME_FOR_SUPPLIED_ID',
+                 'SUPPLIED_ID_NAME_CONSISTENCY', True)
+    out.update(name_normalization=f'{source} -> {query}',
+               fallback_status='CANONICAL_NAME_FOR_SUPPLIED_ID',
+               fallback_query=query,
+               detail='Verified the supplied tax ID against the suffix-normalized name; '
+                      'the original GTDB name remains in the evidence report')
+    return True
+
+
+def resolve_environmental_fallback(row, saved, out, cache, apply_generic):
+    """Find a submission taxon using a genus or family label."""
+    expected_domain = domain(saved.get('classification', ''))
+    descriptors = ('archaeon',) if expected_domain == 'Archaea' else ('bacterium', 'cyanobacterium')
+    for rank, original in _fallback_levels(row, saved):
+        label = _without_gtdb_suffixes(original)
+        if not re.fullmatch(r'[A-Za-z][A-Za-z0-9_-]*', label):
+            continue
+        queries = [f'{label} sp.'] if rank == 'g' else []
+        queries += [f'{label} {descriptor}' for descriptor in descriptors]
+        queries += [f'uncultured {label} {descriptor}' for descriptor in descriptors]
+        queries.append(f'uncultured {label} sp.')
+        for query in queries:
+            candidates = _fallback_query(cache, out, 'any-name', query)
+            usable = {}
+            for candidate in candidates:
+                if norm(query) not in names(candidate):
+                    continue
+                try:
+                    node = _fallback_node(cache, candidate, expected_domain)
+                    if norm(query) in names(node) and generic(node):
+                        usable[str(node['taxId'])] = node
+                except Unresolved as exc:
+                    if exc.status in {'LOOKUP_FAILED', 'NOT_CACHED'}:
+                        raise
+            if len(usable) != 1:
+                continue
+            node = next(iter(usable.values()))
+            status = 'GENUS_GENERIC_MAPPING' if rank == 'g' else 'FAMILY_GENERIC_MAPPING'
+            scope = 'GENUS_LEVEL_ENVIRONMENTAL_TAXON' if rank == 'g' else 'FAMILY_LEVEL_ENVIRONMENTAL_TAXON'
+            set_proposal(out, node, status, scope, apply_generic)
+            out.update(fallback_status=status, fallback_source_rank='genus' if rank == 'g' else 'family',
+                       fallback_source_name=original, fallback_query=query,
+                       name_normalization=f'{original} -> {label}' if original != label else '',
+                       detail='Environmental submission taxon selected from the supported lineage label; '
+                              'no genomic species match is asserted')
+            return True
+
+        if not any(character.isdigit() for character in label):
+            continue
+        candidates = _fallback_query(cache, out, 'suggest-for-search', label)
+        usable = {}
+        pattern = re.compile(r'(?:\bsp\.|\bbacterium|\barchaeon|\bcyanobacterium)\s+'
+                             + re.escape(label) + r'$', re.I)
+        for candidate in candidates:
+            if not pattern.search(candidate.get('scientificName', '')):
+                continue
+            try:
+                node = _fallback_node(cache, candidate, expected_domain)
+                if pattern.search(node.get('scientificName', '')):
+                    usable[str(node['taxId'])] = node
+            except Unresolved as exc:
+                if exc.status in {'LOOKUP_FAILED', 'NOT_CACHED'}:
+                    raise
+        if len(usable) != 1:
+            continue
+        node = next(iter(usable.values()))
+        set_proposal(out, node, 'IDENTIFIER_NAME_MAPPING', 'IDENTIFIER_NAME_MATCH_ONLY', apply_generic)
+        out.update(fallback_status='IDENTIFIER_NAME_MAPPING',
+                   fallback_source_rank='genus' if rank == 'g' else 'family',
+                   fallback_source_name=original, fallback_query=label,
+                   detail='Exact placeholder identifier found in the ENA organism name; '
+                          'this is a name-based submission mapping, without ANI species confirmation')
+        return True
+    out.update(fallback_status='NO_ENVIRONMENTAL_MAPPING',
+               fallback_detail='No unique submittable species-rank genus, family or exact-identifier candidate')
+    return False
+
+
+def _resolve_taxonomy_row(row, saved, out, cache, release, min_af, apply_generic,
+                          reference_error=None):
+    failure = None
+    try:
+        if reference_error and species(saved.get('classification', '')) and _has_reference_value(saved):
+            raise reference_error
+        _resolve_primary_taxonomy_row(row, saved, out, cache, release, min_af, apply_generic)
+        if out['candidate_verified'] == 'yes':
+            out['primary_status'] = out['status']
+            out['primary_detail'] = out['detail']
+            return
+        failure = Unresolved(out['status'], out['detail'])
+    except Unresolved as exc:
+        failure = exc
+    out.update(primary_status=failure.status, primary_detail=failure.detail)
+    try:
+        if _resolve_supplied_suffix_pair(row, saved, out, cache):
+            return
+        if resolve_environmental_fallback(row, saved, out, cache, apply_generic):
+            return
+    except Unresolved as exc:
+        out.update(fallback_status=exc.status, fallback_detail=exc.detail)
+        raise
+    raise failure
 
 
 def _validated_release(release):
@@ -614,7 +783,7 @@ def resolve_taxonomy_batch(
     metadata_paths=(),
     min_af=None,
     scope='empty',
-    apply_generic=False,
+    apply_generic=True,
     refresh_http=False,
     offline=False,
     input_metadata_path='',
@@ -644,7 +813,13 @@ def resolve_taxonomy_batch(
     reports = []
     cache = TaxonomyCache(Path(cache_path), offline=offline, refresh=refresh_http)
     try:
-        _prepare_reference_metadata(cache, evidence, keys, release, metadata_paths)
+        reference_error = None
+        try:
+            _prepare_reference_metadata(cache, evidence, keys, release, metadata_paths)
+        except (Unresolved, ValueError, OSError, ET.ParseError) as exc:
+            reference_error = Unresolved(
+                'REFERENCE_METADATA_UNAVAILABLE', f'{type(exc).__name__}: {exc}'
+            )
         consecutive_failures = 0
         for position, (_, original) in enumerate(frame.iterrows()):
             row = {column: _cell(original[column]) for column in frame.columns}
@@ -668,7 +843,8 @@ def resolve_taxonomy_batch(
                     raise Unresolved('SERVICE_UNAVAILABLE',
                                      'Five consecutive lookup failures; rerun when the services recover')
                 _resolve_taxonomy_row(
-                    row, saved, out, cache, release, min_af, apply_generic
+                    row, saved, out, cache, release, min_af, apply_generic,
+                    reference_error=reference_error,
                 )
 
                 current = (row['organism'], row['tax_id'])
@@ -678,8 +854,9 @@ def resolve_taxonomy_batch(
                 elif current == candidate:
                     out['resolved'] = 'yes'
                 elif out['apply_allowed'] != 'yes':
-                    out['blocking_reason'] = 'Generic replacement requires --apply-generic-taxonomy'
-                elif scope == 'empty' and clean(row['tax_id']):
+                    out['blocking_reason'] = ('Generic mappings are disabled by --no-apply-generic-taxonomy; '
+                                              'omit that option or use --apply-generic-taxonomy')
+                elif (scope == 'empty' and clean(row['tax_id']) and clean(row['tax_id']) != candidate[1]):
                     out['blocking_reason'] = 'Populated taxonomy needs a correction; use --taxonomy-scope all'
                 else:
                     result.iat[position, result.columns.get_loc('organism')] = candidate[0]
@@ -723,14 +900,107 @@ def write_taxonomy_report(path, reports, *, protected_paths=()):
         writer.writerows(reports)
 
 
-def taxonomy_failure_message(summary, report_path):
+def unresolved_taxonomy_path(report_path):
+    """Place the unresolved review beside the complete evidence report."""
+    path = Path(report_path)
+    return path.with_name(path.stem + '.unresolved.tsv')
+
+
+def taxonomy_suggested_action(row):
+    """Explain the next step without assigning or searching for a taxon."""
+    status = str(row.get('status', ''))
+    reason = str(row.get('blocking_reason', '') or row.get('detail', ''))
+    if '--apply-generic-taxonomy' in reason:
+        return (
+            'Generic mappings are enabled by default. Review the candidate and remove '
+            '--no-apply-generic-taxonomy, or use --apply-generic-taxonomy explicitly.'
+        )
+    if '--taxonomy-scope all' in reason:
+        return 'Review the proposed correction; use --taxonomy-scope all only if that correction is intended.'
+    if status in {'ASSEMBLY_NOT_CURRENT', 'ASSEMBLY_VERSION_CHANGED'}:
+        return (
+            'Review the recorded reference assembly status and suppression/replacement reason. '
+            'Reassess the MAG taxonomy using other genomic evidence before assigning a replacement.'
+        )
+    if status in {'GTDB_REFERENCE_COLUMNS_MISSING', 'GTDB_EVIDENCE_REQUIRED',
+                  'REFERENCE_EVIDENCE_INCOMPLETE', 'MAG_ABSENT_FROM_SAVED_GTDB_RESULTS'}:
+        return (
+            'Supply the original full GTDB-Tk summary with matching sample IDs and '
+            'reference accession, taxonomy, radius, ANI and AF. Retain the original evidence.'
+        )
+    if status in {'GTDB_RELEASE_SPECIES_MISMATCH', 'REFERENCE_ABSENT_FROM_SELECTED_RELEASE',
+                  'REFERENCE_SPECIES_DISAGREEMENT', 'REFERENCE_ALIAS_CONFLICT',
+                  'METADATA_GTDB_SPECIES_CONFLICT'}:
+        return (
+            'Verify the original GTDB release, sample match, reference accession/version '
+            'and conflicting names. Resolve the discrepancy before applying a mapping.'
+        )
+    if status in {'REFERENCE_BELOW_SPECIES_THRESHOLD', 'SPECIES_REFERENCE_CONFLICT',
+                  'INVALID_REFERENCE_METRICS', 'NO_RECORDED_SPECIES_REFERENCE'}:
+        return (
+            'Review the original reference and ANI/AF evidence and thresholds. If species '
+            'support is absent, obtain further identification evidence or curate an appropriate '
+            'species-rank environmental taxon; do not infer a named species from proximity alone.'
+        )
+    if status == 'SNAPSHOT_ONLY_REFERENCE_MAPPING':
+        return 'Verify the current taxonomy for the recorded reference/version; the historical snapshot alone was not accepted.'
+    if status in {'LOOKUP_FAILED', 'SERVICE_UNAVAILABLE', 'NOT_CACHED',
+                  'NOT_LOOKED_UP_AFTER_SERVICE_FAILURE', 'REFERENCE_METADATA_UNAVAILABLE'}:
+        return 'Retry online with the same cache when the taxonomy services are available; offline mode needs previously cached responses.'
+    return (
+        'Review a submittable species-rank environmental taxon consistent with the supported '
+        'lineage and verify its ENA name/ID. If no existing taxon covers the organism, request '
+        'one through ENA Webin Register taxonomy. Record the evidence for the curated choice.'
+    )
+
+
+def write_unresolved_taxonomy_report(report_path, reports, *, protected_paths=()):
+    """Write every unresolved row, including rows with nonempty tax IDs."""
+    path = unresolved_taxonomy_path(report_path)
+    protected = {Path(value).resolve() for value in (*protected_paths, report_path)}
+    if path.resolve() in protected:
+        raise ValueError(f'Unresolved taxonomy review would overwrite an input/output/cache: {path}')
+    fields = [
+        'sample_name', 'original_organism', 'original_tax_id', 'gtdb_classification',
+        'status', 'blocking_reason', 'reference_accession', 'candidate_organism',
+        'candidate_tax_id', 'primary_status', 'primary_detail', 'fallback_status',
+        'fallback_detail', 'fallback_source_rank', 'fallback_source_name',
+        'fallback_query', 'name_normalization', 'suggested_action',
+    ]
+    rows = []
+    for report in reports:
+        if report.get('resolved') == 'yes':
+            continue
+        row = {field: report.get(field, '') for field in fields}
+        row['blocking_reason'] = report.get('blocking_reason') or report.get('detail', '')
+        row['suggested_action'] = taxonomy_suggested_action(report)
+        rows.append(row)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open('w', encoding='utf-8', newline='') as handle:
+        writer = csv.DictWriter(handle, fieldnames=fields, delimiter='\t', lineterminator='\n')
+        writer.writeheader()
+        writer.writerows(rows)
+    return path
+
+
+def taxonomy_failure_message(summary, report_path, *, unresolved_path=None, prepared_path=None):
     failures = summary['unresolved']
     lines = [f'Taxonomy unresolved for {len(failures)} MAG(s); submission stopped.']
+    review = unresolved_path or unresolved_taxonomy_path(report_path)
+    lines.append(f'Unresolved taxonomy review: {Path(review).resolve()}')
+    lines.append(f'Complete taxonomy evidence: {Path(report_path).resolve()}')
+    if prepared_path:
+        lines.append(f'Prepared metadata for correction: {Path(prepared_path).resolve()}')
+    else:
+        lines.append('Use --prepared-metadata-out to save the prepared table for correction.')
     for item in failures[:10]:
         lines.append(f"  {item['sample_name']}: {item['status']}: {item['reason']}")
     if len(failures) > 10:
-        lines.append(f'  {len(failures) - 10} additional failures are listed in the report.')
-    lines.append(f'Taxonomy report: {report_path}')
+        lines.append(f'  {len(failures) - 10} additional failures are listed in the unresolved review.')
+    lines.append(
+        'Review suggested_action for every unresolved row, record supported corrections '
+        'in a copy of the metadata and validate that curated file before submission.'
+    )
     return '\n'.join(lines)
 
 

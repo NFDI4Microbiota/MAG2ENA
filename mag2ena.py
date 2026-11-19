@@ -47,8 +47,10 @@ from App.utils.taxonomy_resolution import (
     resolve_taxonomy_batch,
     sha_file,
     taxonomy_failure_message,
+    unresolved_taxonomy_path,
     validate_submission_taxonomy_records,
     write_taxonomy_report,
+    write_unresolved_taxonomy_report,
 )
 
 
@@ -210,7 +212,7 @@ def _validate_taxonomy_arguments(args: argparse.Namespace) -> None:
         or args.taxonomy_cache != Path("taxonomy_lookup_cache.sqlite")
         or args.taxonomy_refresh_http
         or args.taxonomy_offline
-        or args.apply_generic_taxonomy
+        or not args.apply_generic_taxonomy
     )
     if taxonomy_options and not args.resolve_taxonomy:
         raise ValueError("Taxonomy options require --resolve-taxonomy.")
@@ -227,7 +229,14 @@ def _validate_taxonomy_arguments(args: argparse.Namespace) -> None:
     prepared_path = args.prepared_metadata_out
     if args.prepare_only and prepared_path is None:
         prepared_path = Path("mag2ena_prepared_metadata.tsv")
-    outputs = [path.resolve() for path in (prepared_path, args.taxonomy_report_out) if path]
+    review_path = (
+        unresolved_taxonomy_path(args.taxonomy_report_out)
+        if args.resolve_taxonomy else None
+    )
+    outputs = [
+        path.resolve()
+        for path in (prepared_path, args.taxonomy_report_out, review_path) if path
+    ]
     inputs = [path for path in [
         args.metadata, args.checkm, args.environment_decisions,
         *args.gtdbtk, *args.gtdb_metadata,
@@ -241,7 +250,10 @@ def _validate_taxonomy_arguments(args: argparse.Namespace) -> None:
     if args.environment_review_out:
         protected.add(args.environment_review_out.resolve())
     if len(outputs) != len(set(outputs)) or any(path in protected for path in outputs):
-        raise ValueError("Prepared metadata and taxonomy report must differ from each other and all inputs/cache.")
+        raise ValueError(
+            "Prepared metadata, taxonomy report and unresolved review must differ "
+            "from each other and all inputs/cache."
+        )
 
 
 def _proposal_target(proposal: dict) -> str:
@@ -364,19 +376,29 @@ def prepare_metadata(frame: pl.DataFrame, args: argparse.Namespace) -> tuple[pl.
             input_metadata_path=args.metadata.resolve(),
             input_metadata_sha256=sha_file(args.metadata),
         )
+        protected_paths = [
+            args.metadata, args.taxonomy_cache, *args.gtdbtk, *args.gtdb_metadata,
+        ]
+        if args.prepared_metadata_out:
+            protected_paths.append(args.prepared_metadata_out)
         write_taxonomy_report(
-            args.taxonomy_report_out,
-            taxonomy_report,
-            protected_paths=[args.metadata, args.taxonomy_cache, *args.gtdbtk, *args.gtdb_metadata],
+            args.taxonomy_report_out, taxonomy_report,
+            protected_paths=protected_paths,
+        )
+        unresolved_path = write_unresolved_taxonomy_report(
+            args.taxonomy_report_out, taxonomy_report,
+            protected_paths=protected_paths,
         )
         summary["taxonomy"] = taxonomy_summary
         summary["taxonomy_report"] = str(args.taxonomy_report_out.resolve())
+        summary["taxonomy_unresolved_report"] = str(unresolved_path.resolve())
         print(
             f"Taxonomy: {taxonomy_summary['resolved']} resolved; "
             f"{taxonomy_summary['applied']} updated; "
             f"{len(taxonomy_summary['unresolved'])} unresolved."
         )
-        print(f"Taxonomy report written to {args.taxonomy_report_out}.")
+        print(f"Taxonomy evidence: {summary['taxonomy_report']}")
+        print(f"Unresolved taxonomy review: {summary['taxonomy_unresolved_report']}")
 
     proposals = []
     decisions = {}
@@ -420,7 +442,7 @@ def prepare_metadata(frame: pl.DataFrame, args: argparse.Namespace) -> tuple[pl.
         path.parent.mkdir(parents=True, exist_ok=True)
         prepared.to_csv(path, sep="\t", index=False)
         summary["prepared_metadata"] = str(path.resolve())
-        print(f"Prepared metadata written to {path}.")
+        print(f"Prepared metadata written to {path.resolve()}.")
     return _polars_from_pandas(prepared), summary
 
 
@@ -669,7 +691,7 @@ def build_and_submit(
     )
     success_log = output / "success.txt"
     error_log = output / "error.txt"
-    batch_size = 1_000
+    batch_size = 250
     manifest_zip_path = output / "manifests.zip"
 
     with ZipFile(manifest_zip_path, "w", ZIP_DEFLATED) as manifest_zip:
@@ -856,7 +878,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--resolve-taxonomy",
         action="store_true",
-        help="Resolve taxonomy using exact ENA names or recorded GTDB reference evidence.",
+                help="Resolve GTDB references and ENA names, then try genus/family and identifier fallbacks.",
     )
     parser.add_argument("--gtdb-release", help="GTDB database point release, e.g. 214.1.")
     parser.add_argument(
@@ -869,11 +891,15 @@ def build_parser() -> argparse.ArgumentParser:
     )
     parser.add_argument(
         "--taxonomy-scope", choices=["empty", "all"], default="empty",
-        help="Fill empty tax IDs (default), or also correct populated taxonomy pairs.",
+        help=("Fill empty tax IDs and canonicalize names for unchanged IDs (default); "
+              "all also permits replacement of populated tax IDs."),
     )
     parser.add_argument(
         "--taxonomy-report-out", type=Path,
-        help="Evidence TSV; default <metadata-stem>.taxonomy.tsv beside the input.",
+        help=(
+            "Evidence TSV; default <metadata-stem>.taxonomy.tsv beside the input. "
+            "Also writes <report-stem>.unresolved.tsv for manual review."
+        ),
     )
     parser.add_argument(
         "--taxonomy-cache", type=Path, default=Path("taxonomy_lookup_cache.sqlite"),
@@ -888,8 +914,9 @@ def build_parser() -> argparse.ArgumentParser:
         help="Prepare taxonomy using indexed metadata and cached responses only.",
     )
     parser.add_argument(
-        "--apply-generic-taxonomy", action="store_true",
-        help="Also apply verified generic/non-binomial species-rank replacements.",
+        "--apply-generic-taxonomy", action=argparse.BooleanOptionalAction, default=True,
+        help=("Apply verified generic and exact-identifier species-rank mappings (default). "
+              "Use --no-apply-generic-taxonomy to leave those proposals unapplied."),
     )
     parser.add_argument(
         "--environment-review-out",
@@ -979,7 +1006,9 @@ def main(argv: list[str] | None = None) -> int:
         taxonomy_summary = preparation.get("taxonomy")
         if taxonomy_summary and taxonomy_summary["unresolved"]:
             print("ERROR: " + taxonomy_failure_message(
-                taxonomy_summary, preparation["taxonomy_report"]
+                taxonomy_summary, preparation["taxonomy_report"],
+                unresolved_path=preparation["taxonomy_unresolved_report"],
+                prepared_path=preparation.get("prepared_metadata"),
             ))
             return 1
         if args.prepare_only:

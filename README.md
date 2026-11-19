@@ -364,18 +364,19 @@ command-line argument.
 
 ## Optional metadata preparation
 
-The CLI can reuse parent metadata, import CheckM/CheckM2 and GTDB-Tk output, resolve taxonomy from exact ENA names or original GTDB reference evidence, and create a four-column environmental review table. GTDB reference resolution requires the database release used for classification:
+The CLI can reuse parent metadata, import CheckM/CheckM2 and GTDB-Tk output, resolve taxonomy from GTDB references and exact ENA names with genus/family and identifier fallbacks, and create a four-column environmental review table.
 
 ~~~bash
 python mag2ena.py \
   --metadata metadata.tsv \
   --checkm quality_report.tsv \
   --gtdbtk gtdbtk.bac120.summary.tsv \
+  --gtdbtk gtdbtk.ar53.summary.tsv \
   --gtdb-release 214.1 \
   --autofill-parent-metadata \
   --resolve-taxonomy \
   --taxonomy-report-out taxonomy_report.tsv \
-  --environment-review-out environment_review.tsv
+  --environment-review-out environment_review.tsv \
   --prepared-metadata-out prepared_metadata.tsv \
   --prepare-only
 ~~~
@@ -396,10 +397,20 @@ Autofill and imports preserve existing cells, and environmental proposals are ne
 
 Repeat `--gtdbtk` to supply both bacterial and archaeal summaries. Original GTDB species names retain underscores during import; higher-rank classifications do not supply a species name. The taxonomy report preserves the complete original GTDB row, its classification, source paths and SHA256 hashes, and the reference accession, ANI, AF and selected metadata release.
 
-Repeat `--gtdbtk` to supply both bacterial and archaeal summaries. Original GTDB species names retain underscores during import; higher-rank classifications do not supply a species name. The taxonomy report preserves every supplied GTDB column, its classification, source paths and SHA256 hashes, and any recorded reference accession, ANI, AF and selected metadata release.
+A two-column `user_genome/classification` table supports classification import, but reference mappings require the original full GTDB-Tk summary. Taxonomy resolution first checks recorded references against the selected GTDB release and the saved ANI/AF evidence. Conventional names are checked against exact ENA scientific names and synonyms when no reference mapping is required. 
 
-A two-column `user_genome/classification` table supports classification import and exact ENA name/ID checks; it cannot provide reference-based mappings. Use the original full GTDB-Tk summary for placeholders and suffixed taxa, including cases where old metadata have already replaced underscores with spaces. When a species assignment has a recorded reference accession, the reference checks remain mandatory and failures do not fall back to a name lookup. When no reference is recorded, conventional species names can be checked against exact ENA names and synonyms; this verifies naming consistency rather than an ANI-based assignment. Existing verified name/ID pairs, including generic species-rank taxa, are not rejected merely because the GTDB classification stops above species. A new generic mapping still requires `--apply-generic-taxonomy`; a higher-rank GTDB classification cannot establish a new named descendant species.
-Unresolved or conflicting rows remain in the report and cause exit code 1 before credentials are requested or submission starts, including in `--prepare-only` mode. Prepared metadata are still written for inspection. Without `--resolve-taxonomy`, submission preflight checks every supplied name/ID pair directly against ENA. Offline lookup is for preparation; submission preflight always checks current ENA records.
+Rows that remain unresolved then use the supported genus, followed by the family, to search for species-rank environmental taxa such as `Genus sp.` or `Family bacterium`. Placeholder identifiers such as `UBA4582` may match a unique ENA organism name containing that exact identifier. These fallback mappings express a submission name choice; they do not establish a genomic species match.
+The report records the original reference outcome, every fallback query and the genus/family label used. Candidates must be submittable at exactly species rank and cannot be metagenome taxa. Suggestions for other identifiers or named descendant species are not selected. 
+
+Generic and identifier mappings are enabled by default with `--resolve-taxonomy`. Use `--no-apply-generic-taxonomy` to retain them as proposals. The existing `--apply-generic-taxonomy` spelling remains valid.
+
+Submitted organism names use the current ENA scientific name. GTDB suffixes such as `_A` and `_F` remain in the original evidence, rather than in a submitted name that ENA does not recognize. A supplied tax ID can be kept when its ENA name/synonym matches the suffix-normalized name. Otherwise resolution continues through the reference and environmental checks; suffix removal alone does not assign a named species.
+
+Taxonomy resolution fills empty tax IDs and canonicalizes names for unchanged IDs by default. Use `--taxonomy-scope all` to also permit replacement of populated tax IDs. Names and IDs are updated together. A verified subspecies or strain may resolve to its unique species ancestor. Genus/family fallback selects an environmental species-rank node and records the broader identification level.
+
+Unresolved or conflicting rows cause exit code 1 before credentials are requested or submission starts, including in `--prepare-only` mode. The CLI prints absolute paths for both reports and any requested prepared metadata. Use `--prepared-metadata-out` to retain the prepared table for curation. Review the suggestions, correct a copy of that table and record the supporting evidence before validating the curated metadata. Taxa must remain submittable at exactly species rank; unresolved rows remain in the batch. 
+
+Without `--resolve-taxonomy`, submission preflight checks every supplied name/ID pair directly against ENA. Offline lookup is for preparation; submission preflight always checks current ENA records. Requests for new taxa can be made through the (ENA Webin Portal's Register taxonomy option)[https://ena-docs.readthedocs.io/en/latest/submit/samples/taxonomy-requests.html]
 
 ## Arguments
 
@@ -409,16 +420,16 @@ Unresolved or conflicting rows remain in the report and cause exit code 1 before
 | `--fasta-dir` | For submission | Directory containing `.fasta.gz` files |
 | `--checkm` / `--gtdbtk` | No | Import quality estimates or original GTDB-Tk classifications; repeat `--gtdbtk` for both domains |
 | `--autofill-parent-metadata` | No | Fill empty cells from ENA parent records with strict assembly fallback |
-| `--resolve-taxonomy` | No | Resolve exact ENA names or release-matched GTDB references |
+| `--resolve-taxonomy` | No | Check references/names, then try genus/family and identifier fallback mappings |
 | `--gtdb-release` | For GTDB resolution | Original database point release, e.g. `214.1` |
 | `--gtdb-metadata` | No | Local official metadata TSV/TSV.GZ; repeat for both domains |
 | `--gtdb-min-af` | No | Original minimum AF; default 0.5 from R207, 0.65 earlier |
-| `--taxonomy-scope` | No | Fill `empty` tax IDs (default), or permit supported corrections with `all` |
-| `--taxonomy-report-out` | No | Detailed evidence TSV; defaults to `<metadata-stem>.taxonomy.tsv` |
+| `--taxonomy-scope` | No | `empty` fills empty IDs and canonicalizes names for unchanged IDs; `all` also permits ID replacements |
+| `--taxonomy-report-out` | No | Evidence TSV, plus a derived `<report-stem>.unresolved.tsv` review with suggested actions |
 | `--taxonomy-cache` | No | Reusable SQLite cache path |
 | `--taxonomy-refresh-http` | No | Refresh cached live responses, retaining GTDB indexes |
 | `--taxonomy-offline` | No | Prepare from cached evidence; submission still requires live checks |
-| `--apply-generic-taxonomy` | No | Permit verified generic species-rank replacements |
+| `--apply-generic-taxonomy` / `--no-apply-generic-taxonomy` | No | Apply verified generic/identifier mappings by default, or retain them as proposals |
 | `--environment-review-out` | No | Write four-column environmental proposals for review |
 | `--environment-decisions` | No | Apply proposals explicitly accepted in a review TSV |
 | `--environment-scope` | No | Resolve `empty` fields (default) or normalize `all` environmental fields |
