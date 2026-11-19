@@ -667,6 +667,11 @@ def build_and_submit(
     output_dir: Path,
 ) -> dict:
     """Register metadata and submit each assembly serially through Webin-CLI."""
+    aliases = df.get_column("sample_name").to_list()
+    if not aliases or any(not isinstance(alias, str) or not alias.strip() for alias in aliases):
+        raise ValueError("Submission requires nonempty sample_name values.")
+    if len(aliases) != len(set(aliases)):
+        raise ValueError("Submission requires unique sample_name values.")
     validate_errors = validate_submission_taxonomy_records(df.to_dicts())
     if validate_errors:
         raise ValueError(
@@ -682,6 +687,7 @@ def build_and_submit(
 
     submitted = 0
     errors = 0
+    metadata_errors = 0
     project_accession = submission.get("study_accession")
     auth = (submission["ena_user"], submission["ena_password"])
     metadata_url = (
@@ -719,29 +725,49 @@ def build_and_submit(
             receipt_name = "webin_log.xml" if offset == 0 else f"webin_log_{offset}.xml"
             (output / receipt_name).write_text(receipt_text, encoding="utf-8")
             receipt = ET.fromstring(receipt_text)
+            batch_aliases = {row["sample_name"] for row in rows}
             alias_to_accession = {
                 sample.get("alias"): sample.get("accession")
                 for sample in receipt.findall(".//SAMPLE")
-                if sample.get("alias") and sample.get("accession")
+                if sample.get("alias") in batch_aliases and sample.get("accession")
             }
             existing = re.compile(r'alias: "(.+?)".*accession: "(.+?)"')
-            for error in receipt.findall(".//ERROR"):
+            receipt_errors = receipt.findall(".//ERROR")
+            for error in receipt_errors:
                 message = error.text or "Unknown ENA metadata error"
                 match = existing.search(message)
-                if match:
+                if match and match.group(1) in batch_aliases:
                     alias_to_accession[match.group(1)] = match.group(2)
                 else:
+                    metadata_errors += 1
                     with error_log.open("a", encoding="utf-8") as handle:
                         handle.write(f"METADATA ERROR: {message}\n")
+            if receipt.get("success", "").lower() in {"false", "0"} and not receipt_errors:
+                metadata_errors += 1
+                with error_log.open("a", encoding="utf-8") as handle:
+                    handle.write("METADATA ERROR: ENA marked the receipt unsuccessful without an error message.\n")
             if not project_accession:
                 project = receipt.find(".//PROJECT")
                 project_accession = project.get("accession") if project is not None else None
             if not project_accession:
                 raise ValueError("ENA did not return a study accession.")
 
-            for alias, sample_accession in alias_to_accession.items():
+            for row in rows:
+                alias = row["sample_name"]
+                sample_accession = alias_to_accession.get(alias)
+                if not sample_accession:
+                    errors += 1
+                    with error_log.open("a", encoding="utf-8") as handle:
+                        handle.write(
+                            f"SAMPLE : {alias}\nMETADATA ERROR: No sample accession was returned; "
+                            f"see {receipt_name}.\n\n"
+                        )
+                    continue
                 original_fasta = fasta_map.get(alias)
                 if original_fasta is None:
+                    errors += 1
+                    with error_log.open("a", encoding="utf-8") as handle:
+                        handle.write(f"SAMPLE : {alias}\nASSEMBLY ERROR: No matching FASTA was supplied.\n\n")
                     continue
                 fasta_path = original_fasta
                 deduplicated = None
@@ -753,7 +779,6 @@ def build_and_submit(
                         fasta_path, changed = _deduplicate_fasta_headers(original_fasta)
                         if changed:
                             deduplicated = fasta_path
-                    row = df.filter(pl.col("sample_name") == alias).row(0, named=True)
                     manifest = (
                         f"STUDY\t{project_accession}\n"
                         f"SAMPLE\t{sample_accession}\n"
@@ -822,8 +847,11 @@ def build_and_submit(
                         deduplicated.unlink(missing_ok=True)
 
     result_summary = {
+        "expected": len(df),
         "submitted": submitted,
         "errors": errors,
+        "metadata_errors": metadata_errors,
+        "complete": submitted == len(df) and errors == 0 and metadata_errors == 0,
         "project_accession": project_accession,
         "webin_cli": "11.0.0",
         "portal": submission["portal"],
@@ -831,7 +859,7 @@ def build_and_submit(
     (output / "result.json").write_text(
         json.dumps(result_summary, indent=2), encoding="utf-8"
     )
-    print(f"Submitted successfully: {submitted}; errors: {errors}")
+    print(f"Submitted successfully: {submitted}; errors: {errors}; metadata errors: {metadata_errors}")
     print(f"Results written to: {output}")
     return result_summary
 
@@ -1066,7 +1094,7 @@ def main(argv: list[str] | None = None) -> int:
             fasta_map,
             output_dir,
         )
-        return 0 if result["errors"] == 0 else 1
+        return 0 if result["complete"] else 1
     except (OSError, ValueError, sqlite3.Error, requests.RequestException, ET.ParseError) as exc:
         print(f"ERROR: {exc}")
         return 2
