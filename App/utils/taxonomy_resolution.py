@@ -903,7 +903,7 @@ def write_taxonomy_report(path, reports, *, protected_paths=()):
 def unresolved_taxonomy_path(report_path):
     """Place the unresolved review beside the complete evidence report."""
     path = Path(report_path)
-    return path.with_name(path.stem + '.unresolved.tsv')
+    return path.with_name(path.stem + '_unresolved.tsv')
 
 
 def taxonomy_suggested_action(row):

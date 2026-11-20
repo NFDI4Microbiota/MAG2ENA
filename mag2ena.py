@@ -225,7 +225,7 @@ def _validate_taxonomy_arguments(args: argparse.Namespace) -> None:
     if args.taxonomy_offline and args.taxonomy_refresh_http:
         raise ValueError("--taxonomy-offline cannot be combined with --taxonomy-refresh-http.")
     if args.resolve_taxonomy and args.taxonomy_report_out is None:
-        args.taxonomy_report_out = args.metadata.with_name(args.metadata.stem + ".taxonomy.tsv")
+        args.taxonomy_report_out = args.metadata.with_name(args.metadata.stem + "_taxonomy.tsv")
     prepared_path = args.prepared_metadata_out
     if args.prepare_only and prepared_path is None:
         prepared_path = Path("mag2ena_prepared_metadata.tsv")
@@ -679,7 +679,7 @@ def build_and_submit(
             + "; ".join(error["expected"] for error in validate_errors)
         )
     output = _safe_output_directory(output_dir)
-    df.write_csv(output / "metadata.submitted.tsv", separator="\t")
+    df.write_csv(output / "metadata_submitted.tsv", separator="\t")
     inspections = inspect_fasta_collection(fasta_map)
     require_single_contig_confirmation(
         inspections, bool(submission.get("single_contig_chromosomes_confirmed"))
@@ -925,8 +925,8 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--taxonomy-report-out", type=Path,
         help=(
-            "Evidence TSV; default <metadata-stem>.taxonomy.tsv beside the input. "
-            "Also writes <report-stem>.unresolved.tsv for manual review."
+            "Evidence TSV; default <metadata-stem>_taxonomy.tsv beside the input. "
+            "Also writes <report-stem>_unresolved.tsv for manual review."
         ),
     )
     parser.add_argument(

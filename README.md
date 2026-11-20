@@ -409,7 +409,7 @@ Submitted organism names use the current ENA scientific name. GTDB suffixes such
 
 Taxonomy resolution fills empty tax IDs and canonicalizes names for unchanged IDs by default. Use `--taxonomy-scope all` to also permit replacement of populated tax IDs. Names and IDs are updated together. A verified subspecies or strain may resolve to its unique species ancestor. Genus/family fallback selects an environmental species-rank node and records the broader identification level.
 
-For `--taxonomy-report-out taxonomy_report.tsv`, preparation writes the complete evidence to `taxonomy_report.tsv` and unresolved rows to `taxonomy_report.unresolved.tsv`. The unresolved review includes blocking reasons and suggested actions, even when a row has a populated but unverified tax ID. When every row resolves, that review contains only its header.
+For `--taxonomy-report-out taxonomy_report.tsv`, preparation writes the complete evidence to `taxonomy_report.tsv` and unresolved rows to `taxonomy_report_unresolved.tsv`. The unresolved review includes blocking reasons and suggested actions, even when a row has a populated but unverified tax ID. When every row resolves, that review contains only its header.
 
 Unresolved or conflicting rows cause exit code 1 before credentials are requested or submission starts, including in `--prepare-only` mode. The CLI prints absolute paths for both reports and any requested prepared metadata. Use `--prepared-metadata-out` to retain the prepared table for curation. Review the suggestions, correct a copy of that table and record the supporting evidence before validating the curated metadata. Taxa must remain submittable at exactly species rank; unresolved rows remain in the batch. 
 
@@ -428,7 +428,7 @@ Without `--resolve-taxonomy`, submission preflight checks every supplied name/ID
 | `--gtdb-metadata` | No | Local official metadata TSV/TSV.GZ; repeat for both domains |
 | `--gtdb-min-af` | No | Original minimum AF; default 0.5 from R207, 0.65 earlier |
 | `--taxonomy-scope` | No | `empty` fills empty IDs and canonicalizes names for unchanged IDs; `all` also permits ID replacements |
-| `--taxonomy-report-out` | No | Evidence TSV, plus a derived `<report-stem>.unresolved.tsv` review with suggested actions |
+| `--taxonomy-report-out` | No | Evidence TSV, plus a derived `<report-stem>_unresolved.tsv` review with suggested actions |
 | `--taxonomy-cache` | No | Reusable SQLite cache path |
 | `--taxonomy-refresh-http` | No | Refresh cached live responses, retaining GTDB indexes |
 | `--taxonomy-offline` | No | Prepare from cached evidence; submission still requires live checks |
@@ -457,7 +457,7 @@ Each submission creates a timestamped results directory:
 
 ```
 mag2ena_cli_results_<timestamp>/
-├── metadata.submitted.tsv
+├── metadata_submitted.tsv
 ├── submit.xml
 ├── webin_log.xml
 ├── manifests.zip
