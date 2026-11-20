@@ -1,5 +1,4 @@
 __pycache__/
-*.py[cod]
 .venv/
 .tmp
 logs
@@ -10,7 +9,6 @@ task_results.db-*
 jobs
 secrets.toml
 
-/App/task-results/
 /mag2ena_cli_results_*/
 /mag2ena_prepared_metadata.tsv
 /taxonomy_local_test/
