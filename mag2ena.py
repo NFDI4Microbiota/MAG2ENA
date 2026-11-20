@@ -12,6 +12,7 @@ import json
 import os
 from pathlib import Path
 import re
+import sqlite3
 import subprocess
 import tempfile
 import time
@@ -37,18 +38,26 @@ from App.utils.environment_resolver import (
 )
 from App.utils.metadata_assistance import (
     autofill_parent_metadata,
-    is_empty,
     merge_empty_cells,
     parse_checkm_file,
-    parse_gtdbtk_file,
 )
-from App.utils.taxonomy import resolve_species_taxon, validate_mag_taxonomy_records
+from App.utils.taxonomy_resolution import (
+    gtdb_organism_table,
+    read_gtdb_summaries,
+    resolve_taxonomy_batch,
+    sha_file,
+    taxonomy_failure_message,
+    unresolved_taxonomy_path,
+    validate_submission_taxonomy_records,
+    write_taxonomy_report,
+    write_unresolved_taxonomy_report,
+)
 
 
 VERSION = "1.0.7"
 PROJECT_DIR = Path(__file__).resolve().parent
 CHECKLIST_XML = PROJECT_DIR / "checklists" / "ERC000047.xml"
-WEBIN_JAR = PROJECT_DIR / "App" / "webin-cli-9.0.3.jar"
+WEBIN_JAR = PROJECT_DIR / "App" / "webin-cli-11.0.0.jar"
 WEBIN_USER_ENV = "MAG2ENA_WEBIN_USER"
 WEBIN_PASSWORD_ENV = "MAG2ENA_WEBIN_PASSWORD"
 ENVIRONMENT_DECISIONS = {"accept", "accepted", "approve", "approved", "yes", "true", "1"}
@@ -174,7 +183,7 @@ def validate_dataframe(df: pl.DataFrame, field_defs: dict) -> None:
         "Taxonomy at row "
         f"{error['row']} ({error['sample_name'] or 'unnamed sample'}, "
         f"tax_id {error['tax_id']}): {error['expected']}"
-        for error in validate_mag_taxonomy_records(df.to_dicts())
+        for error in validate_submission_taxonomy_records(df.to_dicts())
     )
     if errors:
         raise ValueError("\n".join(errors))
@@ -193,23 +202,58 @@ def _polars_from_pandas(frame: pd.DataFrame) -> pl.DataFrame:
     )
 
 
-def _resolve_missing_taxonomy(frame: pd.DataFrame) -> tuple[pd.DataFrame, dict]:
-    result = frame.copy()
-    resolved = {}
-    unresolved = []
-    for index, row in result.iterrows():
-        organism = str(row.get("organism", "") or "").strip()
-        tax_id = row.get("tax_id", "")
-        if not organism or not is_empty(tax_id):
-            continue
-        match = resolve_species_taxon(organism)
-        sample_name = str(row.get("sample_name", index))
-        if match:
-            result.at[index, "tax_id"] = match["tax_id"]
-            resolved[sample_name] = match
-        else:
-            unresolved.append(sample_name)
-    return result, {"resolved": resolved, "unresolved": unresolved}
+def _validate_taxonomy_arguments(args: argparse.Namespace) -> None:
+    taxonomy_options = (
+        args.gtdb_release
+        or args.gtdb_metadata
+        or args.gtdb_min_af is not None
+        or args.taxonomy_scope != "empty"
+        or args.taxonomy_report_out
+        or args.taxonomy_cache != Path("taxonomy_lookup_cache.sqlite")
+        or args.taxonomy_refresh_http
+        or args.taxonomy_offline
+        or not args.apply_generic_taxonomy
+    )
+    if taxonomy_options and not args.resolve_taxonomy:
+        raise ValueError("Taxonomy options require --resolve-taxonomy.")
+    if args.resolve_taxonomy and (args.gtdbtk or args.gtdb_metadata) and not args.gtdb_release:
+        raise ValueError("GTDB reference resolution requires --gtdb-release.")
+    if args.gtdb_release and not re.fullmatch(r"[rR]?\d{2,3}\.\d+", args.gtdb_release):
+        raise ValueError("--gtdb-release must include a point release, e.g. 214.1.")
+    if args.gtdb_min_af is not None and not 0 <= args.gtdb_min_af <= 1:
+        raise ValueError("--gtdb-min-af must be between 0 and 1.")
+    if args.taxonomy_offline and args.taxonomy_refresh_http:
+        raise ValueError("--taxonomy-offline cannot be combined with --taxonomy-refresh-http.")
+    if args.resolve_taxonomy and args.taxonomy_report_out is None:
+        args.taxonomy_report_out = args.metadata.with_name(args.metadata.stem + "_taxonomy.tsv")
+    prepared_path = args.prepared_metadata_out
+    if args.prepare_only and prepared_path is None:
+        prepared_path = Path("mag2ena_prepared_metadata.tsv")
+    review_path = (
+        unresolved_taxonomy_path(args.taxonomy_report_out)
+        if args.resolve_taxonomy else None
+    )
+    outputs = [
+        path.resolve()
+        for path in (prepared_path, args.taxonomy_report_out, review_path) if path
+    ]
+    inputs = [path for path in [
+        args.metadata, args.checkm, args.environment_decisions,
+        *args.gtdbtk, *args.gtdb_metadata,
+    ] if path]
+    if args.resolve_taxonomy and args.taxonomy_cache.resolve() in {path.resolve() for path in inputs}:
+        raise ValueError("Taxonomy cache must differ from every input file.")
+    protected = {
+        path.resolve()
+        for path in [*inputs, args.taxonomy_cache]
+    }
+    if args.environment_review_out:
+        protected.add(args.environment_review_out.resolve())
+    if len(outputs) != len(set(outputs)) or any(path in protected for path in outputs):
+        raise ValueError(
+            "Prepared metadata, taxonomy report and unresolved review must differ "
+            "from each other and all inputs/cache."
+        )
 
 
 def _proposal_target(proposal: dict) -> str:
@@ -279,7 +323,7 @@ def _apply_environment_decisions(
 
 
 def prepare_metadata(frame: pl.DataFrame, args: argparse.Namespace) -> tuple[pl.DataFrame, dict]:
-    """Apply opt-in web-equivalent metadata assistance without provenance."""
+    """Import metadata, resolve taxonomy and apply environmental decisions."""
     prepared = _pandas_from_polars(frame)
     summary: dict[str, object] = {}
 
@@ -287,8 +331,9 @@ def prepare_metadata(frame: pl.DataFrame, args: argparse.Namespace) -> tuple[pl.
         prepared, changed = merge_empty_cells(prepared, parse_checkm_file(args.checkm))
         summary["quality_cells_filled"] = changed
         print(f"CheckM/CheckM2 import filled {changed} cell(s).")
-    if args.gtdbtk:
-        prepared, changed = merge_empty_cells(prepared, parse_gtdbtk_file(args.gtdbtk))
+    gtdb_evidence = read_gtdb_summaries(args.gtdbtk)
+    if gtdb_evidence:
+        prepared, changed = merge_empty_cells(prepared, gtdb_organism_table(gtdb_evidence))
         summary["organism_cells_filled"] = changed
         print(f"GTDB-Tk import filled {changed} cell(s).")
 
@@ -317,12 +362,43 @@ def prepare_metadata(frame: pl.DataFrame, args: argparse.Namespace) -> tuple[pl.
                 print(f"WARNING: Parent metadata unavailable for {accession}: {error}")
 
     if args.resolve_taxonomy:
-        prepared, taxonomy_summary = _resolve_missing_taxonomy(prepared)
-        summary["taxonomy"] = taxonomy_summary
-        print(
-            f"Taxonomy resolver filled {len(taxonomy_summary['resolved'])} tax ID(s); "
-            f"{len(taxonomy_summary['unresolved'])} remained unresolved."
+        prepared, taxonomy_report, taxonomy_summary = resolve_taxonomy_batch(
+            prepared,
+            evidence=gtdb_evidence,
+            release=args.gtdb_release,
+            cache_path=args.taxonomy_cache,
+            metadata_paths=args.gtdb_metadata,
+            min_af=args.gtdb_min_af,
+            scope=args.taxonomy_scope,
+            apply_generic=args.apply_generic_taxonomy,
+            refresh_http=args.taxonomy_refresh_http,
+            offline=args.taxonomy_offline,
+            input_metadata_path=args.metadata.resolve(),
+            input_metadata_sha256=sha_file(args.metadata),
         )
+        protected_paths = [
+            args.metadata, args.taxonomy_cache, *args.gtdbtk, *args.gtdb_metadata,
+        ]
+        if args.prepared_metadata_out:
+            protected_paths.append(args.prepared_metadata_out)
+        write_taxonomy_report(
+            args.taxonomy_report_out, taxonomy_report,
+            protected_paths=protected_paths,
+        )
+        unresolved_path = write_unresolved_taxonomy_report(
+            args.taxonomy_report_out, taxonomy_report,
+            protected_paths=protected_paths,
+        )
+        summary["taxonomy"] = taxonomy_summary
+        summary["taxonomy_report"] = str(args.taxonomy_report_out.resolve())
+        summary["taxonomy_unresolved_report"] = str(unresolved_path.resolve())
+        print(
+            f"Taxonomy: {taxonomy_summary['resolved']} resolved; "
+            f"{taxonomy_summary['applied']} updated; "
+            f"{len(taxonomy_summary['unresolved'])} unresolved."
+        )
+        print(f"Taxonomy evidence: {summary['taxonomy_report']}")
+        print(f"Unresolved taxonomy review: {summary['taxonomy_unresolved_report']}")
 
     proposals = []
     decisions = {}
@@ -366,7 +442,7 @@ def prepare_metadata(frame: pl.DataFrame, args: argparse.Namespace) -> tuple[pl.
         path.parent.mkdir(parents=True, exist_ok=True)
         prepared.to_csv(path, sep="\t", index=False)
         summary["prepared_metadata"] = str(path.resolve())
-        print(f"Prepared metadata written to {path}.")
+        print(f"Prepared metadata written to {path.resolve()}.")
     return _polars_from_pandas(prepared), summary
 
 
@@ -591,14 +667,19 @@ def build_and_submit(
     output_dir: Path,
 ) -> dict:
     """Register metadata and submit each assembly serially through Webin-CLI."""
-    validate_errors = validate_mag_taxonomy_records(df.to_dicts())
+    aliases = df.get_column("sample_name").to_list()
+    if not aliases or any(not isinstance(alias, str) or not alias.strip() for alias in aliases):
+        raise ValueError("Submission requires nonempty sample_name values.")
+    if len(aliases) != len(set(aliases)):
+        raise ValueError("Submission requires unique sample_name values.")
+    validate_errors = validate_submission_taxonomy_records(df.to_dicts())
     if validate_errors:
         raise ValueError(
             "Taxonomy preflight failed immediately before submission: "
             + "; ".join(error["expected"] for error in validate_errors)
         )
     output = _safe_output_directory(output_dir)
-    df.write_csv(output / "metadata.submitted.tsv", separator="\t")
+    df.write_csv(output / "metadata_submitted.tsv", separator="\t")
     inspections = inspect_fasta_collection(fasta_map)
     require_single_contig_confirmation(
         inspections, bool(submission.get("single_contig_chromosomes_confirmed"))
@@ -606,6 +687,7 @@ def build_and_submit(
 
     submitted = 0
     errors = 0
+    metadata_errors = 0
     project_accession = submission.get("study_accession")
     auth = (submission["ena_user"], submission["ena_password"])
     metadata_url = (
@@ -615,7 +697,7 @@ def build_and_submit(
     )
     success_log = output / "success.txt"
     error_log = output / "error.txt"
-    batch_size = 1_000
+    batch_size = 250
     manifest_zip_path = output / "manifests.zip"
 
     with ZipFile(manifest_zip_path, "w", ZIP_DEFLATED) as manifest_zip:
@@ -643,29 +725,49 @@ def build_and_submit(
             receipt_name = "webin_log.xml" if offset == 0 else f"webin_log_{offset}.xml"
             (output / receipt_name).write_text(receipt_text, encoding="utf-8")
             receipt = ET.fromstring(receipt_text)
+            batch_aliases = {row["sample_name"] for row in rows}
             alias_to_accession = {
                 sample.get("alias"): sample.get("accession")
                 for sample in receipt.findall(".//SAMPLE")
-                if sample.get("alias") and sample.get("accession")
+                if sample.get("alias") in batch_aliases and sample.get("accession")
             }
             existing = re.compile(r'alias: "(.+?)".*accession: "(.+?)"')
-            for error in receipt.findall(".//ERROR"):
+            receipt_errors = receipt.findall(".//ERROR")
+            for error in receipt_errors:
                 message = error.text or "Unknown ENA metadata error"
                 match = existing.search(message)
-                if match:
+                if match and match.group(1) in batch_aliases:
                     alias_to_accession[match.group(1)] = match.group(2)
                 else:
+                    metadata_errors += 1
                     with error_log.open("a", encoding="utf-8") as handle:
                         handle.write(f"METADATA ERROR: {message}\n")
+            if receipt.get("success", "").lower() in {"false", "0"} and not receipt_errors:
+                metadata_errors += 1
+                with error_log.open("a", encoding="utf-8") as handle:
+                    handle.write("METADATA ERROR: ENA marked the receipt unsuccessful without an error message.\n")
             if not project_accession:
                 project = receipt.find(".//PROJECT")
                 project_accession = project.get("accession") if project is not None else None
             if not project_accession:
                 raise ValueError("ENA did not return a study accession.")
 
-            for alias, sample_accession in alias_to_accession.items():
+            for row in rows:
+                alias = row["sample_name"]
+                sample_accession = alias_to_accession.get(alias)
+                if not sample_accession:
+                    errors += 1
+                    with error_log.open("a", encoding="utf-8") as handle:
+                        handle.write(
+                            f"SAMPLE : {alias}\nMETADATA ERROR: No sample accession was returned; "
+                            f"see {receipt_name}.\n\n"
+                        )
+                    continue
                 original_fasta = fasta_map.get(alias)
                 if original_fasta is None:
+                    errors += 1
+                    with error_log.open("a", encoding="utf-8") as handle:
+                        handle.write(f"SAMPLE : {alias}\nASSEMBLY ERROR: No matching FASTA was supplied.\n\n")
                     continue
                 fasta_path = original_fasta
                 deduplicated = None
@@ -677,7 +779,6 @@ def build_and_submit(
                         fasta_path, changed = _deduplicate_fasta_headers(original_fasta)
                         if changed:
                             deduplicated = fasta_path
-                    row = df.filter(pl.col("sample_name") == alias).row(0, named=True)
                     manifest = (
                         f"STUDY\t{project_accession}\n"
                         f"SAMPLE\t{sample_accession}\n"
@@ -746,16 +847,19 @@ def build_and_submit(
                         deduplicated.unlink(missing_ok=True)
 
     result_summary = {
+        "expected": len(df),
         "submitted": submitted,
         "errors": errors,
+        "metadata_errors": metadata_errors,
+        "complete": submitted == len(df) and errors == 0 and metadata_errors == 0,
         "project_accession": project_accession,
-        "webin_cli": "9.0.3",
+        "webin_cli": "11.0.0",
         "portal": submission["portal"],
     }
     (output / "result.json").write_text(
         json.dumps(result_summary, indent=2), encoding="utf-8"
     )
-    print(f"Submitted successfully: {submitted}; errors: {errors}")
+    print(f"Submitted successfully: {submitted}; errors: {errors}; metadata errors: {metadata_errors}")
     print(f"Results written to: {output}")
     return result_summary
 
@@ -788,7 +892,11 @@ def build_parser() -> argparse.ArgumentParser:
         "--checkm", type=Path, help="Optional CheckM storage.tsv or CheckM2 quality_report.tsv."
     )
     parser.add_argument(
-        "--gtdbtk", type=Path, help="Optional GTDB-Tk bacterial or archaeal summary TSV."
+        "--gtdbtk",
+        type=Path,
+        action="append",
+        default=[],
+        help="Original GTDB-Tk summary TSV; repeat for bacterial and archaeal files.",
     )
     parser.add_argument(
         "--autofill-parent-metadata",
@@ -798,7 +906,45 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--resolve-taxonomy",
         action="store_true",
-        help="Resolve missing tax IDs from organism names, accepting species-rank taxa only.",
+                help="Resolve GTDB references and ENA names, then try genus/family and identifier fallbacks.",
+    )
+    parser.add_argument("--gtdb-release", help="GTDB database point release, e.g. 214.1.")
+    parser.add_argument(
+        "--gtdb-metadata", type=Path, action="append", default=[],
+        help="Local official GTDB metadata TSV/TSV.GZ; repeat for both domains.",
+    )
+    parser.add_argument(
+        "--gtdb-min-af", type=float,
+        help="Original run's minimum AF; default 0.5 for R207 onward, 0.65 for older releases.",
+    )
+    parser.add_argument(
+        "--taxonomy-scope", choices=["empty", "all"], default="empty",
+        help=("Fill empty tax IDs and canonicalize names for unchanged IDs (default); "
+              "all also permits replacement of populated tax IDs."),
+    )
+    parser.add_argument(
+        "--taxonomy-report-out", type=Path,
+        help=(
+            "Evidence TSV; default <metadata-stem>_taxonomy.tsv beside the input. "
+            "Also writes <report-stem>_unresolved.tsv for manual review."
+        ),
+    )
+    parser.add_argument(
+        "--taxonomy-cache", type=Path, default=Path("taxonomy_lookup_cache.sqlite"),
+        help="Reusable taxonomy SQLite cache.",
+    )
+    parser.add_argument(
+        "--taxonomy-refresh-http", action="store_true",
+        help="Refresh live API responses while retaining indexed GTDB metadata.",
+    )
+    parser.add_argument(
+        "--taxonomy-offline", action="store_true",
+        help="Prepare taxonomy using indexed metadata and cached responses only.",
+    )
+    parser.add_argument(
+        "--apply-generic-taxonomy", action=argparse.BooleanOptionalAction, default=True,
+        help=("Apply verified generic and exact-identifier species-rank mappings (default). "
+              "Use --no-apply-generic-taxonomy to leave those proposals unapplied."),
     )
     parser.add_argument(
         "--environment-review-out",
@@ -880,10 +1026,19 @@ def main(argv: list[str] | None = None) -> int:
     parser = build_parser()
     args = parser.parse_args(argv)
     try:
+        _validate_taxonomy_arguments(args)
         if not args.metadata.is_file():
             raise ValueError(f"Metadata file not found: {args.metadata}")
         frame = pl.read_csv(args.metadata, separator="\t", infer_schema_length=0)
-        frame, _ = prepare_metadata(frame, args)
+        frame, preparation = prepare_metadata(frame, args)
+        taxonomy_summary = preparation.get("taxonomy")
+        if taxonomy_summary and taxonomy_summary["unresolved"]:
+            print("ERROR: " + taxonomy_failure_message(
+                taxonomy_summary, preparation["taxonomy_report"],
+                unresolved_path=preparation["taxonomy_unresolved_report"],
+                prepared_path=preparation.get("prepared_metadata"),
+            ))
+            return 1
         if args.prepare_only:
             print("Metadata preparation complete; no ENA submission was attempted.")
             return 0
@@ -939,8 +1094,8 @@ def main(argv: list[str] | None = None) -> int:
             fasta_map,
             output_dir,
         )
-        return 0 if result["errors"] == 0 else 1
-    except (OSError, ValueError, requests.RequestException, ET.ParseError) as exc:
+        return 0 if result["complete"] else 1
+    except (OSError, ValueError, sqlite3.Error, requests.RequestException, ET.ParseError) as exc:
         print(f"ERROR: {exc}")
         return 2
 

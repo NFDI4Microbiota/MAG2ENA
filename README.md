@@ -24,7 +24,7 @@ The tool provides two complementary interfaces:
 | Interface | Best for |
 |-----------|----------|
 | **Hosted web app** | Guided submission and metadata updates, unified provenance, optional result encryption, and asynchronous job tracking; no installation is required |
-| **CLI** (`mag2ena.py`) | Scriptable preparation and serial submission of new MAG collections without provenance recording |
+| **CLI** (`mag2ena.py`) | Scriptable preparation and serial submission of new MAG collections without provenance recording, with taxonomy evidence reports |
 | **Web source** (`App/`) | Included for groups that want to inspect, adapt, or self-host the web application |
 
 Most users should use either the hosted web app or the CLI. The code under
@@ -117,10 +117,10 @@ Java is required for Webin-CLI. Install on Debian/Ubuntu:
 sudo apt install default-jre
 ```
 
-MAG2ENA uses Webin-CLI 9.0.3. Its JAR is bundled at:
+MAG2ENA uses Webin-CLI 11.0.0. Its JAR is bundled at:
 
 ```
-App/webin-cli-9.0.3.jar
+App/webin-cli-11.0.0.jar
 ```
 
 ---
@@ -267,6 +267,69 @@ The CLI creates new submissions but does not modify existing ENA sample records.
 Post-submission metadata changes must use the web application's **Update** page,
 which provides interactive diff review, ENA dry-run validation, concurrency checks,
 rollback XML, and provenance.
+## Installation with uv (Linux/macOS)
+
+The CLI requires Git, Python 3.11 or newer, and Java 17 or newer. The repository pins Python 3.11 in `.python-version`; `uv` manages the Python environment and dependencies, while Java must be installed separately.
+
+Install `uv` if it is not already available:
+
+```bash
+curl -LsSf https://astral.sh/uv/install.sh | sh
+source "$HOME/.local/bin/env"
+uv --version
+```
+Clone the repository if you have not already done so, then enter its directory:
+
+```bash
+git clone https://github.com/NFDI4Microbiota/MAG2ENA.git
+cd MAG2ENA
+```
+
+From the repository root, create the isolated Python environment using the committed dependency lockfile:
+
+```bash
+uv python install 3.11
+uv sync --locked --python 3.11
+```
+
+This creates `.venv/` in the repository and installs the locked dependencies.
+
+Check Java:
+
+```bash
+java -version
+```
+
+If Java is missing or older than 17, you will have to install it. On Debian/Ubuntu run:
+
+```bash
+sudo apt update
+sudo apt install default-jre-headless
+java -version
+```
+
+Verify MAG2ENA and the exact Webin-CLI JAR configured for its submission command:
+
+```bash
+uv run --locked python mag2ena.py --version
+uv run --locked python mag2ena.py --help
+
+webin_jar="$(uv run --locked python -c 'from mag2ena import WEBIN_JAR; print(WEBIN_JAR)')"
+printf 'Configured Webin-CLI: %s\n' "$webin_jar"
+java -jar "$webin_jar" -version
+```
+
+These checks report the installed versions without submitting data. Downloading a different Webin-CLI JAR does not automatically switch MAG2ENA to it: the `WEBIN_JAR` path in `mag2ena.py` must refer to the intended file, so if you download a new version the call needs to be updated there.
+
+Run the automated checks from the repository directory:
+
+```bash
+uv run --locked python -m unittest discover -s tests -v
+```
+
+The tests use mocked service responses and do not submit data to ENA. For the
+plain `python` commands below, first activate the environment with
+`source .venv/bin/activate`, or prefix each command with `uv run --locked`.
 
 ## Usage
 
@@ -302,17 +365,18 @@ command-line argument.
 
 ## Optional metadata preparation
 
-The CLI can reuse parent metadata, import CheckM/CheckM2 and GTDB-Tk output,
-resolve missing species-level taxonomy IDs, and create a four-column environmental
-review table:
+The CLI can reuse parent metadata, import CheckM/CheckM2 and GTDB-Tk output, resolve taxonomy from GTDB references and exact ENA names with genus/family and identifier fallbacks, and create a four-column environmental review table.
 
 ~~~bash
 python mag2ena.py \
   --metadata metadata.tsv \
   --checkm quality_report.tsv \
   --gtdbtk gtdbtk.bac120.summary.tsv \
+  --gtdbtk gtdbtk.ar53.summary.tsv \
+  --gtdb-release 214.1 \
   --autofill-parent-metadata \
   --resolve-taxonomy \
+  --taxonomy-report-out taxonomy_report.tsv \
   --environment-review-out environment_review.tsv \
   --prepared-metadata-out prepared_metadata.tsv \
   --prepare-only
@@ -323,16 +387,33 @@ those decisions during a later preparation or submission:
 
 ~~~bash
 python mag2ena.py \
-  --metadata metadata.tsv \
+  --metadata prepared_metadata.tsv \
   --autofill-parent-metadata \
   --environment-decisions environment_review.tsv \
   --prepared-metadata-out approved_metadata.tsv \
   --prepare-only
 ~~~
 
-Autofill and imports preserve existing cells, and environmental proposals are
-never applied without explicit acceptance. Use `--environment-scope all` when
-reviewing existing environmental values as well as empty cells.
+Autofill and imports preserve existing cells, and environmental proposals are never applied without explicit acceptance. Use `--environment-scope all` when reviewing existing environmental values as well as empty cells.
+
+Repeat `--gtdbtk` for separate bacterial and archaeal summaries, or supply a combined summary once. Set `--gtdb-release` to the reference database release used for classification; this is separate from the GTDB-Tk software version. Original GTDB names retain underscores during import. The taxonomy report preserves the complete original GTDB row, source paths and SHA256 hashes, and the reference accession, ANI, AF and selected release.
+
+A two-column `user_genome/classification` table supports classification import, but reference mappings require the original full GTDB-Tk summary. Taxonomy resolution first checks recorded references against the selected GTDB release and the saved ANI/AF evidence. Conventional names are checked against exact ENA scientific names and synonyms when no reference mapping is required. 
+
+Rows that remain unresolved then use the supported genus, followed by the family, to search for species-rank environmental taxa such as `Genus sp.` or `Family bacterium`. Placeholder identifiers such as `UBA4582` may match a unique ENA organism name containing that exact identifier. These fallback mappings express a submission name choice; they do not establish a genomic species match.
+The report records the original reference outcome, every fallback query and the genus/family label used. Candidates must be submittable at exactly species rank and cannot be metagenome taxa. Suggestions for other identifiers or named descendant species are not selected. 
+
+Generic and identifier mappings are enabled by default with `--resolve-taxonomy`. Use `--no-apply-generic-taxonomy` to retain them as proposals. The existing `--apply-generic-taxonomy` spelling remains valid.
+
+Submitted organism names use the current ENA scientific name. GTDB suffixes such as `_A` and `_F` remain in the original evidence, rather than in a submitted name that ENA does not recognize. A supplied tax ID can be kept when its ENA name/synonym matches the suffix-normalized name. Otherwise resolution continues through the reference and environmental checks; suffix removal alone does not assign a named species.
+
+Taxonomy resolution fills empty tax IDs and canonicalizes names for unchanged IDs by default. Use `--taxonomy-scope all` to also permit replacement of populated tax IDs. Names and IDs are updated together. A verified subspecies or strain may resolve to its unique species ancestor. Genus/family fallback selects an environmental species-rank node and records the broader identification level.
+
+For `--taxonomy-report-out taxonomy_report.tsv`, preparation writes the complete evidence to `taxonomy_report.tsv` and unresolved rows to `taxonomy_report_unresolved.tsv`. The unresolved review includes blocking reasons and suggested actions, even when a row has a populated but unverified tax ID. When every row resolves, that review contains only its header.
+
+Unresolved or conflicting rows cause exit code 1 before credentials are requested or submission starts, including in `--prepare-only` mode. The CLI prints absolute paths for both reports and any requested prepared metadata. Use `--prepared-metadata-out` to retain the prepared table for curation. Review the suggestions, correct a copy of that table and record the supporting evidence before validating the curated metadata. Taxa must remain submittable at exactly species rank; unresolved rows remain in the batch. 
+
+Without `--resolve-taxonomy`, submission preflight checks every supplied name/ID pair directly against ENA. Offline lookup is for preparation; submission preflight always checks current ENA records. Requests for new taxa can be made through the [ENA Webin Portal's Register taxonomy option](https://ena-docs.readthedocs.io/en/latest/submit/samples/taxonomy-requests.html).
 
 ## Arguments
 
@@ -340,9 +421,18 @@ reviewing existing environmental values as well as empty cells.
 |----------|----------|-------------|
 | `--metadata` | Yes | Path to metadata TSV |
 | `--fasta-dir` | For submission | Directory containing `.fasta.gz` files |
-| `--checkm` / `--gtdbtk` | No | Import quality estimates or GTDB-Tk classifications |
+| `--checkm` / `--gtdbtk` | No | Import quality estimates or original GTDB-Tk classifications; repeat `--gtdbtk` for both domains |
 | `--autofill-parent-metadata` | No | Fill empty cells from ENA parent records with strict assembly fallback |
-| `--resolve-taxonomy` | No | Resolve missing species-level, non-metagenome tax IDs |
+| `--resolve-taxonomy` | No | Check references/names, then try genus/family and identifier fallback mappings |
+| `--gtdb-release` | For GTDB resolution | Original database point release, e.g. `214.1` |
+| `--gtdb-metadata` | No | Local official metadata TSV/TSV.GZ; repeat for both domains |
+| `--gtdb-min-af` | No | Original minimum AF; default 0.5 from R207, 0.65 earlier |
+| `--taxonomy-scope` | No | `empty` fills empty IDs and canonicalizes names for unchanged IDs; `all` also permits ID replacements |
+| `--taxonomy-report-out` | No | Evidence TSV, plus a derived `<report-stem>_unresolved.tsv` review with suggested actions |
+| `--taxonomy-cache` | No | Reusable SQLite cache path |
+| `--taxonomy-refresh-http` | No | Refresh cached live responses, retaining GTDB indexes |
+| `--taxonomy-offline` | No | Prepare from cached evidence; submission still requires live checks |
+| `--apply-generic-taxonomy` / `--no-apply-generic-taxonomy` | No | Apply verified generic/identifier mappings by default, or retain them as proposals |
 | `--environment-review-out` | No | Write four-column environmental proposals for review |
 | `--environment-decisions` | No | Apply proposals explicitly accepted in a review TSV |
 | `--environment-scope` | No | Resolve `empty` fields (default) or normalize `all` environmental fields |
@@ -367,7 +457,7 @@ Each submission creates a timestamped results directory:
 
 ```
 mag2ena_cli_results_<timestamp>/
-├── metadata.submitted.tsv
+├── metadata_submitted.tsv
 ├── submit.xml
 ├── webin_log.xml
 ├── manifests.zip
@@ -375,6 +465,9 @@ mag2ena_cli_results_<timestamp>/
 ├── error.txt             # Present only when errors occur
 └── result.json
 ```
+
+Later metadata batches also write `submit_1000.xml`, `webin_log_1000.xml`, and equivalent files for subsequent offsets. `result.json` records the requested count (`expected`), successful assemblies (`submitted`), failed MAGs (`errors`), unhandled registration errors (`metadata_errors`) and overall `complete` status.
+Missing sample accessions count as failed MAGs. The command exits successfully only when every requested MAG was submitted and no unhandled metadata error remains.
 
 ---
 
@@ -502,7 +595,7 @@ WEBIN v2 metadata submission → sample accessions returned
 Per-MAG manifest generation
       │   └─ confirmed complete one-sequence chromosome? → chromosome list generated
       ▼
-Serial Webin-CLI 9.0.3 assembly submission
+Serial Webin-CLI 11.0.0 assembly submission
       │
       ▼
 Results: accessions, receipts, manifests, and success/error logs
